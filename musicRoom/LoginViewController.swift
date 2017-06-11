@@ -10,28 +10,15 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 
-class ViewController: UIViewController {
-
+class LoginViewController: UIViewController {
+    
     @IBOutlet weak var login: UITextField!
     @IBOutlet weak var password: UITextField!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    @IBAction func signupAction(_ sender: UIButton) {
-        FIRAuth.auth()?.createUser(withEmail: login.text!, password: password.text!) { user, error in
-
-            if error == nil {
-                user?.sendEmailVerification(completion: nil)
-            } else {
-                print("there was an error", error)
-            }
-        
-        }
-        print(login.text, password.text)
-    }
-
     @IBAction func loginAction(_ sender: UIButton) {
         FIRAuth.auth()?.signIn(withEmail: login.text!, password: password.text!) { user, error in
             if error == nil && user?.isEmailVerified == true {
@@ -42,7 +29,7 @@ class ViewController: UIViewController {
             print("email verified", user?.isEmailVerified)
         }
     }
-
+    
     @IBAction func loginWithFacebook(_ sender: Any) {
         let login = FBSDKLoginManager()
         login.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
@@ -54,6 +41,10 @@ class ViewController: UIViewController {
                 print("account should have been created")
             }
         }
+    }
+    
+    @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
+        print("I'm back")
     }
 }
 
