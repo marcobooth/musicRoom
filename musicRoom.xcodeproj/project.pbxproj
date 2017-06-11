@@ -14,6 +14,8 @@
 		2C7B2EF01EEABCB800B67FD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C7B2EEF1EEABCB800B67FD7 /* GoogleService-Info.plist */; };
 		2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C54451EED5F94001F77E3 /* SignupViewController.swift */; };
 		2C9C54481EED636D001F77E3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C54471EED636D001F77E3 /* LoginViewController.swift */; };
+		2C9C544F1EED68BD001F77E3 /* PlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C544E1EED68BD001F77E3 /* PlaylistsViewController.swift */; };
+		2C9C54521EED743B001F77E3 /* Music.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9C54501EED743B001F77E3 /* Music.storyboard */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 		2C7B2EEF1EEABCB800B67FD7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C9C54451EED5F94001F77E3 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2C9C54471EED636D001F77E3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2C9C544E1EED68BD001F77E3 /* PlaylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistsViewController.swift; sourceTree = "<group>"; };
+		2C9C54511EED743B001F77E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Music.storyboard; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
 		CC63330E3D286E52158C924D /* Pods_musicRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_musicRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -68,6 +72,8 @@
 				2C9C54491EED63B9001F77E3 /* Signup/Login */,
 				2C9C544A1EED63CB001F77E3 /* Settings */,
 				2C1C21071EE9822F00B36A8B /* Main.storyboard */,
+				2C9C54501EED743B001F77E3 /* Music.storyboard */,
+				2C9C544E1EED68BD001F77E3 /* PlaylistsViewController.swift */,
 				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
 			);
@@ -173,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C7B2EF01EEABCB800B67FD7 /* GoogleService-Info.plist in Resources */,
+				2C9C54521EED743B001F77E3 /* Music.storyboard in Resources */,
 				2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */,
 				2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */,
 				2C1C21091EE9822F00B36A8B /* Main.storyboard in Resources */,
@@ -234,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C9C544F1EED68BD001F77E3 /* PlaylistsViewController.swift in Sources */,
 				2C9C54481EED636D001F77E3 /* LoginViewController.swift in Sources */,
 				2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
@@ -257,6 +265,14 @@
 				2C1C210D1EE9822F00B36A8B /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2C9C54501EED743B001F77E3 /* Music.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C9C54511EED743B001F77E3 /* Base */,
+			);
+			name = Music.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

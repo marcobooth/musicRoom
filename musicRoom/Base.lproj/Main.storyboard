@@ -88,6 +88,7 @@
                     <connections>
                         <outlet property="login" destination="PuZ-eR-Dfm" id="vNM-zc-cwr"/>
                         <outlet property="password" destination="G9N-oj-J7D" id="cPW-Am-kwa"/>
+                        <segue destination="wTy-aJ-CoL" kind="show" identifier="music" id="JJw-Ke-4Ip"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -152,7 +153,15 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i5F-C0-FPr" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="HKf-9D-Jk1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="703" y="44"/>
+            <point key="canvasLocation" x="929" y="346"/>
+        </scene>
+        <!--Music-->
+        <scene sceneID="S4d-ff-9w8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Music" id="wTy-aJ-CoL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IkT-jX-gRU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="877" y="-395"/>
         </scene>
     </scenes>
 </document>

@@ -22,7 +22,8 @@ class LoginViewController: UIViewController {
     @IBAction func loginAction(_ sender: UIButton) {
         FIRAuth.auth()?.signIn(withEmail: login.text!, password: password.text!) { user, error in
             if error == nil && user?.isEmailVerified == true {
-                print("no error")
+                print("logged in")
+                self.performSegue(withIdentifier: "music", sender: self)
             } else {
                 print("error", error)
             }
@@ -38,6 +39,7 @@ class LoginViewController: UIViewController {
             let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
             print(credential)
             FIRAuth.auth()?.signIn(with: credential) { thing in
+                self.performSegue(withIdentifier: "music", sender: self)
                 print("account should have been created")
             }
         }
