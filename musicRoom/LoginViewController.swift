@@ -14,9 +14,17 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var login: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.loginButton.layer.cornerRadius = 5
+    }
+    
+    @IBAction func hitEnterKey(_ sender: UITextField) {
+        self.view.endEditing(true)
+        loginAction(self.loginButton)
     }
     
     @IBAction func loginAction(_ sender: UIButton) {
