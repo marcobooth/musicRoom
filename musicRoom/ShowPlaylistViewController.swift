@@ -15,5 +15,9 @@ class ShowPlaylistViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func backToPlaylists(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "backToPlaylists", sender: self)
+    }
 
 }

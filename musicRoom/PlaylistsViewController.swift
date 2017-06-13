@@ -58,11 +58,10 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        print(indexPath.row)
         if indexPath.row == 0 {
             self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
         } else {
-            print(playlistNames[indexPath.row - 1])
+            self.performSegue(withIdentifier: "showPlaylist", sender: self)
         }
 
     }
