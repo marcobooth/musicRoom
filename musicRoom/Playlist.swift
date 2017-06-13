@@ -13,15 +13,15 @@ struct Playlist {
 //    let key: String
     let name: String
     let createdBy: String
-    let listOfSongs: [String]
+    let deezerId: String
     let privateAccess: Bool
     let ref: FIRDatabaseReference?
     
-    init(name: String, createdBy: String, privateAccess: Bool, key: String = "") {
+    init(name: String, createdBy: String, deezerId: String, privateAccess: Bool, key: String = "") {
 //        self.key = key
         self.name = name
         self.createdBy = createdBy
-        self.listOfSongs = []
+        self.deezerId = deezerId
         self.privateAccess = privateAccess
         self.ref = nil
     }
@@ -33,7 +33,7 @@ struct Playlist {
         createdBy = snapshotValue["createdBy"] as! String
         privateAccess = snapshotValue["privateAccess"] as! Bool
 //        listOfSongs = snapshotValue["listOfSongs"] as! Array
-        listOfSongs = [String]()
+        deezerId = snapshotValue["deezerId"] as! String
         ref = snapshot.ref
     }
     
@@ -41,7 +41,7 @@ struct Playlist {
         return [
             "name": name,
             "createdBy": createdBy,
-            "listOfSongs": listOfSongs,
+            "listOfSongs": deezerId,
             "privateAccess": privateAccess
         ]
     }

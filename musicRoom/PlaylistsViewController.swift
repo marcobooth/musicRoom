@@ -63,7 +63,11 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
+            if DeezerSession.sharedInstance.currentUser != nil {
+                self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
+            } else {
+                print("must be logged in to create a playlist")
+            }
         } else {
             self.performSegue(withIdentifier: "showPlaylist", sender: self)
         }

@@ -17,7 +17,12 @@ class SettingsViewController: UIViewController {
     
     @IBAction func loginToDeezer(_ sender: UIButton) {
         print("pressed login to deezer")
-        DeezerSession.sharedInstance.deezerConnect?.authorize(["DeezerConnectPermissionBasicAccess"])
+        DeezerSession.sharedInstance.deezerConnect?.authorize([DeezerConnectPermissionBasicAccess, DeezerConnectPermissionManageLibrary])
+    }
+    
+    @IBAction func logout(_ sender: UIButton) {
+        DeezerSession.sharedInstance.deezerConnect?.accessToken = ""
+        DeezerSession.sharedInstance.deezerConnect?.logout()
     }
 
 }

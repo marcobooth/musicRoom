@@ -18,7 +18,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.loginButton.layer.cornerRadius = 5
     }
     

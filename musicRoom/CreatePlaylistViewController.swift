@@ -22,27 +22,40 @@ class CreatePlaylistViewController: UIViewController {
         if self.name.text == "" {
             print("please name this something")
             return
+        } else if DeezerSession.sharedInstance.currentUser == nil {
+            print("go login")
+            return
         }
-        if let currentUser = FIRAuth.auth()?.currentUser?.uid {
-            let userRef = FIRDatabase.database().reference(withPath: "users/" + currentUser)
-            
-            var playlistRef : FIRDatabaseReference
-            if self.publicOption.isOn {
-                playlistRef = FIRDatabase.database().reference(withPath: "playlists/public")
-            } else {
-                playlistRef = FIRDatabase.database().reference(withPath: "playlists/private")
+
+        DeezerSession.sharedInstance.currentUser?.createPlaylist(self.name.text, containingTracks: nil, with: DZRRequestManager.default(), callback: { playlist, error in
+            if error != nil {
+                print("something has gone horribly wrong with Deezer, no playlist was created")
             }
-            
-            let newPlaylistRef = playlistRef.childByAutoId()
-            let playlist = Playlist(name: "lessRandom", createdBy: (FIRAuth.auth()?.currentUser?.uid)!, privateAccess: true)
-            newPlaylistRef.setValue(playlist.toAnyObject())
-            
-            print(newPlaylistRef.key)
-            
-            userRef.child("myPlaylists/" + newPlaylistRef.key).setValue(self.name.text)
-            
-            self.performSegue(withIdentifier: "unwindToPlaylists", sender: self)
-        }
+//            print("error", error)
+//            print("playlist", playlist)
+//            print(playlist?.identifier())
+            if let currentUser = FIRAuth.auth()?.currentUser?.uid {
+                let userRef = FIRDatabase.database().reference(withPath: "users/" + currentUser)
+                
+                var playlistRef : FIRDatabaseReference
+                if self.publicOption.isOn {
+                    playlistRef = FIRDatabase.database().reference(withPath: "playlists/public")
+                } else {
+                    playlistRef = FIRDatabase.database().reference(withPath: "playlists/private")
+                }
+                
+                let newPlaylistRef = playlistRef.childByAutoId()
+                let playlist = Playlist(name: self.name.text!, createdBy: (FIRAuth.auth()?.currentUser?.uid)!, deezerId: (playlist?.identifier())! ,privateAccess: true)
+                newPlaylistRef.setValue(playlist.toAnyObject())
+                
+                print(newPlaylistRef.key)
+                
+                userRef.child("myPlaylists/" + newPlaylistRef.key).setValue(self.name.text)
+                
+                self.performSegue(withIdentifier: "unwindToPlaylists", sender: self)
+            }
+        })
+
         
     }
 }
