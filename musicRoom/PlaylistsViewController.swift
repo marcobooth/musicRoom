@@ -19,8 +19,12 @@ class PlaylistsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        
+        DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
+        DeezerSession.sharedInstance.setUp()
+        
         self.username.text = FIRAuth.auth()?.currentUser?.uid
         
         self.userRef.observe(.value, with: { snapshot in
