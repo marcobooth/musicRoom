@@ -11,25 +11,33 @@ import Foundation
 struct User {
     
     //    let key: String
-    let myPlaylists: [String:String]?
+    let playlists: [String:String]?
+    let invitedPlaylists: [String:String]?
     let ref: FIRDatabaseReference?
     
     init(snapshot: FIRDataSnapshot) {
-        //        key = snapshot.key
+        var checkPlaylists: [String:String]? = nil
+        var checkInvitedPlaylists: [String:String]? = nil
+        var checkRef: FIRDatabaseReference? = nil
+        
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
-            print("snapshot", snapshotValue)
-            if let playlists = snapshotValue["myPlaylists"] {
-                print("playlists", playlists)
+            checkRef = snapshot.ref
+            
+            if let playlists = snapshotValue["playlists"] {
                 if let playlists = playlists as? [String:String] {
-                    print("playlists", playlists)
-                    self.myPlaylists = playlists
-                    ref = snapshot.ref
-                    return
+                    checkPlaylists = playlists
+                }
+            }
+            
+            if let playlists = snapshotValue["invitedPlaylists"] {
+                if let playlists = playlists as? [String:String] {
+                    checkInvitedPlaylists = playlists
                 }
             }
         }
-        ref = nil
-        myPlaylists = nil
+        
+        self.playlists = checkPlaylists
+        self.invitedPlaylists = checkInvitedPlaylists
+        self.ref = checkRef
     }
-    
 }

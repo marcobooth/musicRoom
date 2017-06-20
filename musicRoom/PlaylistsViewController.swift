@@ -31,10 +31,22 @@ class PlaylistsViewController: UIViewController {
             var playlists = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
-            for playlist in user.myPlaylists! {
-                playlists.append((uid: playlist.key, name: playlist.value))
+            print(user)
+            print(snapshot)
+            if let userPlaylists = user.playlists {
+                print("hello")
+                for playlist in userPlaylists {
+                    print("each playlist")
+                    playlists.append((uid: playlist.key, name: playlist.value))
+                }
             }
             
+            if let invitedPlaylists = user.invitedPlaylists {
+                for playlist in invitedPlaylists {
+                    playlists.append((uid: playlist.key, name: playlist.value))
+                }
+            }
+
             self.playlistNames = playlists
             self.tableView.reloadData()
         })
@@ -63,11 +75,7 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            if DeezerSession.sharedInstance.currentUser != nil {
-                self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
-            } else {
-                print("must be logged in to create a playlist")
-            }
+            self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
         } else {
             self.performSegue(withIdentifier: "showPlaylist", sender: self)
         }
