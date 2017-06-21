@@ -14,6 +14,7 @@ class PlaylistsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var username: UILabel!
     var playlistNames = [(uid: String, name: String)]()
+    var selectedPlaylist : (uid: String, name: String)?
     let userRef = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
     let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private")
     
@@ -77,7 +78,21 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
         } else {
+            self.selectedPlaylist = self.playlistNames[indexPath.row - 1]
             self.performSegue(withIdentifier: "showPlaylist", sender: self)
+        }
+
+    }
+}
+
+extension PlaylistsViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let showSegue = segue.destination as? ShowPlaylistViewController {
+            showSegue.playlistId = self.selectedPlaylist?.uid
+            print("now in here")
+        } else {
+            print("this failed")
+            print(type(of: segue.destination))
         }
 
     }

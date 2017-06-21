@@ -11,11 +11,11 @@ import Foundation
 struct Playlist {
     
 //    let key: String
-    let name: String
-    let createdBy: String
-    let deezerTrackIds: [String: String]?
-    let userIds: [String:Bool]?
-    let ref: FIRDatabaseReference?
+    var name: String
+    var createdBy: String
+    var deezerTrackIds: [String: String]?
+    var userIds: [String:Bool]?
+    var ref: FIRDatabaseReference?
     
     init(name: String, userId: String) {
         self.name = name
@@ -26,19 +26,43 @@ struct Playlist {
     }
     
     init(snapshot: FIRDataSnapshot) {
-        let snapshotValue = snapshot.value as! [String: AnyObject]
-        name = snapshotValue["name"] as! String
-        createdBy = snapshotValue["createdBy"] as! String
-        deezerTrackIds = snapshotValue["deezerTrackIds"] as! [String: String]
-        userIds = snapshotValue["userIds"] as! [String:Bool]
-        ref = snapshot.ref
+        self.name = ""
+        self.createdBy = ""
+        self.deezerTrackIds = nil
+        self.userIds = nil
+        self.ref = nil
+        
+        if let snapshotValue = snapshot.value as? [String: AnyObject] {
+            if let name = snapshotValue["name"] as? String {
+                self.name = name
+            }
+            if let createdBy = snapshotValue["createdBy"] as? String {
+                self.createdBy = createdBy
+            }
+            if let deezerTrackIds = snapshotValue["deezerTrackIds"] as? [String: String] {
+                self.deezerTrackIds = deezerTrackIds
+            }
+            if let userIds = snapshotValue["userIds"] as? [String:Bool] {
+                self.userIds = userIds
+            }
+            ref = snapshot.ref
+        }
+
     }
     
-    func toAnyObject() -> Any {
+    func toPrivateObject() -> Any {
         return [
             "name": name,
             "createdBy": createdBy,
             "userIds" : userIds,
+            "deezerTrackIds": deezerTrackIds
+        ]
+    }
+    
+    func toPublicObject() -> Any {
+        return [
+            "name": name,
+            "createdBy": createdBy,
             "deezerTrackIds": deezerTrackIds
         ]
     }

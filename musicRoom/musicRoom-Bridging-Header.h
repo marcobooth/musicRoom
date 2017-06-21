@@ -12,3 +12,5 @@
 #import "../DeezerSDK/include/DZRUser.h"
 #import "../DeezerSDK/include/DZRObject.h"
 #import "../DeezerSDK/include/DZRPlayer.h"
+#import "../DeezerSDK/include/DZRPlayableArray.h"
+#import "../DeezerSDK/include/DZRObjectList.h"

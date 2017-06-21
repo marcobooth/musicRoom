@@ -37,11 +37,12 @@ class CreatePlaylistViewController: UIViewController {
             let newPlaylistRef = playlistRef.childByAutoId()
             let playlist = Playlist(name: self.name.text!, userId: (FIRAuth.auth()?.currentUser?.uid)!)
             
-            newPlaylistRef.setValue(playlist.toAnyObject())
-            
-            print(newPlaylistRef.key)
-            
-            userRef.child("playlists/" + newPlaylistRef.key).setValue(self.name.text)
+            if self.publicOption.isOn {
+                newPlaylistRef.setValue(playlist.toPublicObject())
+            } else {
+                newPlaylistRef.setValue(playlist.toPrivateObject())
+                userRef.child("playlists/" + newPlaylistRef.key).setValue(self.name.text)
+            }
             
             self.performSegue(withIdentifier: "unwindToPlaylists", sender: self)
         }

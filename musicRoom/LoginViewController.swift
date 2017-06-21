@@ -21,6 +21,17 @@ class LoginViewController: UIViewController {
         self.loginButton.layer.cornerRadius = 5
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.view.isHidden = true
+        if FIRAuth.auth()?.currentUser != nil {
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "music", sender: self)
+            }
+        } else {
+            self.view.isHidden = false
+        }
+    }
+    
     @IBAction func hitEnterKey(_ sender: UITextField) {
         self.view.endEditing(true)
         loginAction(self.loginButton)
@@ -32,17 +43,20 @@ class LoginViewController: UIViewController {
                 print("logged in")
                 self.performSegue(withIdentifier: "music", sender: self)
             } else {
-                print("error", error)
+                let alert = UIAlertController(title: "Verify Email", message: "Please go and verify your email", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok, my bad", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                print("error", error ?? "no error to print")
             }
-            print("email verified", user?.isEmailVerified)
+            print("email verified", user?.isEmailVerified ?? "")
         }
     }
     
     @IBAction func loginWithFacebook(_ sender: Any) {
         let login = FBSDKLoginManager()
         login.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
-            print(result)
-            print(error)
+//            print(result)
+//            print(error)
             let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
             print(credential)
             FIRAuth.auth()?.signIn(with: credential) { thing in
@@ -56,34 +70,4 @@ class LoginViewController: UIViewController {
         print("I'm back")
     }
 }
-
-
-//        let loginButton = FBSDKLoginButton()
-//        loginButton.delegate = self
-//        loginButton.center = view.center
-//        view.addSubview(loginButton)
-//    /**
-//     Sent to the delegate when the button was used to login.
-//     - Parameter loginButton: the sender
-//     - Parameter result: The results of the login
-//     - Parameter error: The error (if any) from the login
-//     */
-//    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error?) {
-//        print(result)
-////      print("error", error)
-//        let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-//        print(credential)
-//        FIRAuth.auth()?.signIn(with: credential) { thing in
-//            print("account should have been created")
-//        }
-//    }
-//
-//
-//    /**
-//     Sent to the delegate when the button was used to logout.
-//     - Parameter loginButton: The button that was clicked.
-//     */
-//    public func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-//        print("apparently I'm now logging out")
-//    }
 
