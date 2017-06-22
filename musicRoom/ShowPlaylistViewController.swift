@@ -22,6 +22,8 @@ class ShowPlaylistViewController: UIViewController {
         // Do any additional setup after loading the view.
         print("playlistId", playlistId)
         
+        
+        
         let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + self.playlistId!)
         
         privatePlaylistRef.observe(.value, with: { snapshot in
