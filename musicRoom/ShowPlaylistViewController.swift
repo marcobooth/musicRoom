@@ -10,42 +10,33 @@ import UIKit
 
 class ShowPlaylistViewController: UIViewController {
 
-    var playlistId : String?
-    var tracks : [(uid: String, name: String)]?
-    var currentPlaylist : Playlist?
+    var playlistId: String?
+    var playlistName: String?
+    var tracks: [(uid: String, name: String)] = []
     let userRef = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = playlistName
 
-        // Do any additional setup after loading the view.
-        print("playlistId", playlistId)
-        
-        
-        
-        let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + self.playlistId!)
-        
-        privatePlaylistRef.observe(.value, with: { snapshot in
-            let playlist = Playlist(snapshot: snapshot)
-            var tracks = [(uid: String, name: String)]()
-            if let allTracks = playlist.deezerTrackIds {
-                print("im here")
-                for track in allTracks {
-                    print("doing a track")
-                    print(type(of: track.key))
-                    print(type(of: track.value))
-                    // ASK TEO: Why can't i change self.tracks here
-                    tracks.append((uid: track.key, name: track.value))
+        if let playlistId = self.playlistId {
+            print("Asking for playlist info for:", playlistId)
+            let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + playlistId)
+            
+            privatePlaylistRef.observe(.value, with: { snapshot in
+                let playlist = Playlist(snapshot: snapshot)
+                if let allTracks = playlist.deezerTrackIds {
+                    for track in allTracks {
+                        self.tracks.append((uid: track.key, name: track.value))
+                    }
                 }
-            }
-
-            print(snapshot)
-            print(playlist.deezerTrackIds)
-            self.tracks = tracks
-            print("tracks", self.tracks)
-            self.tableView.reloadData()
-        })
+                
+                print("tracks", self.tracks)
+                self.tableView.reloadData()
+            })
+        }
     }
     
     @IBAction func backToPlaylists(_ sender: UIButton) {
@@ -64,21 +55,18 @@ class ShowPlaylistViewController: UIViewController {
         let tracks = DZRPlayableArray()
         tracks.setTracks(trackList, error: nil)
         
-        print("player:", DeezerSession.sharedInstance.player)
         DeezerSession.sharedInstance.player?.play(tracks)
-        print(DeezerSession.sharedInstance.player?.currentTrack)
-        print("called play on the sharedInstance")
     }
 }
 
 extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tracks?.count ?? 0
+        return tracks.count 
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
-        cell.textLabel?.text = self.tracks?[indexPath.row].name
+        cell.textLabel?.text = self.tracks[indexPath.row].name
         return cell
     }
     
@@ -91,8 +79,6 @@ class TrackList: DZRObjectList {
     var tracks: [(uid: String, name: String)]?
     
     override func object(at index: UInt, with manager: DZRRequestManager!, callback: ((Any?, Error?) -> Void)!) {
-        print("asdfasdf")
-        
         let track = self.tracks?[Int(index)]
         
         DZRTrack.object(withIdentifier: track?.uid, requestManager: DZRRequestManager.default(), callback: {(
@@ -116,7 +102,6 @@ class TrackList: DZRObjectList {
     }
     
     override func count() -> UInt {
-        print("called count")
         guard let count = tracks?.count else {
             return 0
         }

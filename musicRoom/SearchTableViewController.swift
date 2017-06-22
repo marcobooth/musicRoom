@@ -15,8 +15,12 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Add a song"
+        
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -100,7 +104,13 @@ extension SearchTableViewController: UISearchResultsUpdating {
     }
     
     func filterContentForSearchText(searchText: String) {
-//        DZRObject.search(for: DZRSearchType.track, withQuery: searchText, requestManager: DZRRequestManager.default(), callback: { (_ results: DZRObjectList?, _ error: Error?) -> Void in
+        DZRObject.search(for: DZRSearchType.track, withQuery: searchText, requestManager: DZRRequestManager.default(), callback: { (_ results: DZRObjectList?, _ error: Error?) -> Void in
+            guard let results = results, error == nil else {
+                print("Error searching with text:", error as Any)
+                return
+            }
+            
+            print(results)
 //            results!.allObjects(with: DZRRequestManager.default(), callback: {(_ objs: [Any]?, _ error: Error?) -> Void in
 //                print(objs?[0])
 //                print(type(of: objs?[0]))
@@ -109,7 +119,7 @@ extension SearchTableViewController: UISearchResultsUpdating {
 //                //                    print(obj)
 //                //                }
 //            })
-//        })
+        })
         
         self.tableView.reloadData()
     }

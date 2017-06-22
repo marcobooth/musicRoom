@@ -35,9 +35,7 @@ class PlaylistsViewController: UIViewController {
             print(user)
             print(snapshot)
             if let userPlaylists = user.playlists {
-                print("hello")
                 for playlist in userPlaylists {
-                    print("each playlist")
                     playlists.append((uid: playlist.key, name: playlist.value))
                 }
             }
