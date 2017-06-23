@@ -11,6 +11,7 @@ import UIKit
 class SearchTableViewController: UITableViewController {
     
     let searchController = UISearchController(searchResultsController: nil)
+    var songResults: DZRObjectList? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +111,7 @@ extension SearchTableViewController: UISearchResultsUpdating {
                 return
             }
             
-            print(results)
+            self.songResults = results
 //            results!.allObjects(with: DZRRequestManager.default(), callback: {(_ objs: [Any]?, _ error: Error?) -> Void in
 //                print(objs?[0])
 //                print(type(of: objs?[0]))

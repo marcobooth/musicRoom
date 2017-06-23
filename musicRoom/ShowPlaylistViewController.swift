@@ -13,7 +13,10 @@ class ShowPlaylistViewController: UIViewController {
     var playlistId: String?
     var playlistName: String?
     var tracks: [(uid: String, name: String)] = []
-    let userRef = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
+
+    var playlistRef: FIRDatabaseReference?
+    var playlistHandle: UInt?
+
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -22,20 +25,30 @@ class ShowPlaylistViewController: UIViewController {
         self.title = playlistName
 
         if let playlistId = self.playlistId {
-            print("Asking for playlist info for:", playlistId)
-            let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + playlistId)
-            
-            privatePlaylistRef.observe(.value, with: { snapshot in
-                let playlist = Playlist(snapshot: snapshot)
-                if let allTracks = playlist.deezerTrackIds {
-                    for track in allTracks {
-                        self.tracks.append((uid: track.key, name: track.value))
-                    }
+            self.playlistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + playlistId)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
+            let playlist = Playlist(snapshot: snapshot)
+            if let allTracks = playlist.deezerTrackIds {
+                for track in allTracks {
+                    self.tracks.append((uid: track.key, name: track.value))
                 }
-                
-                print("tracks", self.tracks)
-                self.tableView.reloadData()
-            })
+            }
+            
+            self.tableView.reloadData()
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        if let playlistHandle = self.playlistHandle {
+            playlistRef?.removeObserver(withHandle: playlistHandle)
         }
     }
     
@@ -49,7 +62,7 @@ class ShowPlaylistViewController: UIViewController {
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {
-        let trackList = TrackList()
+        let trackList = TrackArray()
         trackList.tracks = self.tracks
         
         let tracks = DZRPlayableArray()
@@ -74,57 +87,3 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
         print(indexPath.row)
     }
 }
-
-class TrackList: DZRObjectList {
-    var tracks: [(uid: String, name: String)]?
-    
-    override func object(at index: UInt, with manager: DZRRequestManager!, callback: ((Any?, Error?) -> Void)!) {
-        let track = self.tracks?[Int(index)]
-        
-        DZRTrack.object(withIdentifier: track?.uid, requestManager: DZRRequestManager.default(), callback: {(
-            _ trackObject: Any?, _ error: Error?) -> Void in
-            if let trackObject = trackObject as? DZRTrack {
-                callback(trackObject, nil)
-            } else {
-                callback(nil, error)
-            }
-        })
-    }
-    
-    override func objects(at indexes: IndexSet!, with manager: DZRRequestManager!, callback: (([Any]?, Error?) -> Void)!) {
-        print("Don't use this one, silly Deezer! (objects() in TrackList)")
-        exit(1)
-    }
-    
-    override func allObjects(with manager: DZRRequestManager!, callback: (([Any]?, Error?) -> Void)!) {
-        print("Don't use this one, silly Deezer! (allObjects() in TrackList)")
-        exit(1)
-    }
-    
-    override func count() -> UInt {
-        guard let count = tracks?.count else {
-            return 0
-        }
-        
-        return UInt(count)
-    }
-}
-
-//class DZRTrackArray : DZRPlayableIterator {
-//    
-//    var playlistTracks : [DZRTrack]?
-//    var currentTrack : Int
-//    
-//    init() {
-//        playlistTracks = nil
-//        currentTrack = 0
-//    }
-//    
-//    func current(with requestManager: DZRRequestManager!, callback: DZRTrackFetchingCallback!) {
-//        print("i am in current")
-//    }
-//
-//    func next(with requestManager: DZRRequestManager!, callback: DZRTrackFetchingCallback!) {
-//        print("i am in next")
-//    }
-//}
