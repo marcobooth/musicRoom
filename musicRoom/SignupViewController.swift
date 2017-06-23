@@ -27,12 +27,15 @@ class SignupViewController: UIViewController {
                     user?.sendEmailVerification(completion: nil)
                     self.performSegue(withIdentifier: "unwindToLogin", sender: self)
                 } else {
-                    print("there was an error", error)
+                    print("there was an error", error ?? "error was nil")
                 }
             }
             
         }
     }
 
+    @IBAction func backToLogin(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+    }
 
 }

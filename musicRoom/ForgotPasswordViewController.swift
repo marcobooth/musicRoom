@@ -11,6 +11,7 @@ import UIKit
 class ForgotPasswordViewController: UIViewController {
 
     @IBOutlet weak var email: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,14 +20,19 @@ class ForgotPasswordViewController: UIViewController {
     
     @IBAction func resetPassword(_ sender: UIButton) {
         if let email = email.text {
-            FIRAuth.auth()?.sendPasswordReset(withEmail: "marcobooth@hotmail.com") { (error) in
+            FIRAuth.auth()?.sendPasswordReset(withEmail: email) { (error) in
                 if error == nil {
                     print("password email sent")
+                    self.performSegue(withIdentifier: "backToLogin", sender: self)
                 } else {
-                    print("error", error)
+                    print("error", error ?? "error is nil")
                 }
             }
         }
+    }
+    
+    @IBAction func backToLogin(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "backToLogin", sender: self)
     }
 
 }

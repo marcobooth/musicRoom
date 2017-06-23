@@ -33,7 +33,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="hitEnterKey:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="LZH-Lw-eiP"/>
                                 </connections>
@@ -152,6 +152,14 @@
                                     <action selector="signupAction:" destination="vGe-Kf-efr" eventType="touchUpInside" id="OMh-4W-t0R"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JU-dW-NtV">
+                                <rect key="frame" x="22" y="22" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backToLogin:" destination="vGe-Kf-efr" eventType="touchUpInside" id="dk6-sy-Dvs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -206,14 +214,24 @@
                                     <action selector="signupAction:" destination="vGe-Kf-efr" eventType="touchUpInside" id="YHE-L8-iS6"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cyL-m2-jNb">
+                                <rect key="frame" x="22" y="28" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backToLogin:" destination="gTV-7v-ylo" eventType="touchUpInside" id="cOP-SR-FJI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="email" destination="p9y-OO-K91" id="gYM-EA-kIl"/>
+                        <segue destination="MP6-ax-xzd" kind="unwind" identifier="backToLogin" unwindAction="unwindToMenuWithSegue:" id="cDS-n4-FAo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JPm-MA-VY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="MP6-ax-xzd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="928.79999999999995" y="1025.9370314842579"/>
         </scene>

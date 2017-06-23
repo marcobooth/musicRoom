@@ -74,6 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         guard let authentication = user.authentication else { return }
         let credential = FIRGoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
+        print(GIDSignIn.sharedInstance().uiDelegate)
+        print(self.window?.rootViewController)
         if let vc = self.window?.rootViewController as? LoginViewController {
             vc.loginWithCredential(credential: credential)
         }

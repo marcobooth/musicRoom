@@ -21,10 +21,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loginButton.layer.cornerRadius = 5
-        
-        print("current user", FIRAuth.auth()?.currentUser?.uid)
-        GIDSignIn.sharedInstance().uiDelegate = self
-//        GIDSignIn.sharedInstance().signIn()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,6 +32,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         } else {
             self.view.isHidden = false
         }
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     @IBAction func hitEnterKey(_ sender: UITextField) {
