@@ -9,16 +9,22 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import GoogleSignIn
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, GIDSignInUIDelegate {
     
     @IBOutlet weak var login: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signInButton: GIDSignInButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loginButton.layer.cornerRadius = 5
+        
+        print("current user", FIRAuth.auth()?.currentUser?.uid)
+        GIDSignIn.sharedInstance().uiDelegate = self
+//        GIDSignIn.sharedInstance().signIn()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,15 +61,22 @@ class LoginViewController: UIViewController {
     @IBAction func loginWithFacebook(_ sender: Any) {
         let login = FBSDKLoginManager()
         login.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
-//            print(result)
-//            print(error)
             let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-            print(credential)
-            FIRAuth.auth()?.signIn(with: credential) { thing in
+            self.loginWithCredential(credential: credential)
+        }
+    }
+    
+    func loginWithCredential(credential : FIRAuthCredential) {
+        FIRAuth.auth()?.signIn(with: credential) { thing, error in
+            DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "music", sender: self)
-                print("account should have been created")
+//                self.thisIsSilly()
             }
         }
+    }
+    
+    @IBAction func forgotYourPassword(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "forgotPassword", sender: self)
     }
     
     @IBAction func unwindToMenu(segue: UIStoryboardSegue) {

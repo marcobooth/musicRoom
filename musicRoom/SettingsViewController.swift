@@ -25,12 +25,7 @@ class SettingsViewController: UIViewController {
 //        DeezerSession.sharedInstance.deezerConnect?.logout()
         do {
             try FIRAuth.auth()?.signOut()
-            
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            if let loginViewController = storyBoard.instantiateViewController(withIdentifier: "loginView") as? LoginViewController {
-                self.present(loginViewController, animated:true, completion:nil)
-            }
-            
+            self.performSegue(withIdentifier: "signOut", sender: self)            
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }

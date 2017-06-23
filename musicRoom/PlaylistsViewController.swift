@@ -15,8 +15,9 @@ class PlaylistsViewController: UIViewController {
     @IBOutlet weak var username: UILabel!
     var playlistNames = [(uid: String, name: String)]()
     var selectedPlaylist : (uid: String, name: String)?
-    let userRef = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
-    let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private")
+    
+    var ref: FIRDatabaseReference!
+    var handle: UInt!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,15 @@ class PlaylistsViewController: UIViewController {
         
         self.username.text = FIRAuth.auth()?.currentUser?.uid
         
-        self.userRef.observe(.value, with: { snapshot in
+        self.ref = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Create listener and store handle
+        handle = self.ref.observe(.value, with: { snapshot in
             var playlists = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
@@ -47,10 +56,16 @@ class PlaylistsViewController: UIViewController {
                     playlists.append((uid: playlist.key, name: playlist.value))
                 }
             }
-
+            
             self.playlistNames = playlists
             self.tableView.reloadData()
         })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Remove listener with handle
+        self.ref.removeObserver(withHandle: handle)
     }
     
     @IBAction func unwindToPlaylists(segue: UIStoryboardSegue) {

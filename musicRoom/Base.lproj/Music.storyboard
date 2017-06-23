@@ -71,8 +71,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="more" id="Ifw-LE-RKp"/>
+                    <connections>
+                        <segue destination="Bbg-c2-Wh5" kind="unwind" identifier="signOut" unwindAction="unwindToMenuWithSegue:" id="kvK-ui-rVb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7s7-d4-rta" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Bbg-c2-Wh5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1853.5999999999999" y="-197.45127436281859"/>
         </scene>
@@ -375,7 +379,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zl1-0u-8Rg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="emG-Uo-E9f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gep-T1-PUo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gep-T1-PUo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
