@@ -56,6 +56,10 @@ class ShowPlaylistViewController: UIViewController {
         self.performSegue(withIdentifier: "backToPlaylists", sender: self)
     }
     
+    @IBAction func unwindToPlaylist(segue: UIStoryboardSegue) {
+        print("I'm back in the playlist bit")
+    }
+    
     @IBAction func addSong(_ sender: UIButton) {
         let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + self.playlistId! + "/deezerTrackIds/3135556")
         privatePlaylistRef.setValue("Faster, Stronger")

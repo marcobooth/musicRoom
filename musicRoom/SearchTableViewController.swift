@@ -10,93 +10,89 @@ import UIKit
 
 class SearchTableViewController: UITableViewController {
     
+    class TrackResults {
+        var tracks: DZRObjectList
+        var songNames: [String?]
+        
+        init(tracks: DZRObjectList, songNames: [String?]) {
+            self.tracks = tracks
+            self.songNames = songNames
+        }
+    }
+    
     let searchController = UISearchController(searchResultsController: nil)
-    var songResults: DZRObjectList? = nil
+    var currentSearch = ""
+    var cachedResults: [String: TrackResults] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Add a song"
-        
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // removed this because otherwise the segue back to the playlist screen doesn't work
+        // definesPresentationContext = true
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if self.cachedResults[self.currentSearch] != nil {
+            return 1
+        }
+        
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if let trackResults = self.cachedResults[self.currentSearch] {
+            return trackResults.songNames.count
+        }
+        
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "YOP"
+        
+        cell.detailTextLabel?.text = ""
+
+        let trackResults = cachedResults[currentSearch]
+        
+        if let songName = trackResults?.songNames[indexPath.row] {
+            cell.textLabel?.text = songName
+        } else {
+            cell.textLabel?.text = "Loading..."
+            
+            trackResults?.tracks.object(at: UInt(indexPath.row), with: DZRRequestManager.default(), callback: { (track, getTrackError) in
+                if getTrackError == nil, let track = track as? DZRTrack {
+                    // Now go and get the track information because of COURSE it's not stored in a DZRTrack
+                    track.playableInfos(with: DZRRequestManager.default(), callback: { (songInfo, error) in
+                        if let songName = songInfo?["DZRPlayableObjectInfoName"] as? String {
+                            trackResults?.songNames[indexPath.row] = songName
+                            
+                            self.tableView.reloadRows(at: [indexPath], with: .fade)
+                        }
+                    })
+                } else {
+                    print("Error grabbing DZRTrack object at index", indexPath.row)
+                    print("Error:", getTrackError as Any)
+                }
+            })
+        }
 
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(self)
+        self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        print("prepareForSegue")
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension SearchTableViewController: UISearchResultsUpdating {
@@ -105,23 +101,27 @@ extension SearchTableViewController: UISearchResultsUpdating {
     }
     
     func filterContentForSearchText(searchText: String) {
-        DZRObject.search(for: DZRSearchType.track, withQuery: searchText, requestManager: DZRRequestManager.default(), callback: { (_ results: DZRObjectList?, _ error: Error?) -> Void in
-            guard let results = results, error == nil else {
-                print("Error searching with text:", error as Any)
-                return
+        if cachedResults[searchText] == nil {
+            if searchText != "" {
+                print("Searching for:", searchText)
+                DZRObject.search(for: DZRSearchType.track, withQuery: searchText, requestManager: DZRRequestManager.default(), callback: { (_ results: DZRObjectList?, _ error: Error?) -> Void in
+                    guard let results = results, error == nil else {
+                        print("Error searching with text:", error as Any)
+                        return
+                    }
+                    
+                    print("Got", results.count(), "search results. Now grabbing DZRTrack objects one by one...", searchText)
+                    
+                    self.currentSearch = searchText
+                    let songNames = [String?](repeating: nil, count: Int(results.count()))
+                    self.cachedResults[searchText] = TrackResults(tracks: results, songNames: songNames)
+                    
+                    self.tableView.reloadData()
+                })
             }
-            
-            self.songResults = results
-//            results!.allObjects(with: DZRRequestManager.default(), callback: {(_ objs: [Any]?, _ error: Error?) -> Void in
-//                print(objs?[0])
-//                print(type(of: objs?[0]))
-//                self.player?.play(objs?[0] as! DZRPlayable!, at: 0)
-//                //                for obj in objs! {
-//                //                    print(obj)
-//                //                }
-//            })
-        })
-        
-        self.tableView.reloadData()
+        } else {
+            self.currentSearch = searchText
+            self.tableView.reloadData()
+        }
     }
 }

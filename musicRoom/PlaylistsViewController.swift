@@ -88,7 +88,6 @@ extension PlaylistsViewController {
         if let showSegue = segue.destination as? ShowPlaylistViewController {
             showSegue.playlistId = self.selectedPlaylist?.uid
             showSegue.playlistName = self.selectedPlaylist?.name
-            print("now in here")
         } else {
             print("this failed")
             print(type(of: segue.destination))
