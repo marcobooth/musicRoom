@@ -40,23 +40,24 @@ class LoginViewController: UIViewController {
     @IBAction func loginAction(_ sender: UIButton) {
         FIRAuth.auth()?.signIn(withEmail: login.text!, password: password.text!) { user, error in
             if error == nil && user?.isEmailVerified == true {
-                print("logged in")
+                print("Logged in...")
                 self.performSegue(withIdentifier: "music", sender: self)
             } else {
+                print("Login error:", error ?? "no error to print")
+                
                 let alert = UIAlertController(title: "Verify Email", message: "Please go and verify your email", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Resend verification email", style: UIAlertActionStyle.default, handler: { action in
+                    print(action)
+                }))
                 alert.addAction(UIAlertAction(title: "Ok, my bad", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                print("error", error ?? "no error to print")
             }
-            print("email verified", user?.isEmailVerified ?? "")
         }
     }
     
     @IBAction func loginWithFacebook(_ sender: Any) {
         let login = FBSDKLoginManager()
         login.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
-//            print(result)
-//            print(error)
             let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
             print(credential)
             FIRAuth.auth()?.signIn(with: credential) { thing in

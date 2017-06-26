@@ -16,6 +16,7 @@ class ShowPlaylistViewController: UIViewController {
 
     var playlistRef: FIRDatabaseReference?
     var playlistHandle: UInt?
+    var firebasePlaylistPath: String?
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -25,18 +26,24 @@ class ShowPlaylistViewController: UIViewController {
         self.title = playlistName
 
         if let playlistId = self.playlistId {
-            self.playlistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + playlistId)
+            firebasePlaylistPath = "playlists/private/" + playlistId
+            
+            if let path = firebasePlaylistPath {
+                self.playlistRef = FIRDatabase.database().reference(withPath: path)
+            }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        self.tracks = []
+
         self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
             let playlist = Playlist(snapshot: snapshot)
             if let allTracks = playlist.deezerTrackIds {
                 for track in allTracks {
-                    self.tracks.append((uid: track.key, name: track.value))
+                    self.tracks.append((uid: track.value, name: "Lol nope"))
                 }
             }
             
@@ -60,9 +67,10 @@ class ShowPlaylistViewController: UIViewController {
         print("I'm back in the playlist bit")
     }
     
-    @IBAction func addSong(_ sender: UIButton) {
-        let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + self.playlistId! + "/deezerTrackIds/3135556")
-        privatePlaylistRef.setValue("Faster, Stronger")
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePlaylistPath {
+            destination.firebasePlaylistPath = path
+        }
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {

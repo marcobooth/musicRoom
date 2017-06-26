@@ -12,10 +12,14 @@ class SearchTableViewController: UITableViewController {
     
     class TrackResults {
         var tracks: DZRObjectList
+        
+        // NOTE: trackIds and songNames are populated when the cell is shown with tableView(... cellForRowAt)
+        var trackIds: [String?]
         var songNames: [String?]
         
-        init(tracks: DZRObjectList, songNames: [String?]) {
+        init(tracks: DZRObjectList, trackIds: [String?], songNames: [String?]) {
             self.tracks = tracks
+            self.trackIds = trackIds
             self.songNames = songNames
         }
     }
@@ -23,6 +27,7 @@ class SearchTableViewController: UITableViewController {
     let searchController = UISearchController(searchResultsController: nil)
     var currentSearch = ""
     var cachedResults: [String: TrackResults] = [:]
+    var firebasePlaylistPath: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,43 +60,47 @@ class SearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
-        cell.detailTextLabel?.text = ""
 
-        let trackResults = cachedResults[currentSearch]
-        
-        if let songName = trackResults?.songNames[indexPath.row] {
-            cell.textLabel?.text = songName
-        } else {
-            cell.textLabel?.text = "Loading..."
-            
-            trackResults?.tracks.object(at: UInt(indexPath.row), with: DZRRequestManager.default(), callback: { (track, getTrackError) in
-                if getTrackError == nil, let track = track as? DZRTrack {
-                    // Now go and get the track information because of COURSE it's not stored in a DZRTrack
-                    track.playableInfos(with: DZRRequestManager.default(), callback: { (songInfo, error) in
-                        if let songName = songInfo?["DZRPlayableObjectInfoName"] as? String {
-                            trackResults?.songNames[indexPath.row] = songName
-                            
-                            self.tableView.reloadRows(at: [indexPath], with: .fade)
-                        }
-                    })
-                } else {
-                    print("Error grabbing DZRTrack object at index", indexPath.row)
-                    print("Error:", getTrackError as Any)
-                }
-            })
+        cell.detailTextLabel?.text = ""
+        cell.textLabel?.text = "Loading..."
+
+        if let trackResults = cachedResults[currentSearch] {
+            if let songName = trackResults.songNames[indexPath.row] {
+                cell.textLabel?.text = songName
+            } else {
+                
+                
+                trackResults.tracks.object(at: UInt(indexPath.row), with: DZRRequestManager.default(), callback: { (track, getTrackError) in
+                    if getTrackError == nil, let track = track as? DZRTrack {
+                        trackResults.trackIds[indexPath.row] = track.identifier()
+                        
+                        // Now go and get the track information because of COURSE it's not stored in a DZRTrack
+                        track.playableInfos(with: DZRRequestManager.default(), callback: { (songInfo, error) in
+                            if let songName = songInfo?["DZRPlayableObjectInfoName"] as? String {
+                                trackResults.songNames[indexPath.row] = songName
+                                
+                                self.tableView.reloadRows(at: [indexPath], with: .fade)
+                            }
+                        })
+                    } else {
+                        print("Error grabbing DZRTrack object at index", indexPath.row)
+                        print("Error:", getTrackError as Any)
+                    }
+                })
+            }
         }
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(self)
-        self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
-    }
-    
-    func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("prepareForSegue")
+        if let trackId = cachedResults[currentSearch]?.trackIds[indexPath.row], let path = firebasePlaylistPath {
+            let playlistRef = FIRDatabase.database().reference(withPath: path + "/deezerTrackIds")
+            let newSongRef = playlistRef.childByAutoId()
+            newSongRef.setValue(trackId)
+
+            self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
+        }
     }
 }
 
@@ -112,9 +121,14 @@ extension SearchTableViewController: UISearchResultsUpdating {
                     
                     print("Got", results.count(), "search results. Now grabbing DZRTrack objects one by one...", searchText)
                     
-                    self.currentSearch = searchText
+                    let trackIds = [String?](repeating: nil, count: Int(results.count()))
                     let songNames = [String?](repeating: nil, count: Int(results.count()))
-                    self.cachedResults[searchText] = TrackResults(tracks: results, songNames: songNames)
+                    self.cachedResults[searchText] = TrackResults(tracks: results, trackIds: trackIds, songNames: songNames)
+                    
+                    // NOTE: this removes the race condition which would cause the wrong cached results to be displayed if the search changes to a cached result before this callback executes
+                    if let latestSearch = self.searchController.searchBar.text {
+                        self.currentSearch = latestSearch
+                    }
                     
                     self.tableView.reloadData()
                 })

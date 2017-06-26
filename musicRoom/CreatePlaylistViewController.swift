@@ -46,6 +46,5 @@ class CreatePlaylistViewController: UIViewController {
             
             self.performSegue(withIdentifier: "unwindToPlaylists", sender: self)
         }
-
     }
 }

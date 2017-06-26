@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -128,7 +129,7 @@
             </objects>
             <point key="canvasLocation" x="2792.8000000000002" y="-851.42428785607206"/>
         </scene>
-        <!--Title-->
+        <!--Create Playlist-->
         <scene sceneID="0hT-iA-KRw">
             <objects>
                 <viewController id="64L-hw-c8Q" customClass="CreatePlaylistViewController" customModule="musicRoom" customModuleProvider="target" sceneMemberID="viewController">
@@ -140,43 +141,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h05-hv-3QY">
-                                <rect key="frame" x="70" y="148" width="234" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h05-hv-3QY">
+                                <rect key="frame" x="16" y="72" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-eV-Psk">
-                                <rect key="frame" x="220" y="287" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-eV-Psk">
+                                <rect key="frame" x="310" y="110" width="51" height="31"/>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Public" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gHO-c9-KKI">
-                                <rect key="frame" x="83" y="292" width="47" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gHO-c9-KKI">
+                                <rect key="frame" x="16" y="115" width="47" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJF-Yw-xUf">
-                                <rect key="frame" x="164" y="475" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJF-Yw-xUf">
+                                <rect key="frame" x="164" y="580" width="46" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="createPlaylist:" destination="64L-hw-c8Q" eventType="touchUpInside" id="OMf-CY-Ra0"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create playlist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d4h-BZ-zBL">
-                                <rect key="frame" x="105" y="91" width="164" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="gHO-c9-KKI" secondAttribute="leading" id="5ff-Rr-YdV"/>
+                            <constraint firstItem="gHO-c9-KKI" firstAttribute="top" secondItem="h05-hv-3QY" secondAttribute="bottom" constant="13" id="C5f-8T-qMh"/>
+                            <constraint firstItem="UJF-Yw-xUf" firstAttribute="centerX" secondItem="rOF-kx-8aP" secondAttribute="centerX" id="GYb-8X-7jd"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="h05-hv-3QY" secondAttribute="leading" id="N1m-GW-GfV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="uC4-eV-Psk" secondAttribute="trailing" id="Tkg-WS-cqO"/>
+                            <constraint firstItem="h05-hv-3QY" firstAttribute="top" secondItem="8WN-v5-J1j" secondAttribute="bottom" constant="8" id="fym-GP-FKe"/>
+                            <constraint firstItem="h05-hv-3QY" firstAttribute="centerX" secondItem="rOF-kx-8aP" secondAttribute="centerX" id="ngh-Oq-7FV"/>
+                            <constraint firstItem="uC4-eV-Psk" firstAttribute="top" secondItem="h05-hv-3QY" secondAttribute="bottom" constant="8" id="vwG-NK-h6b"/>
+                            <constraint firstItem="37p-eh-aeR" firstAttribute="top" secondItem="UJF-Yw-xUf" secondAttribute="bottom" constant="8" id="zPA-73-mEm"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="Klb-D6-vLh"/>
+                    <navigationItem key="navigationItem" title="Create Playlist" id="Klb-D6-vLh"/>
                     <connections>
                         <outlet property="name" destination="h05-hv-3QY" id="a1u-g6-OJh"/>
                         <outlet property="publicOption" destination="uC4-eV-Psk" id="mnw-NO-hvC"/>
