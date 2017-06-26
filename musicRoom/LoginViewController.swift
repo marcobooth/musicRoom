@@ -84,7 +84,12 @@ extension LoginViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
 
         let resendAction = UIAlertAction(title: "Resend verification email", style: UIAlertActionStyle.default) { UIAlertAction in
-            print("I'm in this thing")
+            let user = Auth.auth().currentUser
+            if let user = user {
+                user.sendEmailVerification() { error in
+                    print(error ?? "no error")
+                }
+            }
         }
         alert.addAction(UIAlertAction(title: "Ok, noted", style: UIAlertActionStyle.default, handler: nil))
         alert.addAction(resendAction)
