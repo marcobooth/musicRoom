@@ -7,13 +7,15 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct Event {
     var name: String
     var createdBy: String
     var startDate: String?
     var endDate: String?
-//    var location: ????
+    var longitude: Double?
+    var latitude: Double?
     var userIds: [String:Bool]?
     var deezerTrackIds: [String: String]?
     var ref: FIRDatabaseReference?
@@ -23,6 +25,8 @@ struct Event {
         self.createdBy = userId
         self.startDate = nil
         self.endDate = nil
+        self.longitude = nil
+        self.latitude = nil
         self.userIds = [userId : true]
         self.ref = nil
     }
@@ -35,6 +39,8 @@ struct Event {
         self.ref = nil
         self.startDate = nil
         self.endDate = nil
+        self.longitude = nil
+        self.latitude = nil
         
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
             if let name = snapshotValue["name"] as? String {
@@ -54,6 +60,12 @@ struct Event {
             }
             if let endDate = snapshotValue["endDate"] as? String {
                 self.endDate = endDate
+            }
+            if let longitude = snapshotValue["longitude"] as? Double {
+                self.longitude = longitude
+            }
+            if let latitude = snapshotValue["latitude"] as? Double {
+                self.latitude = latitude
             }
             ref = snapshot.ref
         }
@@ -75,7 +87,8 @@ struct Event {
             "deezerTrackIds": deezerTrackIds,
             "startDate": startDate,
             "endDate": endDate,
-//            "location": location
+            "longitude": longitude,
+            "latitude": latitude
         ]
     }
     
@@ -95,5 +108,17 @@ struct Event {
             "userIds" : userIds,
             "deezerTrackIds": deezerTrackIds
         ]
+    }
+    
+    func checkLocation(location: CLLocation) -> Bool {
+        if let longitude = self.longitude, let latitude = self.latitude, let startDate = self.startDate, let endDate = self.endDate {
+            let eventLocation = CLLocation(latitude: latitude, longitude: longitude)
+            let currentDate = Date();
+            if location.distance(from: eventLocation) < 500 {
+                if startDate.toDate() < currentDate && currentDate < endDate.toDate() {
+                    return true
+                } else {return false}
+            } else {return false }
+        } else { return true }
     }
 }

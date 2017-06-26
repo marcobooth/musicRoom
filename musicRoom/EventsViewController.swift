@@ -8,24 +8,41 @@
 
 import UIKit
 import Firebase
+import CoreLocation
 
-class EventsTableViewController: UITableViewController {
+class EventsTableViewController: UITableViewController, CLLocationManagerDelegate {
 
-    var eventNames = [(uid: String, name: String)]()
-    var selectedEvent : (uid: String, name:String)?
+
+    @IBOutlet weak var selector: UISegmentedControl!
+    var eventsToShow = [(uid: String, name: String)]()
+    var privateEvents = [(uid: String, name: String)]()
+    var publicEvents = [(uid: String, name: String)]()
+    var selectedEvent : (uid: String, name: String)?
     let userRef = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
+    let publicEventRef = FIRDatabase.database().reference(withPath: "events/public")
+    let locationManager = CLLocationManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        // Start location
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.requestWhenInUseAuthorization()
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.startUpdatingLocation()
+        }
+        
         DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
         DeezerSession.sharedInstance.setUp()
         
+        // Observe private events
         self.userRef.observe(.value, with: { snapshot in
             var events = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
-            print(user)
             if let userEvents = user.events {
                 for event in userEvents {
                     events.append((uid: event.key, name: event.value))
@@ -38,14 +55,48 @@ class EventsTableViewController: UITableViewController {
                 }
             }
             
-            self.eventNames = events
-            print("reload data");
+            self.privateEvents = events
+            if self.selector.selectedSegmentIndex == 1 {
+                self.eventsToShow = self.privateEvents
+            }
             self.tableView.reloadData()
         })
+        
+        
+        // Observe public events
+        self.publicEventRef.observe(.value, with: { snapshot in
+            var events = [(uid: String, name: String)]()
+            
+            for snap in snapshot.children {
+                print("event")
+                let event = Event(snapshot: (snap as? FIRDataSnapshot)!)
+                if event.checkLocation(location: self.locationManager.location!) == true {
+                    events.append((uid: "FAKE UID", name: event.name))
+                }
+            }
+            self.publicEvents = events
+            if self.selector.selectedSegmentIndex == 0 {
+                self.eventsToShow = self.publicEvents
+            }
+            self.tableView.reloadData()
+        })
+        
+
     }
     
+    @IBAction func selectorChange(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            eventsToShow = publicEvents
+            self.tableView.reloadData()
+        } else if sender.selectedSegmentIndex == 1 {
+            eventsToShow = privateEvents
+            self.tableView.reloadData()
+        }
+    }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.eventNames.count + 1
+        return self.eventsToShow.count + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,7 +104,7 @@ class EventsTableViewController: UITableViewController {
         if indexPath.row == 0 {
             cell.textLabel?.text = "Create Event"
         } else {
-            cell.textLabel?.text = self.eventNames[indexPath.row - 1].1
+            cell.textLabel?.text = self.eventsToShow[indexPath.row - 1].1
         }
         
         return cell
@@ -63,7 +114,7 @@ class EventsTableViewController: UITableViewController {
         if indexPath.row == 0 {
             self.performSegue(withIdentifier: "createEventSegue", sender: self)
         } else {
-            self.selectedEvent = self.eventNames[indexPath.row - 1]
+            self.selectedEvent = self.eventsToShow[indexPath.row - 1]
   //          self.performSegue(withIdentifier: "showEvent", sender: self)
         }
     }
