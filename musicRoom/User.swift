@@ -13,12 +13,12 @@ struct User {
     //    let key: String
     let playlists: [String:String]?
     let invitedPlaylists: [String:String]?
-    let ref: FIRDatabaseReference?
+    let ref: DatabaseReference?
     
-    init(snapshot: FIRDataSnapshot) {
+    init(snapshot: DataSnapshot) {
         var checkPlaylists: [String:String]? = nil
         var checkInvitedPlaylists: [String:String]? = nil
-        var checkRef: FIRDatabaseReference? = nil
+        var checkRef: DatabaseReference? = nil
         
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
             checkRef = snapshot.ref

@@ -16,7 +16,7 @@ class PlaylistsViewController: UIViewController {
     var playlistNames = [(uid: String, name: String)]()
     var selectedPlaylist : (uid: String, name: String)?
     
-    var ref: FIRDatabaseReference!
+    var ref: DatabaseReference!
     var handle: UInt!
     
     override func viewDidLoad() {
@@ -27,9 +27,9 @@ class PlaylistsViewController: UIViewController {
         DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
         DeezerSession.sharedInstance.setUp()
         
-        self.username.text = FIRAuth.auth()?.currentUser?.uid
+        self.username.text = Auth.auth().currentUser?.uid
         
-        self.ref = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
+        self.ref = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
         
         
     }
@@ -41,8 +41,6 @@ class PlaylistsViewController: UIViewController {
             var playlists = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
-            print(user)
-            print(snapshot)
             if let userPlaylists = user.playlists {
                 print("hello")
                 for playlist in userPlaylists {

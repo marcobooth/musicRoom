@@ -19,13 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FIRApp.configure()
+        FirebaseApp.configure()
         
         // Facebook login stuff
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Google login stuff
-        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         return true
     }
@@ -53,9 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        print("url", url)
-        print("annotation", annotation)
-        
         if url.absoluteString.lowercased().contains("facebook") == true {
             return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication:sourceApplication, annotation: annotation)
         } else {
@@ -66,20 +63,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         // ...
         if let error = error {
-            print("error from app delegate")
+            print("error", error)
             // ...
             return
         }
 
         guard let authentication = user.authentication else { return }
-        let credential = FIRGoogleAuthProvider.credential(withIDToken: authentication.idToken,
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
-        print(GIDSignIn.sharedInstance().uiDelegate)
-        print(self.window?.rootViewController)
-        if let vc = self.window?.rootViewController as? LoginViewController {
+        
+        let vc = topViewController(from: self.window?.rootViewController)
+        if let vc = vc as? LoginViewController {
             vc.loginWithCredential(credential: credential)
+        } else if let vc = vc as? SettingsViewController {
+            vc.addSocialAccount(credential: credential)
         }
-        print("credential", credential)
+
         // ...
     }
     
@@ -88,7 +87,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // Perform any operations when the user disconnects from app here.
         // ...
     }
-
-
+    
+    func topViewController(from viewController: UIViewController?) -> UIViewController? {
+        if let tabBarViewController = viewController as? UITabBarController {
+            return topViewController(from: tabBarViewController.selectedViewController)
+        } else if let navigationController = viewController as? UINavigationController {
+            return topViewController(from: navigationController.visibleViewController)
+        } else if let presentedViewController = viewController?.presentedViewController {
+            return topViewController(from: presentedViewController)
+        } else {
+            return viewController
+        }
+    }
 }
 

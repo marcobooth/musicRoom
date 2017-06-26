@@ -20,7 +20,7 @@ class ForgotPasswordViewController: UIViewController {
     
     @IBAction func resetPassword(_ sender: UIButton) {
         if let email = email.text {
-            FIRAuth.auth()?.sendPasswordReset(withEmail: email) { (error) in
+            Auth.auth().sendPasswordReset(withEmail: email) { (error) in
                 if error == nil {
                     print("password email sent")
                     self.performSegue(withIdentifier: "backToLogin", sender: self)

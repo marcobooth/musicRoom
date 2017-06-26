@@ -77,22 +77,22 @@
                                     <segue destination="gTV-7v-ylo" kind="show" identifier="forgotPassword" id="H9g-tO-Utj"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBI-mR-qxb" customClass="GIDSignInButton">
-                                <rect key="frame" x="108" y="476" width="158" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY">
-                                <rect key="frame" x="108" y="429" width="158" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY">
+                                <rect key="frame" x="108" y="420" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Login with Facebook">
+                                <state key="normal" image="Facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="loginWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cvS-Dc-3eV"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBI-mR-qxb" customClass="GIDSignInButton">
+                                <rect key="frame" x="217" y="420" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.073856141647471604" green="0.1483848817075403" blue="0.57902486910994766" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -100,6 +100,7 @@
                         <outlet property="login" destination="PuZ-eR-Dfm" id="vNM-zc-cwr"/>
                         <outlet property="loginButton" destination="9Ll-uQ-tSU" id="X4j-pM-lUa"/>
                         <outlet property="password" destination="G9N-oj-J7D" id="cPW-Am-kwa"/>
+                        <outlet property="signInButton" destination="WBI-mR-qxb" id="RX5-ey-o4u"/>
                         <segue destination="wTy-aJ-CoL" kind="show" identifier="music" id="JJw-Ke-4Ip"/>
                     </connections>
                 </viewController>
@@ -244,4 +245,7 @@
             <point key="canvasLocation" x="877" y="-395"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Facebook" width="48" height="48"/>
+    </resources>
 </document>
