@@ -42,9 +42,7 @@ class PlaylistsViewController: UIViewController {
             
             let user = User(snapshot: snapshot)
             if let userPlaylists = user.playlists {
-                print("hello")
                 for playlist in userPlaylists {
-                    print("each playlist")
                     playlists.append((uid: playlist.key, name: playlist.value))
                 }
             }
@@ -102,11 +100,10 @@ extension PlaylistsViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let showSegue = segue.destination as? ShowPlaylistViewController {
             showSegue.playlistId = self.selectedPlaylist?.uid
-            print("now in here")
+            showSegue.playlistName = self.selectedPlaylist?.name
         } else {
             print("this failed")
             print(type(of: segue.destination))
         }
-
     }
 }

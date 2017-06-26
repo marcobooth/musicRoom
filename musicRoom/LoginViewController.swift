@@ -46,12 +46,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     @IBAction func loginAction(_ sender: UIButton) {
         Auth.auth().signIn(withEmail: login.text!, password: password.text!) { user, error in
             if error == nil && user?.isEmailVerified == true {
-                print("logged in")
+                print("Logged in...")
                 self.performSegue(withIdentifier: "music", sender: self)
             } else {
                 self.showEmailAlert(title: "Verify Email", message: "Please go and verify your email")
             }
-            print("email verified", user?.isEmailVerified ?? "")
         }
     }
     
@@ -81,11 +80,10 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
 }
 
 extension LoginViewController {
-    
     func showEmailAlert(title : String, message : String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
 
-        let resendAction = UIAlertAction(title: "Resend mail", style: UIAlertActionStyle.cancel) { UIAlertAction in
+        let resendAction = UIAlertAction(title: "Resend verification email", style: UIAlertActionStyle.default) { UIAlertAction in
             print("I'm in this thing")
         }
         alert.addAction(UIAlertAction(title: "Ok, noted", style: UIAlertActionStyle.default, handler: nil))

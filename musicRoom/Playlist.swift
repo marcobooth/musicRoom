@@ -47,7 +47,6 @@ struct Playlist {
             }
             ref = snapshot.ref
         }
-
     }
     
     func toPrivateObject() -> Any {
