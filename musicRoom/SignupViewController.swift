@@ -22,17 +22,20 @@ class SignupViewController: UIViewController {
     
     @IBAction func signupAction(_ sender: UIButton) {
         if let email = self.email.text, let password = self.password.text, self.password.text == self.passwordConfirmation.text {
-            FIRAuth.auth()?.createUser(withEmail: email, password: password) { user, error in
+            Auth.auth().createUser(withEmail: email, password: password) { user, error in
                 if error == nil {
                     user?.sendEmailVerification(completion: nil)
                     self.performSegue(withIdentifier: "unwindToLogin", sender: self)
                 } else {
-                    print("there was an error", error)
+                    print("there was an error", error ?? "error was nil")
                 }
             }
             
         }
     }
 
+    @IBAction func backToLogin(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+    }
 
 }

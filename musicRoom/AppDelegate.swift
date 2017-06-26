@@ -9,17 +9,24 @@
 import UIKit
 import Firebase
 import FBSDKCoreKit
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FIRApp.configure()
+        FirebaseApp.configure()
+        
+        // Facebook login stuff
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // Google login stuff
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
         return true
     }
 
@@ -46,11 +53,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        let handled: Bool = FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication:sourceApplication, annotation: annotation)
-        // Add any custom logic here.
-        return handled
+        if url.absoluteString.lowercased().contains("facebook") == true {
+            return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication:sourceApplication, annotation: annotation)
+        } else {
+            return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
+        }
     }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        // ...
+        if let error = error {
+            print("error", error)
+            // ...
+            return
+        }
 
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        
+        let vc = topViewController(from: self.window?.rootViewController)
+        if let vc = vc as? LoginViewController {
+            vc.loginWithCredential(credential: credential)
+        } else if let vc = vc as? SettingsViewController {
+            vc.addSocialAccount(credential: credential)
+        }
 
+        // ...
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        print("signed out")
+        // Perform any operations when the user disconnects from app here.
+        // ...
+    }
+    
+    func topViewController(from viewController: UIViewController?) -> UIViewController? {
+        if let tabBarViewController = viewController as? UITabBarController {
+            return topViewController(from: tabBarViewController.selectedViewController)
+        } else if let navigationController = viewController as? UINavigationController {
+            return topViewController(from: navigationController.visibleViewController)
+        } else if let presentedViewController = viewController?.presentedViewController {
+            return topViewController(from: presentedViewController)
+        } else {
+            return viewController
+        }
+    }
 }
 

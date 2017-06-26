@@ -22,24 +22,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PuZ-eR-Dfm">
-                                <rect key="frame" x="108" y="240" width="158" height="30"/>
+                                <rect key="frame" x="108" y="213" width="158" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G9N-oj-J7D">
-                                <rect key="frame" x="108" y="284" width="158" height="30"/>
+                                <rect key="frame" x="108" y="251" width="158" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="hitEnterKey:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="LZH-Lw-eiP"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ll-uQ-tSU">
-                                <rect key="frame" x="108" y="335" width="158" height="30"/>
+                                <rect key="frame" x="108" y="320" width="158" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.17428115128075844" green="0.57914757853403143" blue="0.13458502177075041" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Login">
@@ -66,25 +66,33 @@
                                     <segue destination="vGe-Kf-efr" kind="show" id="24M-zv-ElC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mCW-mA-DqY">
-                                <rect key="frame" x="108" y="419" width="158" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9D-nV-ylD">
+                                <rect key="frame" x="108" y="282" width="157" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Login with Google">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Forgot your password?">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="forgotYourPassword:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j52-jC-EnD"/>
+                                    <segue destination="gTV-7v-ylo" kind="show" identifier="forgotPassword" id="H9g-tO-Utj"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY">
-                                <rect key="frame" x="108" y="381" width="158" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY">
+                                <rect key="frame" x="108" y="420" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Login with Facebook">
+                                <state key="normal" image="Facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="loginWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cvS-Dc-3eV"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBI-mR-qxb" customClass="GIDSignInButton">
+                                <rect key="frame" x="217" y="420" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.073856141647471604" green="0.1483848817075403" blue="0.57902486910994766" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -92,6 +100,7 @@
                         <outlet property="login" destination="PuZ-eR-Dfm" id="vNM-zc-cwr"/>
                         <outlet property="loginButton" destination="9Ll-uQ-tSU" id="X4j-pM-lUa"/>
                         <outlet property="password" destination="G9N-oj-J7D" id="cPW-Am-kwa"/>
+                        <outlet property="signInButton" destination="WBI-mR-qxb" id="RX5-ey-o4u"/>
                         <segue destination="wTy-aJ-CoL" kind="show" identifier="music" id="JJw-Ke-4Ip"/>
                     </connections>
                 </viewController>
@@ -144,6 +153,14 @@
                                     <action selector="signupAction:" destination="vGe-Kf-efr" eventType="touchUpInside" id="OMh-4W-t0R"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JU-dW-NtV">
+                                <rect key="frame" x="22" y="22" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backToLogin:" destination="vGe-Kf-efr" eventType="touchUpInside" id="dk6-sy-Dvs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -159,6 +176,66 @@
             </objects>
             <point key="canvasLocation" x="929" y="346"/>
         </scene>
+        <!--Forgot Password View Controller-->
+        <scene sceneID="KGL-Lx-T6Z">
+            <objects>
+                <viewController id="gTV-7v-ylo" customClass="ForgotPasswordViewController" customModule="musicRoom" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="E6Y-N0-WWD"/>
+                        <viewControllerLayoutGuide type="bottom" id="lCI-W9-nXr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="P4r-Tr-5oM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please enter your email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p9y-OO-K91">
+                                <rect key="frame" x="77" y="318" width="221" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reset your password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ipl-qk-14J">
+                                <rect key="frame" x="107" y="264" width="160" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w8A-yX-tZS">
+                                <rect key="frame" x="108" y="356" width="158" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.17428115129999999" green="0.57914757849999998" blue="0.13458502180000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Send reset email">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XUy-1E-8vI"/>
+                                    <action selector="resetPassword:" destination="gTV-7v-ylo" eventType="touchUpInside" id="Y6b-Dj-4hM"/>
+                                    <action selector="signupAction:" destination="vGe-Kf-efr" eventType="touchUpInside" id="YHE-L8-iS6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cyL-m2-jNb">
+                                <rect key="frame" x="22" y="28" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backToLogin:" destination="gTV-7v-ylo" eventType="touchUpInside" id="cOP-SR-FJI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="email" destination="p9y-OO-K91" id="gYM-EA-kIl"/>
+                        <segue destination="MP6-ax-xzd" kind="unwind" identifier="backToLogin" unwindAction="unwindToMenuWithSegue:" id="cDS-n4-FAo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JPm-MA-VY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="MP6-ax-xzd" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="928.79999999999995" y="1025.9370314842579"/>
+        </scene>
         <!--Music-->
         <scene sceneID="S4d-ff-9w8">
             <objects>
@@ -168,4 +245,7 @@
             <point key="canvasLocation" x="877" y="-395"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Facebook" width="48" height="48"/>
+    </resources>
 </document>

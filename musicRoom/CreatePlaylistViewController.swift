@@ -24,18 +24,18 @@ class CreatePlaylistViewController: UIViewController {
             return
         }
         
-        if let currentUser = FIRAuth.auth()?.currentUser?.uid {
-            let userRef = FIRDatabase.database().reference(withPath: "users/" + currentUser)
+        if let currentUser = Auth.auth().currentUser?.uid {
+            let userRef = Database.database().reference(withPath: "users/" + currentUser)
             
-            var playlistRef : FIRDatabaseReference
+            var playlistRef : DatabaseReference
             if self.publicOption.isOn {
-                playlistRef = FIRDatabase.database().reference(withPath: "playlists/public")
+                playlistRef = Database.database().reference(withPath: "playlists/public")
             } else {
-                playlistRef = FIRDatabase.database().reference(withPath: "playlists/private")
+                playlistRef = Database.database().reference(withPath: "playlists/private")
             }
             
             let newPlaylistRef = playlistRef.childByAutoId()
-            let playlist = Playlist(name: self.name.text!, userId: (FIRAuth.auth()?.currentUser?.uid)!)
+            let playlist = Playlist(name: self.name.text!, userId: (Auth.auth().currentUser?.uid)!)
             
             if self.publicOption.isOn {
                 newPlaylistRef.setValue(playlist.toPublicObject())

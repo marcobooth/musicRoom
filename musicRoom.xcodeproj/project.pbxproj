@@ -11,6 +11,7 @@
 		2C1C21091EE9822F00B36A8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C21071EE9822F00B36A8B /* Main.storyboard */; };
 		2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C210A1EE9822F00B36A8B /* Assets.xcassets */; };
 		2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */; };
+		2C279CE71EFD18CB00F043A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C279CE61EFD18CB00F043A8 /* GoogleService-Info.plist */; };
 		2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F2B1EEE6E4300651996 /* Playlist.swift */; };
 		2C3B1F321EEE9A8A00651996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F311EEE9A8A00651996 /* User.swift */; };
 		2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F331EEEC43300651996 /* CreatePlaylistViewController.swift */; };
@@ -28,9 +29,8 @@
 		2CBC29D91EEFE31B007A907F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBC29D81EEFE31B007A907F /* AudioToolbox.framework */; };
 		2CBC29DB1EEFE34C007A907F /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBC29DA1EEFE34C007A907F /* libicucore.tbd */; };
 		2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */; };
+		2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
-		3E334A331EFC099F00DF1B07 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E334A321EFC099F00DF1B07 /* GoogleService-Info.plist */; };
-		3E334A351EFC09C500DF1B07 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E334A341EFC09C500DF1B07 /* GoogleService-Info.plist */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +42,7 @@
 		2C1C210A1EE9822F00B36A8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C1C210D1EE9822F00B36A8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C1C210F1EE9822F00B36A8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C279CE61EFD18CB00F043A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C3B1F2B1EEE6E4300651996 /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		2C3B1F2D1EEE6F9E00651996 /* musicRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "musicRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		2C3B1F311EEE9A8A00651996 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -90,9 +91,8 @@
 		2CBC29D81EEFE31B007A907F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2CBC29DA1EEFE34C007A907F /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowPlaylistViewController.swift; sourceTree = "<group>"; };
+		2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
-		3E334A321EFC099F00DF1B07 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		3E334A341EFC09C500DF1B07 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
 		CC63330E3D286E52158C924D /* Pods_musicRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_musicRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -166,6 +166,7 @@
 			children = (
 				2C9C54471EED636D001F77E3 /* LoginViewController.swift */,
 				2C9C54451EED5F94001F77E3 /* SignupViewController.swift */,
+				2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */,
 			);
 			name = Signup/Login;
 			sourceTree = "<group>";
@@ -173,8 +174,7 @@
 		2C9C544A1EED63CB001F77E3 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				3E334A321EFC099F00DF1B07 /* GoogleService-Info.plist */,
-				3E334A341EFC09C500DF1B07 /* GoogleService-Info.plist */,
+				2C279CE61EFD18CB00F043A8 /* GoogleService-Info.plist */,
 				2C1C210F1EE9822F00B36A8B /* Info.plist */,
 				2C1C210A1EE9822F00B36A8B /* Assets.xcassets */,
 				2C3B1F2D1EEE6F9E00651996 /* musicRoom-Bridging-Header.h */,
@@ -337,8 +337,7 @@
 				2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */,
 				2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */,
 				2C1C21091EE9822F00B36A8B /* Main.storyboard in Resources */,
-				3E334A331EFC099F00DF1B07 /* GoogleService-Info.plist in Resources */,
-				3E334A351EFC09C500DF1B07 /* GoogleService-Info.plist in Resources */,
+				2C279CE71EFD18CB00F043A8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +404,7 @@
 				2C3B1F321EEE9A8A00651996 /* User.swift in Sources */,
 				2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */,
 				2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */,
+				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
 				3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,

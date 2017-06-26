@@ -13,7 +13,7 @@ class ShowPlaylistViewController: UIViewController {
     var playlistId : String?
     var tracks : [(uid: String, name: String)]?
     var currentPlaylist : Playlist?
-    let userRef = FIRDatabase.database().reference(withPath: "users/" + (FIRAuth.auth()?.currentUser?.uid)!)
+    let userRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class ShowPlaylistViewController: UIViewController {
         
         
         
-        let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + self.playlistId!)
+        let privatePlaylistRef = Database.database().reference(withPath: "playlists/private/" + self.playlistId!)
         
         privatePlaylistRef.observe(.value, with: { snapshot in
             let playlist = Playlist(snapshot: snapshot)
@@ -53,7 +53,7 @@ class ShowPlaylistViewController: UIViewController {
     }
     
     @IBAction func addSong(_ sender: UIButton) {
-        let privatePlaylistRef = FIRDatabase.database().reference(withPath: "playlists/private/" + self.playlistId! + "/deezerTrackIds/3135556")
+        let privatePlaylistRef = Database.database().reference(withPath: "playlists/private/" + self.playlistId! + "/deezerTrackIds/3135556")
         privatePlaylistRef.setValue("Faster, Stronger")
     }
     

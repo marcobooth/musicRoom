@@ -15,7 +15,7 @@ struct Playlist {
     var createdBy: String
     var deezerTrackIds: [String: String]?
     var userIds: [String:Bool]?
-    var ref: FIRDatabaseReference?
+    var ref: DatabaseReference?
     
     init(name: String, userId: String) {
         self.name = name
@@ -25,7 +25,7 @@ struct Playlist {
         self.ref = nil
     }
     
-    init(snapshot: FIRDataSnapshot) {
+    init(snapshot: DataSnapshot) {
         self.name = ""
         self.createdBy = ""
         self.deezerTrackIds = nil

@@ -36,7 +36,7 @@
                                     <color key="titleColor" red="1" green="0.0" blue="0.010267665139986448" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="logout:" destination="9s3-KN-zuH" eventType="touchUpInside" id="Xjl-6Q-zIA"/>
+                                    <action selector="logoutOfAllAccounts:" destination="9s3-KN-zuH" eventType="touchUpInside" id="jO8-R1-bC2"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWh-cf-Keu">
@@ -60,10 +60,37 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gGf-qJ-cRP" customClass="GIDSignInButton">
+                                <rect key="frame" x="16" y="249" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z82-Cg-txF">
+                                <rect key="frame" x="91" y="249" width="127" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Facebook" image="Facebook"/>
+                                <connections>
+                                    <action selector="linkFacebook:" destination="9s3-KN-zuH" eventType="touchUpInside" id="sfI-hk-UmA"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwJ-x7-Vcz">
-                                <rect key="frame" x="16" y="332" width="183" height="33"/>
+                                <rect key="frame" x="16" y="360" width="183" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Google Account has not been linked" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzy-To-Vg8">
+                                <rect key="frame" x="19" y="334" width="292" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Facebook account has not been linked" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWF-xl-6XQ">
+                                <rect key="frame" x="19" y="313" width="310" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -71,8 +98,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="more" id="Ifw-LE-RKp"/>
+                    <connections>
+                        <outlet property="facebookSignInButton" destination="Z82-Cg-txF" id="Zxj-MW-8JL"/>
+                        <outlet property="facebookStatus" destination="tWF-xl-6XQ" id="sEG-hX-8AX"/>
+                        <outlet property="googleSignInButton" destination="gGf-qJ-cRP" id="x5f-IH-VEu"/>
+                        <outlet property="googleStatus" destination="dzy-To-Vg8" id="A6m-sI-ofU"/>
+                        <segue destination="Bbg-c2-Wh5" kind="unwind" identifier="signOut" unwindAction="unwindToMenuWithSegue:" id="kvK-ui-rVb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7s7-d4-rta" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Bbg-c2-Wh5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1853.5999999999999" y="-197.45127436281859"/>
         </scene>
@@ -375,7 +410,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zl1-0u-8Rg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="emG-Uo-E9f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gep-T1-PUo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gep-T1-PUo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -389,4 +424,7 @@
             <point key="canvasLocation" x="1853.5999999999999" y="-851.42428785607206"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Facebook" width="48" height="48"/>
+    </resources>
 </document>
