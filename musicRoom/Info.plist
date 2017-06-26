@@ -53,6 +53,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>MusicRoom need your location to display events around you.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MusicRoom need your location to display events around you.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
