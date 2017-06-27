@@ -74,14 +74,9 @@ class ShowPlaylistViewController: UIViewController {
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {
-        print("shuffle not implemented")
-//        let trackList = TrackArray()
-//        trackList.tracks = self.tracks
-//        
-//        let tracks = DZRPlayableArray()
-//        tracks.setTracks(trackList, error: nil)
-//        
-//        DeezerSession.sharedInstance.player?.play(tracks)
+        if let musicBarVC = getMusicBarViewController(), let path = firebasePlaylistPath {
+            musicBarVC.setMusic(toPlaylist: path, startingAt: nil)
+        }
     }
 }
 

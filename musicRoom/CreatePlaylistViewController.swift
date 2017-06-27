@@ -19,6 +19,8 @@ class CreatePlaylistViewController: UIViewController {
     }
 
     @IBAction func createPlaylist(_ sender: UIButton) {
+        print("createPlaylist")
+        
         if self.name.text == "" {
             print("please name this something")
             return
