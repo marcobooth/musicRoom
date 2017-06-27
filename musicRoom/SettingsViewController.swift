@@ -18,11 +18,18 @@ class SettingsViewController: UIViewController, GIDSignInUIDelegate {
     @IBOutlet weak var facebookSignInButton: UIButton!
     @IBOutlet weak var facebookStatus: UILabel!
     @IBOutlet weak var googleStatus: UILabel!
-
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var submitUsername: UIButton!
+    @IBOutlet weak var manageFriends: UIButton!
+    
+    var usernameRef: DatabaseReference!
+    var handle: UInt!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
+        self.manageFriends.isHidden = true
+        self.usernameRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)! + "/username")
         self.googleSignInButton.style = GIDSignInButtonStyle(rawValue: 2)!
         self.updateAccountsView()
     }
@@ -31,6 +38,38 @@ class SettingsViewController: UIViewController, GIDSignInUIDelegate {
         super.viewWillAppear(animated)
         
         GIDSignIn.sharedInstance().uiDelegate = self
+        
+        handle = self.usernameRef.observe(.value, with: { snapshot in
+            if let username = snapshot.value as? String {
+                self.username.isUserInteractionEnabled = false
+                self.username.text = username
+                self.submitUsername.isHidden = true
+                self.manageFriends.isHidden = false
+            }
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Remove listener with handle
+        self.usernameRef.removeObserver(withHandle: handle)
+    }
+    
+    @IBAction func submitUsername(_ sender: UIButton) {
+        if self.username.text != nil {
+            if let uid = Auth.auth().currentUser?.uid {
+                let ref = Database.database().reference()
+                let updatedUserData = ["users/\(uid)/username": self.username.text!, "usernames/\(self.username.text!)": uid] as [String : Any]
+                
+                ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
+                    if error != nil {
+                        print("Error updating data: \(error.debugDescription)")
+                    } else {
+                        print("error is nil")
+                    }
+                })
+            }
+        }
     }
 }
 
