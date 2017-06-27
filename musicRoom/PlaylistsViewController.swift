@@ -12,7 +12,6 @@ import Firebase
 class PlaylistsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var username: UILabel!
     var playlistNames = [(uid: String, name: String)]()
     var selectedPlaylist : (uid: String, name: String)?
     
@@ -22,22 +21,24 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        
+        // TODO: should this be here?
         DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
         DeezerSession.sharedInstance.setUp()
         
-        self.username.text = Auth.auth().currentUser?.uid
+        // TODO: move this to settings or delete
+        // self.username.text = Auth.auth().currentUser?.uid
         
         self.ref = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
         
-        
+        // TODO: should this be here?
+//        self.tabBarController.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Create listener and store handle
+
         handle = self.ref.observe(.value, with: { snapshot in
+            print("snapshot:", snapshot)
             var playlists = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
@@ -60,7 +61,7 @@ class PlaylistsViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // Remove listener with handle
+
         self.ref.removeObserver(withHandle: handle)
     }
     
@@ -71,28 +72,20 @@ class PlaylistsViewController: UIViewController {
 
 extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.playlistNames.count + 1
+        return self.playlistNames.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "playlistCell", for: indexPath)
-        if indexPath.row == 0 {
-            cell.textLabel?.text = "Create Playlist"
-        } else {
-            cell.textLabel?.text = self.playlistNames[indexPath.row - 1].1
-        }
+        
+        cell.textLabel?.text = self.playlistNames[indexPath.row].1
         
         return cell
     }
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            self.performSegue(withIdentifier: "createPlaylistSegue", sender: self)
-        } else {
-            self.selectedPlaylist = self.playlistNames[indexPath.row - 1]
-            self.performSegue(withIdentifier: "showPlaylist", sender: self)
-        }
-
+        self.selectedPlaylist = self.playlistNames[indexPath.row]
+        self.performSegue(withIdentifier: "showPlaylist", sender: self)
     }
 }
 
@@ -101,9 +94,6 @@ extension PlaylistsViewController {
         if let showSegue = segue.destination as? ShowPlaylistViewController {
             showSegue.playlistId = self.selectedPlaylist?.uid
             showSegue.playlistName = self.selectedPlaylist?.name
-        } else {
-            print("this failed")
-            print(type(of: segue.destination))
         }
     }
 }

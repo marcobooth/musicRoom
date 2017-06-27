@@ -11,16 +11,14 @@ import UIKit
 class SearchTableViewController: UITableViewController {
     
     class TrackResults {
-        var tracks: DZRObjectList
+        var deezerTracks: DZRObjectList
         
-        // NOTE: trackIds and songNames are populated when the cell is shown with tableView(... cellForRowAt)
-        var trackIds: [String?]
-        var songNames: [String?]
+        // NOTE: tracks are populated when the cell is shown with tableView(... cellForRowAt)
+        var tracks: [Track?]
         
-        init(tracks: DZRObjectList, trackIds: [String?], songNames: [String?]) {
+        init(deezerTracks: DZRObjectList, tracks: [Track?]) {
+            self.deezerTracks = deezerTracks
             self.tracks = tracks
-            self.trackIds = trackIds
-            self.songNames = songNames
         }
     }
     
@@ -52,32 +50,29 @@ class SearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let trackResults = self.cachedResults[self.currentSearch] {
-            return trackResults.songNames.count
+            return trackResults.tracks.count
         }
         
         return 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
-        cell.detailTextLabel?.text = ""
-        cell.textLabel?.text = "Loading..."
+        let cell = Bundle.main.loadNibNamed("TrackTableViewCell", owner: nil, options: nil)?.first as! TrackTableViewCell
 
         if let trackResults = cachedResults[currentSearch] {
-            if let songName = trackResults.songNames[indexPath.row] {
-                cell.textLabel?.text = songName
+            if let track = trackResults.tracks[indexPath.row] {
+                cell.track = track
             } else {
+                cell.track = nil
                 
-                
-                trackResults.tracks.object(at: UInt(indexPath.row), with: DZRRequestManager.default(), callback: { (track, getTrackError) in
-                    if getTrackError == nil, let track = track as? DZRTrack {
-                        trackResults.trackIds[indexPath.row] = track.identifier()
-                        
+                trackResults.deezerTracks.object(at: UInt(indexPath.row), with: DZRRequestManager.default(), callback: { (deezerTrack, getTrackError) in
+                    if getTrackError == nil, let deezerTrack = deezerTrack as? DZRTrack {
                         // Now go and get the track information because of COURSE it's not stored in a DZRTrack
-                        track.playableInfos(with: DZRRequestManager.default(), callback: { (songInfo, error) in
-                            if let songName = songInfo?["DZRPlayableObjectInfoName"] as? String {
-                                trackResults.songNames[indexPath.row] = songName
+                        deezerTrack.playableInfos(with: DZRRequestManager.default(), callback: { (songInfo, error) in
+                            if let name = songInfo?["DZRPlayableObjectInfoName"] as? String,
+                                let creator = songInfo?["DZRPlayableObjectInfoCreator"] as? String,
+                                let duration = songInfo?["DZRPlayableObjectInfoDuration"] as? Int {
+                                trackResults.tracks[indexPath.row] = Track(deezerId: deezerTrack.identifier(), name: name, creator: creator, duration: duration)
                                 
                                 self.tableView.reloadRows(at: [indexPath], with: .fade)
                             }
@@ -93,11 +88,15 @@ class SearchTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 64
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let trackId = cachedResults[currentSearch]?.trackIds[indexPath.row], let path = firebasePlaylistPath {
-            let playlistRef = Database.database().reference(withPath: path + "/deezerTrackIds")
+        if let track = cachedResults[currentSearch]?.tracks[indexPath.row], let path = firebasePlaylistPath {
+            let playlistRef = Database.database().reference(withPath: path + "/tracks")
             let newSongRef = playlistRef.childByAutoId()
-            newSongRef.setValue(trackId)
+            newSongRef.setValue(track.toDict())
 
             self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
         }
@@ -119,11 +118,10 @@ extension SearchTableViewController: UISearchResultsUpdating {
                         return
                     }
                     
-                    print("Got", results.count(), "search results. Now grabbing DZRTrack objects one by one...", searchText)
+                    print("Got", results.count(), "search results.", searchText)
                     
-                    let trackIds = [String?](repeating: nil, count: Int(results.count()))
-                    let songNames = [String?](repeating: nil, count: Int(results.count()))
-                    self.cachedResults[searchText] = TrackResults(tracks: results, trackIds: trackIds, songNames: songNames)
+                    let tracks = [Track?](repeating: nil, count: Int(results.count()))
+                    self.cachedResults[searchText] = TrackResults(deezerTracks: results, tracks: tracks)
                     
                     // NOTE: this removes the race condition which would cause the wrong cached results to be displayed if the search changes to a cached result before this callback executes
                     if let latestSearch = self.searchController.searchBar.text {

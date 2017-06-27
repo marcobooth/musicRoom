@@ -10,17 +10,16 @@ import Foundation
 
 struct Playlist {
     
-//    let key: String
     var name: String
     var createdBy: String
-    var deezerTrackIds: [String: String]?
+    var tracks: [Track]?
     var userIds: [String:Bool]?
     var ref: DatabaseReference?
     
     init(name: String, userId: String) {
         self.name = name
         self.createdBy = userId
-        self.deezerTrackIds = nil
+        self.tracks = nil
         self.userIds = [userId : true]
         self.ref = nil
     }
@@ -28,7 +27,7 @@ struct Playlist {
     init(snapshot: DataSnapshot) {
         self.name = ""
         self.createdBy = ""
-        self.deezerTrackIds = nil
+        self.tracks = nil
         self.userIds = nil
         self.ref = nil
         
@@ -39,9 +38,12 @@ struct Playlist {
             if let createdBy = snapshotValue["createdBy"] as? String {
                 self.createdBy = createdBy
             }
-            if let deezerTrackIds = snapshotValue["deezerTrackIds"] as? [String: String] {
-                self.deezerTrackIds = deezerTrackIds
+            
+            let trackDicts = snapshotValue["tracks"] as? [String: [String: AnyObject]]
+            if let trackDicts = trackDicts {
+                self.tracks = Array(trackDicts.values).map { trackDict in Track(dict: trackDict) }
             }
+
             if let userIds = snapshotValue["userIds"] as? [String:Bool] {
                 self.userIds = userIds
             }
@@ -53,8 +55,7 @@ struct Playlist {
         return [
             "name": name,
             "createdBy": createdBy,
-            "userIds" : userIds,
-            "deezerTrackIds": deezerTrackIds
+            "userIds" : userIds as Any,
         ]
     }
     
@@ -62,7 +63,6 @@ struct Playlist {
         return [
             "name": name,
             "createdBy": createdBy,
-            "deezerTrackIds": deezerTrackIds
         ]
     }
     

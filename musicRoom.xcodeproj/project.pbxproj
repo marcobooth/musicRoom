@@ -33,6 +33,9 @@
 		2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */; };
 		2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */; };
 		3E06BBF81F01678D0059E6FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E06BBF71F01678D0059E6FB /* GoogleService-Info.plist */; };
+		3E24C2871F027F2300E30432 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C2861F027F2300E30432 /* Track.swift */; };
+		3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */; };
+		3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
 		3EC6C55E1EFD0E0800609C60 /* TrackArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC6C55D1EFD0E0800609C60 /* TrackArray.swift */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
@@ -99,6 +102,9 @@
 		2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowPlaylistViewController.swift; sourceTree = "<group>"; };
 		2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		3E06BBF71F01678D0059E6FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3E24C2861F027F2300E30432 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
+		3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		3EC6C55D1EFD0E0800609C60 /* TrackArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackArray.swift; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
@@ -167,6 +173,8 @@
 				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
 				3EC6C55D1EFD0E0800609C60 /* TrackArray.swift */,
+				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
+				3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */,
 			);
 			path = musicRoom;
 			sourceTree = "<group>";
@@ -175,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				2C3B1F2B1EEE6E4300651996 /* Playlist.swift */,
+				3E24C2861F027F2300E30432 /* Track.swift */,
 				123AACFF1EFD443200D9F98D /* Event.swift */,
 				2C3B1F311EEE9A8A00651996 /* User.swift */,
 			);
@@ -353,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C9C54521EED743B001F77E3 /* Music.storyboard in Resources */,
+				3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */,
 				2CBC29D01EEFE2D5007A907F /* DZRResources.bundle in Resources */,
 				2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */,
 				2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */,
@@ -428,6 +438,8 @@
 				2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */,
 				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
 				3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */,
+				3E24C2871F027F2300E30432 /* Track.swift in Sources */,
+				3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,
