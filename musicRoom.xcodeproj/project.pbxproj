@@ -19,6 +19,7 @@
 		2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F331EEEC43300651996 /* CreatePlaylistViewController.swift */; };
 		2C8061F71F027C9100171E65 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8061F61F027C9100171E65 /* FriendsViewController.swift */; };
 		2C8061F91F02822200171E65 /* NewFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8061F81F02822200171E65 /* NewFriendTableViewCell.swift */; };
+		2C8061FB1F02C30200171E65 /* InvitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8061FA1F02C30200171E65 /* InvitationTableViewCell.swift */; };
 		2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C54451EED5F94001F77E3 /* SignupViewController.swift */; };
 		2C9C54481EED636D001F77E3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C54471EED636D001F77E3 /* LoginViewController.swift */; };
 		2C9C544F1EED68BD001F77E3 /* PlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C544E1EED68BD001F77E3 /* PlaylistsViewController.swift */; };
@@ -57,6 +58,7 @@
 		2C3B1F331EEEC43300651996 /* CreatePlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePlaylistViewController.swift; sourceTree = "<group>"; };
 		2C8061F61F027C9100171E65 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		2C8061F81F02822200171E65 /* NewFriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFriendTableViewCell.swift; sourceTree = "<group>"; };
+		2C8061FA1F02C30200171E65 /* InvitationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationTableViewCell.swift; sourceTree = "<group>"; };
 		2C9C54451EED5F94001F77E3 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2C9C54471EED636D001F77E3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2C9C544E1EED68BD001F77E3 /* PlaylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistsViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				2C9C54501EED743B001F77E3 /* Music.storyboard */,
 				2C8061F81F02822200171E65 /* NewFriendTableViewCell.swift */,
 				2C8061F61F027C9100171E65 /* FriendsViewController.swift */,
+				2C8061FA1F02C30200171E65 /* InvitationTableViewCell.swift */,
 				3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */,
 				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
@@ -428,6 +431,7 @@
 				2CBC29AD1EEFE1B4007A907F /* SettingsViewController.swift in Sources */,
 				2C8061F71F027C9100171E65 /* FriendsViewController.swift in Sources */,
 				2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */,
+				2C8061FB1F02C30200171E65 /* InvitationTableViewCell.swift in Sources */,
 				12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */,
 				12AD26DE1EFD2EB4004913F8 /* CreateEventViewController.swift in Sources */,
 				2C3B1F321EEE9A8A00651996 /* User.swift in Sources */,
