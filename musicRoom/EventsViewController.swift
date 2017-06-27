@@ -21,7 +21,8 @@ class EventsTableViewController: UITableViewController, CLLocationManagerDelegat
     let userRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
     let publicEventRef = Database.database().reference(withPath: "events/public")
     let locationManager = CLLocationManager()
-    
+    var handleUser: UInt!
+    var handlePublicEvents: UInt!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +39,24 @@ class EventsTableViewController: UITableViewController, CLLocationManagerDelegat
         DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
         DeezerSession.sharedInstance.setUp()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // Observe private events
-        self.userRef.observe(.value, with: { snapshot in
+        handleUser = self.userRef.observe(.value, with: { snapshot in
             var events = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
             if let userEvents = user.events {
                 for event in userEvents {
-                    events.append((uid: event.key, name: event.value))
+                    events.append((uid: "private/" + event.key, name: event.value))
                 }
             }
             
             if let invitedEvents = user.invitedEvents {
                 for event in invitedEvents {
-                    events.append((uid: event.key, name: event.value))
+                    events.append((uid: "private/" + event.key, name: event.value))
                 }
             }
             
@@ -62,16 +67,16 @@ class EventsTableViewController: UITableViewController, CLLocationManagerDelegat
             self.tableView.reloadData()
         })
         
-        
         // Observe public events
-        self.publicEventRef.observe(.value, with: { snapshot in
+        handlePublicEvents = self.publicEventRef.observe(.value, with: { snapshot in
             var events = [(uid: String, name: String)]()
             
             for snap in snapshot.children {
-                print("event")
                 let event = Event(snapshot: (snap as? DataSnapshot)!)
-                if event.checkLocation(location: self.locationManager.location!) == true {
-                    events.append((uid: "FAKE UID", name: event.name))
+                if let location = self.locationManager.location {
+                    if event.checkLocation(location: location) == true {
+                        events.append((uid: "public/" + (event.ref?.key)!, name: event.name))
+                    }
                 }
             }
             self.publicEvents = events
@@ -80,8 +85,13 @@ class EventsTableViewController: UITableViewController, CLLocationManagerDelegat
             }
             self.tableView.reloadData()
         })
-        
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Remove listener with handle
+        self.userRef.removeObserver(withHandle: handleUser)
+        self.publicEventRef.removeObserver(withHandle: handlePublicEvents)
     }
     
     @IBAction func selectorChange(_ sender: UISegmentedControl) {
@@ -115,11 +125,19 @@ class EventsTableViewController: UITableViewController, CLLocationManagerDelegat
             self.performSegue(withIdentifier: "createEventSegue", sender: self)
         } else {
             self.selectedEvent = self.eventsToShow[indexPath.row - 1]
-  //          self.performSegue(withIdentifier: "showEvent", sender: self)
+            self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
         }
     }
     
     @IBAction func unwindToEvents(segue: UIStoryboardSegue) {
         print("I'm back")
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "eventTracklistSegue" {
+            let dest = segue.destination as! EventTracklistTableViewController
+            dest.path = self.selectedEvent?.uid
+        }
+    }
+    
 }

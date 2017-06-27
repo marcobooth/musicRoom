@@ -25,7 +25,8 @@ class SearchTableViewController: UITableViewController {
     let searchController = UISearchController(searchResultsController: nil)
     var currentSearch = ""
     var cachedResults: [String: TrackResults] = [:]
-    var firebasePlaylistPath: String?
+    var firebasePath: String?
+    var from: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,12 +94,18 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let track = cachedResults[currentSearch]?.tracks[indexPath.row], let path = firebasePlaylistPath {
+        if let track = cachedResults[currentSearch]?.tracks[indexPath.row], let path = firebasePath {
             let playlistRef = Database.database().reference(withPath: path + "/tracks")
             let newSongRef = playlistRef.childByAutoId()
             newSongRef.setValue(track.toDict())
 
-            self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
+            if let from = self.from {
+                if from == "playlist" {
+                    self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
+                } else {
+                    self.performSegue(withIdentifier: "unwindToEventTracklist", sender: self)
+                }
+            }
         }
     }
 }

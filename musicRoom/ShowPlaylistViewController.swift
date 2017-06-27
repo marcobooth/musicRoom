@@ -69,7 +69,8 @@ class ShowPlaylistViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePlaylistPath {
-            destination.firebasePlaylistPath = path
+            destination.firebasePath = path
+            destination.from = "playlist"
         }
     }
     
