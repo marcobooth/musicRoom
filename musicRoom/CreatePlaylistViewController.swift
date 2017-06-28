@@ -17,7 +17,8 @@ class CreatePlaylistViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
+    
+    // TODO: Add multi-location call and error check
     @IBAction func createPlaylist(_ sender: UIButton) {
         print("createPlaylist")
         

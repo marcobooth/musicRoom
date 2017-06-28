@@ -48,6 +48,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
             if error == nil && user?.isEmailVerified == true {
                 print("Logged in...")
                 self.performSegue(withIdentifier: "music", sender: self)
+            } else if user == nil {
+                self.showBasicAlert(title: "No account", message: "We can not find any record of this account")
             } else {
                 self.showEmailAlert(title: "Verify Email", message: "Please go and verify your email")
             }

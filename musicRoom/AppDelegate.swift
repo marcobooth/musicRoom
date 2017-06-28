@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         let vc = topViewController(from: self.window?.rootViewController)
         if let vc = vc as? LoginViewController {
             vc.loginWithCredential(credential: credential)
-        } else if let vc = vc as? SettingsViewController {
+        } else if let vc = vc as? SettingsTableViewController {
             vc.addSocialAccount(credential: credential)
         }
 
