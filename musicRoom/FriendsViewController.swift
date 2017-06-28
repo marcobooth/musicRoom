@@ -17,7 +17,7 @@ class FriendsViewController: UIViewController {
     var invitationsHandle: UInt!
     var usernamesHandle: UInt!
     var myUsername : String?
-    
+    var uid: String?
     var usernames = [(id: String, username: String)]()
     var invitations = [(id: String, username: String)]()
     var friends = [(id: String, username: String)]()
@@ -26,25 +26,26 @@ class FriendsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //TODO: System-wide to check for logout. For possibly uid and username, should go back if not found
         let uid = (Auth.auth().currentUser?.uid)!
-        self.friendsRef = Database.database().reference(withPath: "users/" + uid + "/friends")
-        self.invtationsRef = Database.database().reference(withPath: "users/" + uid + "/friendInvitations")
-        self.usernamesRef = Database.database().reference(withPath: "usernames")
         
-        self.tableView.allowsMultipleSelectionDuringEditing = false
-        
-        //TODO: protect against this username not coming back
         let ref = Database.database().reference(withPath: "users/\(uid)/username")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            print("snapshot", snapshot)
             if let username = snapshot.value as? String {
                 self.myUsername = username
             }
         }) { (error) in
             print(error.localizedDescription)
+            self.showBasicAlert(title: "Username error", message: "Username not found")
         }
+
+        self.friendsRef = Database.database().reference(withPath: "users/" + uid + "/friends")
+        self.invtationsRef = Database.database().reference(withPath: "users/" + uid + "/friendInvitations")
+        self.usernamesRef = Database.database().reference(withPath: "usernames")
+        
+        self.tableView.allowsMultipleSelectionDuringEditing = false
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -71,16 +72,16 @@ class FriendsViewController: UIViewController {
         })
         
         usernamesHandle = self.usernamesRef.observe(.value, with: { snapshot in
+            var usernames = [(id: String, username: String)]()
             if let allUsernames = snapshot.value as? [String:String] {
-                var usernames = [(id: String, username: String)]()
                 for username in allUsernames {
                     if username.key != self.myUsername {
                         usernames.append((id: username.value, username: username.key))
                     }
                 }
-                self.usernames = usernames
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
             }
+            self.usernames = usernames
+            self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
         })
     }
     
@@ -93,55 +94,55 @@ class FriendsViewController: UIViewController {
     }
     
     func addFriend(button : UIButton) {
-        if let uid = Auth.auth().currentUser?.uid {
-            let ref = Database.database().reference(withPath: "users/")
-            let updatedUserData = ["\(uid)/friends/\(self.usernames[button.tag].id)": false, "\(self.usernames[button.tag].id)/friendInvitations/\(uid)": self.myUsername!] as [String : Any]
-                
-            ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
-                if error != nil {
-                    print("Error updating data: \(error.debugDescription)")
-                    self.showBasicAlert(title: "Error", message: "There was a problem")
-                }
-            })
+        guard let uid = Auth.auth().currentUser?.uid, let username = self.myUsername else {
+            self.showBasicAlert(title: "User error", message: "You do not appear to be logged in")
+            return
         }
+        
+        // Adds friend with false value in current user table and adds invitation to invited user's table
+        let addFriend = ["\(uid)/friends/\(self.usernames[button.tag].id)": false, "\(self.usernames[button.tag].id)/friendInvitations/\(uid)": username] as [String : Any]
+        
+        self.updateMultipleUserValues(updatedValues: addFriend)
     }
     
     func acceptInvitation(button : UIButton) {
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let uid = Auth.auth().currentUser?.uid, let username = self.myUsername else {
+            self.showBasicAlert(title: "User error", message: "You do not appear to be logged in")
             return
         }
-        let ref = Database.database().reference(withPath: "users/")
-        let updatedUserData = ["\(uid)/friends/\(self.invitations[button.tag].id)": self.invitations[button.tag].username, "\(self.invitations[button.tag].id)/friends/\(uid)": self.myUsername!, "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
-        ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
-            if error != nil {
-                print("Error updating data: \(error.debugDescription)")
-                self.showBasicAlert(title: "Error", message: "There was a problem")
-            }
-        })
         
+        // Deletes invitation and adds username as friend in both user's tables
+        let acceptInvitation = ["\(uid)/friends/\(self.invitations[button.tag].id)": self.invitations[button.tag].username, "\(self.invitations[button.tag].id)/friends/\(uid)": username, "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
+        
+        self.updateMultipleUserValues(updatedValues: acceptInvitation)
     }
     
     func rejectInvitation(button : UIButton) {
         guard let uid = Auth.auth().currentUser?.uid else {
+            self.showBasicAlert(title: "User error", message: "You do not appear to be logged in")
             return
         }
-        let ref = Database.database().reference(withPath: "users/")
-        let updatedUserData = ["\(self.invitations[button.tag].id)/friends/\(uid)": NSNull(), "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
-        ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
-            if error != nil {
-                print("Error updating data: \(error.debugDescription)")
-                self.showBasicAlert(title: "Error", message: "There was a problem")
-            }
-        })
+        // Deletes invitation and friend reference from user who invited friend
+        let rejectInvitation = ["\(self.invitations[button.tag].id)/friends/\(uid)": NSNull(), "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
+        
+        self.updateMultipleUserValues(updatedValues: rejectInvitation)
     }
     
     func deleteFriend(row : Int) {
         guard let uid = Auth.auth().currentUser?.uid else {
+            self.showBasicAlert(title: "User error", message: "You do not appear to be logged in")
             return
         }
+        // Deletes friend reference from both user's tables
+        let deleteFriend = ["\(self.friends[row].id)/friends/\(uid)": NSNull(), "\(uid)/friends/\(self.friends[row].id)": NSNull()] as [String : Any]
+        
+        self.updateMultipleUserValues(updatedValues: deleteFriend)
+    }
+    
+    func updateMultipleUserValues(updatedValues : [String: Any]) {
         let ref = Database.database().reference(withPath: "users/")
-        let updatedUserData = ["\(self.friends[row].id)/friends/\(uid)": NSNull(), "\(uid)/friends/\(self.friends[row].id)": NSNull()] as [String : Any]
-        ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
+        
+        ref.updateChildValues(updatedValues, withCompletionBlock: { (error, ref) -> Void in
             if error != nil {
                 print("Error updating data: \(error.debugDescription)")
                 self.showBasicAlert(title: "Error", message: "There was a problem")
