@@ -31,6 +31,8 @@ class FriendsViewController: UIViewController {
         self.invtationsRef = Database.database().reference(withPath: "users/" + uid + "/friendInvitations")
         self.usernamesRef = Database.database().reference(withPath: "usernames")
         
+        self.tableView.allowsMultipleSelectionDuringEditing = false
+        
         //TODO: protect against this username not coming back
         let ref = Database.database().reference(withPath: "users/\(uid)/username")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -120,7 +122,6 @@ class FriendsViewController: UIViewController {
     }
     
     func rejectInvitation(button : UIButton) {
-        print("rejecting invitation")
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
@@ -131,7 +132,20 @@ class FriendsViewController: UIViewController {
                 print("Error updating data: \(error.debugDescription)")
                 self.showBasicAlert(title: "Error", message: "There was a problem")
             }
-            print("reject should of worked")
+        })
+    }
+    
+    func deleteFriend(row : Int) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let ref = Database.database().reference(withPath: "users/")
+        let updatedUserData = ["\(self.friends[row].id)/friends/\(uid)": NSNull(), "\(uid)/friends/\(self.friends[row].id)": NSNull()] as [String : Any]
+        ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
+            if error != nil {
+                print("Error updating data: \(error.debugDescription)")
+                self.showBasicAlert(title: "Error", message: "There was a problem")
+            }
         })
     }
     
@@ -189,6 +203,20 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
             return "Invitations"
         } else {
             return "Users"
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 0 {
+            return true
+        }
+        
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            self.deleteFriend(row: indexPath.row)
         }
     }
 }
