@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hqU-bd-7Xc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fN0-Um-IoU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -145,6 +145,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="mJk-yr-ev0" kind="show" identifier="eventTracklistSegue" id="OIa-Oh-SgN"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -180,6 +183,31 @@
             </objects>
             <point key="canvasLocation" x="2793" y="627"/>
         </scene>
+        <!--Title-->
+        <scene sceneID="tbh-T8-HvX">
+            <objects>
+                <tableViewController id="mJk-yr-ev0" customClass="EventTracklistTableViewController" customModule="musicRoom" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="lSH-P3-3YC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="mJk-yr-ev0" id="Zeh-cY-Z7N"/>
+                            <outlet property="delegate" destination="mJk-yr-ev0" id="f5v-ax-pIb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="3Ci-cL-3vr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="pK4-zy-iCx">
+                            <connections>
+                                <segue destination="19C-Hq-UV0" kind="show" id="aJ9-n1-XRb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yZq-7R-hWB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3868" y="1129"/>
+        </scene>
         <!--Playlists-->
         <scene sceneID="zt2-DW-wgv">
             <objects>
@@ -209,15 +237,15 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="playlistCell" textLabel="TDv-Jg-NOQ" style="IBUITableViewCellStyleDefault" id="FhD-RK-hpr">
-                                        <rect key="frame" x="0.0" y="28" width="376" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="playlistCell" textLabel="TDv-Jg-NOQ" style="IBUITableViewCellStyleDefault" id="FhD-RK-hpr">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FhD-RK-hpr" id="RL0-44-580">
-                                            <rect key="frame" x="0.0" y="0.0" width="376" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TDv-Jg-NOQ">
-                                                    <rect key="frame" x="15" y="0.0" width="346" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -571,6 +599,7 @@
                     <navigationItem key="navigationItem" title="Add a song" id="6CY-qd-CI0"/>
                     <connections>
                         <segue destination="xfh-h4-Qzq" kind="unwind" identifier="unwindToPlaylist" unwindAction="unwindToPlaylistWithSegue:" id="hze-H3-WMy"/>
+                        <segue destination="xfh-h4-Qzq" kind="unwind" identifier="unwindToEventTracklist" unwindAction="unwindToEventTracklistWithSegue:" id="Vgy-rM-zsO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6DS-jl-ahE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -674,4 +703,7 @@
     <resources>
         <image name="Facebook" width="48" height="48"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="aJ9-n1-XRb"/>
+    </inferredMetricsTieBreakers>
 </document>

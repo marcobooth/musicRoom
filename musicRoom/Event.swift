@@ -67,7 +67,7 @@ struct Event {
             if let latitude = snapshotValue["latitude"] as? Double {
                 self.latitude = latitude
             }
-            ref = snapshot.ref
+            self.ref = snapshot.ref
         }
         
     }
