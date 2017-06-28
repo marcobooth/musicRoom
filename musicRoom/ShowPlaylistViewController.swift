@@ -12,7 +12,7 @@ class ShowPlaylistViewController: UIViewController {
 
     var playlistId: String?
     var playlistName: String?
-    var tracks: [Track] = []
+    var tracks: [PlaylistTrack] = []
 
     var playlistRef: DatabaseReference?
     var playlistHandle: UInt?
@@ -42,12 +42,9 @@ class ShowPlaylistViewController: UIViewController {
         self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
             let playlist = Playlist(snapshot: snapshot)
             
-            if let tracks = playlist.tracks {
-                self.tracks = tracks
-            }
+            self.tracks = playlist.sortedTracks()
             
             self.tableView.reloadData()
-            print("reloading data")
         })
     }
     
@@ -93,10 +90,18 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        print("selected:", indexPath.row)
+        if let musicBarVC = getMusicBarViewController(), let path = firebasePlaylistPath {
+            musicBarVC.setMusic(toPlaylist: path, startingAt: indexPath.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete, let ref = playlistRef {
+            ref.child("/tracks/\(self.tracks[indexPath.row].trackKey)").removeValue()
+        }
     }
 }

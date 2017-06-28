@@ -8,8 +8,7 @@
 
 import Foundation
 
-
-struct Track {
+class Track {
 
     var deezerId: String
     var name: String
@@ -37,7 +36,7 @@ struct Track {
         self.voters = dict["voters"] as? [String: Bool] ?? ["Fake": true]
     }
     
-    init(snapshot: DataSnapshot) {
+    convenience init(snapshot: DataSnapshot) {
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
             self.init(dict: snapshotValue)
             self.ref = snapshot.ref

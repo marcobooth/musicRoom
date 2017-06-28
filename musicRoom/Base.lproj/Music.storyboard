@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fN0-Um-IoU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hqU-bd-7Xc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -758,7 +758,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6DS-jl-ahE" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="xfh-h4-Qzq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5623.1999999999998" y="-403.44827586206901"/>
+            <point key="canvasLocation" x="4786" y="27"/>
         </scene>
         <!--Music Bar View Controller-->
         <scene sceneID="0La-nE-Sh8">
@@ -781,9 +781,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5T-mW-FBa">
                                 <rect key="frame" x="-0.5" y="583" width="375" height="35"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nothing playing yet..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmY-0d-ktv">
-                                        <rect key="frame" x="8" y="9" width="146" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nothing playing yet..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmY-0d-ktv">
+                                        <rect key="frame" x="8" y="9" width="359" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -792,6 +791,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="F8m-Wq-4Gs"/>
+                                    <constraint firstAttribute="bottom" secondItem="bmY-0d-ktv" secondAttribute="bottom" constant="8" id="Kuq-vb-q5r"/>
+                                    <constraint firstItem="bmY-0d-ktv" firstAttribute="leading" secondItem="a5T-mW-FBa" secondAttribute="leading" constant="8" id="U9T-kb-SDW"/>
+                                    <constraint firstItem="bmY-0d-ktv" firstAttribute="leading" secondItem="a5T-mW-FBa" secondAttribute="leading" constant="8" id="ka8-WU-iGO"/>
+                                    <constraint firstAttribute="trailing" secondItem="bmY-0d-ktv" secondAttribute="trailing" constant="8" id="oH5-DL-44n"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -878,6 +881,6 @@
         <image name="plus" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="aJ9-n1-XRb"/>
+        <segue reference="Qgu-wg-fJf"/>
     </inferredMetricsTieBreakers>
 </document>

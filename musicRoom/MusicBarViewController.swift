@@ -8,35 +8,39 @@
 
 import UIKit
 
-class MusicBarViewController: UIViewController {
+class MusicBarViewController: UIViewController, DZRPlayerDelegate {
 
     @IBOutlet private weak var nowPlayingText: UILabel!
     
     private var playablePath: String?
-    
     private var refPath: String?
     private var ref: DatabaseReference?
-    private var handle: UInt?
+    private var playableHandle: UInt?
     
+    private var tracks: [Track] = []
     private var currentIndex: Int = 0
     private var shuffle: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
+        DeezerSession.sharedInstance.setUp()
+        DeezerSession.sharedInstance.player?.delegate = self
 
-        updatePlayable()
+        self.updatePlayable()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        updatePlayable()
+        self.updatePlayable()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        if let ref = ref, let handle = handle {
+        if let ref = ref, let handle = playableHandle {
             ref.removeObserver(withHandle: handle)
         }
     }
@@ -44,9 +48,9 @@ class MusicBarViewController: UIViewController {
     private func updatePlayable() {
         if let playablePath = playablePath {
             if refPath != playablePath {
-                if let handle = self.handle {
+                if let handle = self.playableHandle {
                     ref?.removeObserver(withHandle: handle)
-                    self.handle = nil
+                    self.playableHandle = nil
                 }
                 
                 refPath = playablePath
@@ -56,29 +60,48 @@ class MusicBarViewController: UIViewController {
             
             // if we should be playing something, go about and get that going
             if let ref = ref {
-                print("about to observe ref...")
-                handle = ref.observe(.value, with: {
-                    print("yop:", $0)
+                playableHandle = ref.observe(.value, with: { snapshot in
+                    // TODO: figure out how to tell playlists from events
+                    let playlist = Playlist(snapshot: snapshot)
+                    self.tracks = playlist.sortedTracks()
+                    
+                    // XXX: this is super hacky
+                    self.tracks = Array(self.tracks.dropFirst(self.currentIndex))
+                    
+                    // TODO: If the track index has changed, reset currentIndex
+                    // DeezerSession.sharedInstance.player?.currentTrack.identifier()
+                    
+                    let trackList = TrackList(tracks: self.tracks)
+                    
+                    let tracks = DZRPlayableArray()
+                    tracks.setTracks(trackList, error: nil)
+                    DeezerSession.sharedInstance.player?.play(tracks)
                 })
             }
         }
     }
     
     public func setMusic(toPlaylist path: String, startingAt startIndex: Int?) {
+        print("setMusic:", path, "at", startIndex as Any)
+        
         self.playablePath = path
+        if let index = startIndex {
+            self.currentIndex = index
+        }
+
         updatePlayable()
+    }
+    
+    func player(_ player: DZRPlayer, didStartPlaying: DZRTrack) {
+        let startedPlayingId = didStartPlaying.identifier()
+        print("Started playing", startedPlayingId as Any)
         
-        // TODO: I'm here.
-        // - figure out how to change the text when the song changes
-        // - hook up the music to this thing, which will provide do some cool stuff with arrays and such
-        
-        //        let trackList = TrackArray()
-        //        trackList.tracks = self.tracks
-        //
-        //        let tracks = DZRPlayableArray()
-        //        tracks.setTracks(trackList, error: nil)
-        //
-        //        DeezerSession.sharedInstance.player?.play(tracks)
+        // we could do an API call here to get the name, but I'm going to look through the entire list instead because it's probably faster at this point (playlists are going to be less than 100 songs for the foreseeable future ;] )
+        for track in self.tracks {
+            if track.deezerId == startedPlayingId {
+                self.nowPlayingText.text = track.name + " by " + track.creator
+            }
+        }
     }
 }
 
