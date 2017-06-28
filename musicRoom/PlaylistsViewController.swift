@@ -21,24 +21,13 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: should this be here?
-        DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
-        DeezerSession.sharedInstance.setUp()
-        
-        // TODO: move this to settings or delete
-        // self.username.text = Auth.auth().currentUser?.uid
-        
         self.ref = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
-        
-        // TODO: should this be here?
-//        self.tabBarController.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         handle = self.ref.observe(.value, with: { snapshot in
-            print("snapshot:", snapshot)
             var playlists = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)

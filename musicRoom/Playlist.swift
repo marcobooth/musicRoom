@@ -12,7 +12,7 @@ struct Playlist {
     
     var name: String
     var createdBy: String
-    var tracks: [Track]?
+    var tracks: [PlaylistTrack]?
     var userIds: [String:Bool]?
     var ref: DatabaseReference?
     
@@ -41,7 +41,7 @@ struct Playlist {
             
             let trackDicts = snapshotValue["tracks"] as? [String: [String: AnyObject]]
             if let trackDicts = trackDicts {
-                self.tracks = Array(trackDicts.values).map { trackDict in Track(dict: trackDict) }
+                self.tracks = trackDicts.map { element in PlaylistTrack(dict: element.value, trackKey: element.key) }
             }
 
             if let userIds = snapshotValue["userIds"] as? [String:Bool] {
@@ -49,6 +49,11 @@ struct Playlist {
             }
             ref = snapshot.ref
         }
+    }
+    
+    func sortedTracks() -> [PlaylistTrack] {
+        // TODO: should this be cached?
+        return self.tracks?.sorted { $0.orderNumber < $1.orderNumber } ?? []
     }
     
     func toPrivateObject() -> Any {

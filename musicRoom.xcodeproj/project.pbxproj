@@ -40,8 +40,9 @@
 		3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */; };
 		3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */; };
 		3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */; };
+		3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */; };
+		3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80141F0442DC00DA82F3 /* TrackList.swift */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
-		3EC6C55E1EFD0E0800609C60 /* TrackArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC6C55D1EFD0E0800609C60 /* TrackArray.swift */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -113,8 +114,9 @@
 		3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
 		3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBarViewController.swift; sourceTree = "<group>"; };
+		3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
+		3E2F80141F0442DC00DA82F3 /* TrackList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
-		3EC6C55D1EFD0E0800609C60 /* TrackArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackArray.swift; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
 		CC63330E3D286E52158C924D /* Pods_musicRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_musicRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -184,9 +186,9 @@
 				3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */,
 				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
-				3EC6C55D1EFD0E0800609C60 /* TrackArray.swift */,
 				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
 				3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */,
+				3E2F80141F0442DC00DA82F3 /* TrackList.swift */,
 			);
 			path = musicRoom;
 			sourceTree = "<group>";
@@ -198,6 +200,7 @@
 				12A29F751F03E7CB0078E2D1 /* Track.swift */,
 				123AACFF1EFD443200D9F98D /* Event.swift */,
 				2C3B1F311EEE9A8A00651996 /* User.swift */,
+				3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -446,8 +449,10 @@
 				2CBC29AD1EEFE1B4007A907F /* SettingsViewController.swift in Sources */,
 				2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */,
 				12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */,
+				3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */,
 				12AD26DE1EFD2EB4004913F8 /* CreateEventViewController.swift in Sources */,
 				2C3B1F321EEE9A8A00651996 /* User.swift in Sources */,
+				3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */,
 				2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */,
 				2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */,
 				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
@@ -458,7 +463,6 @@
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,
 				3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */,
-				3EC6C55E1EFD0E0800609C60 /* TrackArray.swift in Sources */,
 				12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

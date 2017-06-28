@@ -27,7 +27,13 @@ class SearchTableViewController: UITableViewController {
     var cachedResults: [String: TrackResults] = [:]
     var firebasePath: String?
     var from: String?
+    
+    var playlistRef: DatabaseReference?
+    var playlistHandle: UInt?
+    var latestPlaylist: Playlist?
 
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,6 +43,26 @@ class SearchTableViewController: UITableViewController {
 
         // removed this because otherwise the segue back to the playlist screen doesn't work
         // definesPresentationContext = true
+        
+        if let path = self.firebasePath {
+            self.playlistRef = Database.database().reference(withPath: path)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
+            self.latestPlaylist = Playlist(snapshot: snapshot)
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if let playlistHandle = self.playlistHandle {
+            playlistRef?.removeObserver(withHandle: playlistHandle)
+        }
     }
 
     // MARK: - Table view data source
@@ -97,14 +123,22 @@ class SearchTableViewController: UITableViewController {
         if let track = cachedResults[currentSearch]?.tracks[indexPath.row], let path = firebasePath {
             let playlistRef = Database.database().reference(withPath: path + "/tracks")
             let newSongRef = playlistRef.childByAutoId()
-            newSongRef.setValue(track.toDict())
-
-            if let from = self.from {
-                if from == "playlist" {
-                    self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
+            
+            var trackDict = track.toDict()
+            if self.from == "playlist" {
+                if let highestOrderNumber = latestPlaylist?.sortedTracks().last?.orderNumber {
+                    trackDict["orderNumber"] = highestOrderNumber + 1
                 } else {
-                    self.performSegue(withIdentifier: "unwindToEventTracklist", sender: self)
+                    trackDict["orderNumber"] = 0
                 }
+            }
+            
+            newSongRef.setValue(trackDict)
+
+            if self.from == "playlist" {
+                self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)
+            } else {
+                self.performSegue(withIdentifier: "unwindToEventTracklist", sender: self)
             }
         }
     }
