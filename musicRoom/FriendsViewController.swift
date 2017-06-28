@@ -164,31 +164,31 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell : UITableViewCell
-        
-        if indexPath.section == 0 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "friend", for: indexPath)
-            if let cell = cell as? FriendTableViewCell {
-                cell.username.text = self.friends[indexPath.row].username
-            }
-        } else if indexPath.section == 1 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "invitation", for: indexPath)
-            if let cell = cell as? InvitationTableViewCell {
-                cell.username.text = self.invitations[indexPath.row].username
-                cell.accept.tag = indexPath.row
-                cell.reject.tag = indexPath.row
-                cell.accept.addTarget(self, action: #selector(acceptInvitation), for: .touchUpInside)
-                cell.reject.addTarget(self, action: #selector(rejectInvitation), for: .touchUpInside)
-            }
-        } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "newFriend", for: indexPath)
-            if let cell = cell as? NewFriendTableViewCell {
-                cell.username.text = self.usernames[indexPath.row].username
-                cell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
-                cell.addFriend.tag = indexPath.row
-            }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friend", for: indexPath)
+        guard let friendCell = cell as? FriendTableViewCell else {
+            return cell
         }
-        return cell
+    
+        if indexPath.section == 0 {
+            friendCell.username.text = self.friends[indexPath.row].username
+            friendCell.accept.isHidden = true
+            friendCell.reject.isHidden = true
+            friendCell.addFriend.isHidden = true
+        } else if indexPath.section == 1 {
+            friendCell.username.text = self.invitations[indexPath.row].username
+            friendCell.accept.tag = indexPath.row
+            friendCell.reject.tag = indexPath.row
+            friendCell.accept.addTarget(self, action: #selector(acceptInvitation), for: .touchUpInside)
+            friendCell.reject.addTarget(self, action: #selector(rejectInvitation), for: .touchUpInside)
+            friendCell.addFriend.isHidden = true
+        } else {
+            friendCell.username.text = self.usernames[indexPath.row].username
+            friendCell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
+            friendCell.addFriend.tag = indexPath.row
+            friendCell.accept.isHidden = true
+            friendCell.reject.isHidden = true
+        }
+        return friendCell
     }
     
     

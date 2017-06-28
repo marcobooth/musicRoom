@@ -9,6 +9,9 @@
 import UIKit
 
 class FriendTableViewCell: UITableViewCell {
+    @IBOutlet weak var accept: UIButton!
+    @IBOutlet weak var reject: UIButton!
+    @IBOutlet weak var addFriend: UIButton!
     @IBOutlet weak var username: UILabel!
 
     override func awakeFromNib() {
