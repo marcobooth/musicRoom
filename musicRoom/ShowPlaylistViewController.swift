@@ -12,7 +12,7 @@ class ShowPlaylistViewController: UIViewController {
 
     var playlistId: String?
     var playlistName: String?
-    var tracks: [(uid: String, name: String)] = []
+    var tracks: [Track] = []
 
     var playlistRef: DatabaseReference?
     var playlistHandle: UInt?
@@ -41,13 +41,13 @@ class ShowPlaylistViewController: UIViewController {
 
         self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
             let playlist = Playlist(snapshot: snapshot)
-            if let allTracks = playlist.deezerTrackIds {
-                for track in allTracks {
-                    self.tracks.append((uid: track.value, name: "Lol nope"))
-                }
+            
+            if let tracks = playlist.tracks {
+                self.tracks = tracks
             }
             
             self.tableView.reloadData()
+            print("reloading data")
         })
     }
     
@@ -74,13 +74,9 @@ class ShowPlaylistViewController: UIViewController {
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {
-        let trackList = TrackArray()
-        trackList.tracks = self.tracks
-        
-        let tracks = DZRPlayableArray()
-        tracks.setTracks(trackList, error: nil)
-        
-        DeezerSession.sharedInstance.player?.play(tracks)
+        if let musicBarVC = getMusicBarViewController(), let path = firebasePlaylistPath {
+            musicBarVC.setMusic(toPlaylist: path, startingAt: nil)
+        }
     }
 }
 
@@ -90,12 +86,16 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
-        cell.textLabel?.text = self.tracks[indexPath.row].name
+        let cell = Bundle.main.loadNibNamed("TrackTableViewCell", owner: nil, options: nil)?.first as! TrackTableViewCell
+        cell.track = self.tracks[indexPath.row]
         return cell
     }
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        print("selected:", indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 64
     }
 }
