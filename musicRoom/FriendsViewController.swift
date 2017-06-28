@@ -199,7 +199,7 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Friends"
+            return "Add Friends"
         } else if section == 1 {
             return "Invitations"
         } else {
