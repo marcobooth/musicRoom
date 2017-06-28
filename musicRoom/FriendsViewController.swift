@@ -11,12 +11,14 @@ import UIKit
 class FriendsViewController: UIViewController {
 
     var friendsRef: DatabaseReference!
-    var invtationsRef: DatabaseReference!
+    var invitationsRef: DatabaseReference!
     var usernamesRef: DatabaseReference!
+    var pendingInvitationsRef: DatabaseReference!
     
     var friendsHandle: UInt!
     var invitationsHandle: UInt!
     var usernamesHandle: UInt!
+    var pendingInvitationsHandle: UInt!
     
     var myUsername : String?
     var uid: String?
@@ -24,12 +26,12 @@ class FriendsViewController: UIViewController {
     
     var usernamesSnapshot = [String:String]()
     var friendsSnapshot = [String:String]()
-    var pendingInvitationsSnapshot = [String:Bool]()
+    var pendingInvitationsSnapshot = [String:String]()
     var invitationsSnapshot = [String:String]()
 
     var filteredUsernames = [(id: String, username: String)]()
     var invitations = [(id: String, username: String)]()
-    var pendingInvitations = [String]()
+    var pendingInvitations = [(id: String, username: String)]()
     var friends = [(id: String, username: String)]()
     
     @IBOutlet weak var tableView: UITableView!
@@ -51,7 +53,8 @@ class FriendsViewController: UIViewController {
         }
 
         self.friendsRef = Database.database().reference(withPath: "users/" + uid + "/friends")
-        self.invtationsRef = Database.database().reference(withPath: "users/" + uid + "/friendInvitations")
+        self.invitationsRef = Database.database().reference(withPath: "users/" + uid + "/friendInvitations")
+        self.pendingInvitationsRef = Database.database().reference(withPath: "users/" + uid + "/pendingInvitations")
         self.usernamesRef = Database.database().reference(withPath: "usernames")
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
@@ -62,48 +65,27 @@ class FriendsViewController: UIViewController {
 
         friendsHandle = self.friendsRef.observe(.value, with: { snapshot in
             var friends = [(id: String, username: String)]()
-            var pendingInvitations = [String]()
             
-            if let allFriends = snapshot.value as? [String:Any] {
-                // Saving snapshot values (for checking which ones not to show in usernames table)
-                var friendsSnapshot = [String:String]()
-                var pendingInvitationsSnapshot = [String:Bool]()
+            if let allFriends = snapshot.value as? [String:String] {
+                self.friendsSnapshot = allFriends
+
                 for friend in allFriends {
-                    if let friendValue = friend.value as? Bool {
-                        pendingInvitationsSnapshot[friend.key] = friendValue
-                    } else if let friendValue = friend.value as? String {
-                        friendsSnapshot[friend.key] = friendValue
-                    } else {
-                        print("this should be not be here")
-                    }
-                }
-                self.friendsSnapshot = friendsSnapshot
-                self.pendingInvitationsSnapshot = pendingInvitationsSnapshot
-                
-                // Saving table values
-                for friend in friendsSnapshot {
                     friends.append((id: friend.key, username: friend.value))
-                }
-                for pendingInvite in pendingInvitationsSnapshot {
-                    pendingInvitations.append(pendingInvite.key)
                 }
             } else {
                 self.friendsSnapshot = [String:String]()
-                self.pendingInvitationsSnapshot = [String:Bool]()
             }
             self.friends = friends
-            self.pendingInvitations = pendingInvitations
-            print("pending invitations", self.pendingInvitations)
-            self.tableView.reloadData()
-//            self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
-//            self.tableView.reloadSections(IndexSet(integer: 4), with: .none)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
             self.updateUsernames()
         })
         
-        invitationsHandle = self.invtationsRef.observe(.value, with: { snapshot in
+        invitationsHandle = self.invitationsRef.observe(.value, with: { snapshot in
             var invitations = [(id: String, username: String)]()
+            
             if let allInvitations = snapshot.value as? [String:String] {
-                self.invitationsSnapshot = snapshot.value as! [String:String]
+                self.invitationsSnapshot = allInvitations
+                
                 for invite in allInvitations {
                     invitations.append((id: invite.key, username: invite.value))
                 }
@@ -124,12 +106,32 @@ class FriendsViewController: UIViewController {
             
             self.updateUsernames()
         })
+        
+        pendingInvitationsHandle = self.pendingInvitationsRef.observe(.value, with: { snapshot in
+            var pendingInvitations = [(id: String, username: String)]()
+            if let allPendingInvitations = snapshot.value as? [String:String] {
+                self.pendingInvitationsSnapshot = allPendingInvitations
+                for pendingInvite in allPendingInvitations {
+                    pendingInvitations.append((id: pendingInvite.key, username: pendingInvite.value))
+                }
+            } else {
+                self.pendingInvitationsSnapshot = [String:String]()
+            }
+            self.pendingInvitations = pendingInvitations
+            self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+            self.updateUsernames()
+        })
     }
     
     func updateUsernames() {
         let filteredUsernames = self.usernamesSnapshot.filter { username in
-            // TODO: you're here . Filter my own username
             if username.key != self.myUsername && self.friendsSnapshot[username.value] == nil && self.invitationsSnapshot[username.value] == nil && self.pendingInvitationsSnapshot[username.value] == nil {
+                print("this will be true")
+                print(self.pendingInvitationsSnapshot)
+                print(self.invitationsSnapshot)
+                print(self.friendsSnapshot)
+                print(username)
+                print("end")
                 return true
             }
             return false
@@ -139,17 +141,20 @@ class FriendsViewController: UIViewController {
         for username in filteredUsernames {
             filtered.append((id: username.value, username: username.key))
         }
+
         self.filteredUsernames = filtered
-        
-        self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+        print("filtered", self.filteredUsernames)
+        print("pendingInvitations", self.pendingInvitationsSnapshot)
+        self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        self.invtationsRef.removeObserver(withHandle: invitationsHandle)
-        self.invtationsRef.removeObserver(withHandle: invitationsHandle)
+        self.invitationsRef.removeObserver(withHandle: invitationsHandle)
+        self.friendsRef.removeObserver(withHandle: friendsHandle)
         self.usernamesRef.removeObserver(withHandle: usernamesHandle)
+        self.pendingInvitationsRef.removeObserver(withHandle: pendingInvitationsHandle)
     }
     
     func addFriend(button : UIButton) {
@@ -159,7 +164,7 @@ class FriendsViewController: UIViewController {
         }
         
         // Adds friend with false value in current user table and adds invitation to invited user's table
-        let addFriend = ["\(uid)/friends/\(self.filteredUsernames[button.tag].id)": false, "\(self.filteredUsernames[button.tag].id)/friendInvitations/\(uid)": username] as [String : Any]
+        let addFriend = ["\(uid)/pendingInvitations/\(self.filteredUsernames[button.tag].id)": self.filteredUsernames[button.tag].username, "\(self.filteredUsernames[button.tag].id)/friendInvitations/\(uid)": username] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: addFriend)
     }
@@ -171,7 +176,7 @@ class FriendsViewController: UIViewController {
         }
         
         // Deletes invitation and adds username as friend in both user's tables
-        let acceptInvitation = ["\(uid)/friends/\(self.invitations[button.tag].id)": self.invitations[button.tag].username, "\(self.invitations[button.tag].id)/friends/\(uid)": username, "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
+        let acceptInvitation = ["\(uid)/friends/\(self.invitations[button.tag].id)": self.invitations[button.tag].username, "\(self.invitations[button.tag].id)/friends/\(uid)": username, "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull(), "\(self.invitations[button.tag].id)/pendingInvitations/\(uid)": NSNull()] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: acceptInvitation)
     }
@@ -182,7 +187,7 @@ class FriendsViewController: UIViewController {
             return
         }
         // Deletes invitation and friend reference from user who invited friend
-        let rejectInvitation = ["\(self.invitations[button.tag].id)/friends/\(uid)": NSNull(), "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
+        let rejectInvitation = ["\(self.invitations[button.tag].id)/pendingInvitations/\(uid)": NSNull(), "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: rejectInvitation)
     }
@@ -218,9 +223,9 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
         } else if section == 1 {
             return invitations.count
         } else if section == 2 {
-            return self.filteredUsernames.count
-        } else {
             return self.pendingInvitations.count
+        } else {
+            return self.filteredUsernames.count
         }
     }
     
@@ -243,16 +248,16 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
             friendCell.reject.addTarget(self, action: #selector(rejectInvitation), for: .touchUpInside)
             friendCell.addFriend.isHidden = true
         } else if indexPath.section == 2 {
+            friendCell.username.text = self.pendingInvitations[indexPath.row].username
+            friendCell.accept.isHidden = true
+            friendCell.reject.isHidden = true
+            friendCell.addFriend.isHidden = true
+        } else {
             friendCell.username.text = self.filteredUsernames[indexPath.row].username
             friendCell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
             friendCell.addFriend.tag = indexPath.row
             friendCell.accept.isHidden = true
             friendCell.reject.isHidden = true
-        } else {
-            friendCell.username.text = self.usernamesSnapshot[self.pendingInvitations[indexPath.row]] ?? "username not found"
-            friendCell.accept.isHidden = true
-            friendCell.reject.isHidden = true
-            friendCell.addFriend.isHidden = true
         }
         return friendCell
     }
@@ -270,12 +275,13 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
         if section == 1 && self.invitations.count != 0 {
             return "Invitations"
         }
-        if section == 2 && self.filteredUsernames.count != 0 {
-            return "Add Friends"
-        }
-        if section == 3 && self.pendingInvitations.count != 0 {
+        if section == 2 && self.pendingInvitations.count != 0 {
             return "Pending Invitations"
         }
+        if section == 3 && self.filteredUsernames.count != 0 {
+            return "Add Friends"
+        }
+
         
         return nil
     }
