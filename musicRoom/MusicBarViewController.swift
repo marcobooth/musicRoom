@@ -71,10 +71,8 @@ class MusicBarViewController: UIViewController, DZRPlayerDelegate {
                     // TODO: If the track index has changed, reset currentIndex
                     // DeezerSession.sharedInstance.player?.currentTrack.identifier()
                     
-                    let trackList = TrackList(tracks: self.tracks)
-                    
                     let tracks = DZRPlayableArray()
-                    tracks.setTracks(trackList, error: nil)
+                    tracks.setTracks(TrackList(tracks: self.tracks), error: nil)
                     DeezerSession.sharedInstance.player?.play(tracks)
                 })
             }

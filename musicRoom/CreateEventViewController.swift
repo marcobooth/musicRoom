@@ -40,30 +40,21 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var rightLabel: UILabel!
     @IBOutlet weak var betweenLabel: UILabel!
     @IBOutlet weak var andLabel: UILabel!
+    @IBOutlet weak var located: UISwitch!
     
     @IBAction func visibilityChange(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
+        if sender.selectedSegmentIndex == 0 { // If public
             rightLabel.isHidden = false
             rightLabel.text = "Voting rights"
             rights.isHidden = false
-            betweenLabel.isHidden = true
-            andLabel.isHidden = true
-            startDate.isHidden = true
-            endDate.isHidden = true
-            mapView.isHidden = true
-        } else if sender.selectedSegmentIndex == 1 {
+        } else if sender.selectedSegmentIndex == 1 { // if Private
             rightLabel.text = "Only invited users can see your private events"
             rights.isHidden = true
-            betweenLabel.isHidden = true
-            andLabel.isHidden = true
-            startDate.isHidden = true
-            endDate.isHidden = true
-            mapView.isHidden = true
         }
     }
     
-    @IBAction func rightsChange(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 2 {
+    @IBAction func locatedChange(_ sender: UISwitch) {
+        if sender.isOn { // If located
             betweenLabel.isHidden = false
             andLabel.isHidden = false
             startDate.isHidden = false
@@ -77,6 +68,7 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
             mapView.isHidden = true
         }
     }
+
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let annotation = MKPointAnnotation()
@@ -92,34 +84,16 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
         startDate.minimumDate = Date()
         endDate.minimumDate = Date()
         self.mapView.delegate = self
-        scrollView.contentSize.height = 600
-        
-        betweenLabel.isHidden = true
-        andLabel.isHidden = true
-        startDate.isHidden = true
-        endDate.isHidden = true
-        mapView.isHidden = true
-        
-        // Do any additional setup after loading the view.
+        //scrollView.contentSize.height = 600
     }
     
-    // TODO: If private hide everything else
-    // TODO: If not located hide date and map
-    @IBAction func finish(_ sender: UIButton) {
+    @IBAction func finish(_ sender: UIBarButtonItem) {
         if self.name.text == "" {
-            print("Empty name")
+            self.showBasicAlert(title: "No Title", message: "Please give a name to your event.")
             return
-        } else if rights.selectedSegmentIndex == 2 {
-            if startDate.date >= endDate.date {
-                print("startDate >= endDate")
+        } else if located.isOn && startDate.date >= endDate.date {
+                self.showBasicAlert(title: "Date contradiction", message: "The end date must be after the start date.")
                 return
-            }
-        } else if visibility.selectedSegmentIndex == 1 && rights.selectedSegmentIndex == 2 {
-            print("Event can not be private and located at the same time")
-            return
-        } else if visibility.selectedSegmentIndex == 1 && rights.selectedSegmentIndex == 0 {
-            print("Event can not be private and accept voting of everybody")
-            return
         }
         
         if let currentUser = Auth.auth().currentUser?.uid {
@@ -136,28 +110,18 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
             let newEventRef = eventRef.childByAutoId()
             var event = Event(name: self.name.text!, userId: (Auth.auth().currentUser?.uid)!)
             
-            if rights.selectedSegmentIndex == 2 {
+            if located.isOn {
                 event.startDate = startDate.date.toString()
                 event.endDate = endDate.date.toString()
                 event.longitude = mapView.centerCoordinate.longitude
                 event.latitude = mapView.centerCoordinate.latitude
             }
+            if visibility.selectedSegmentIndex == 1 || rights.selectedSegmentIndex == 1 {
+                event.userIds = [(Auth.auth().currentUser?.uid)!: true]
+            }
             
-            // public
-            if self.visibility.selectedSegmentIndex == 0 {
-                newEventRef.setValue(event.toPublicObject())
-            }
-            // public, only invited can vote
-            if self.visibility.selectedSegmentIndex == 0 && self.rights.selectedSegmentIndex == 1 {
-                newEventRef.setValue(event.toPublicInvitedObject())
-            }
-            // public located
-            if self.visibility.selectedSegmentIndex == 0 && self.rights.selectedSegmentIndex == 2 {
-                newEventRef.setValue(event.toPublicLocationObject())
-            }
-            // private
+            newEventRef.setValue(event.toDict())
             if self.visibility.selectedSegmentIndex == 1 {
-                newEventRef.setValue(event.toPrivateObject())
                 userRef.child("events/" + newEventRef.key).setValue(self.name.text)
             }
             

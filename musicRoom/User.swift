@@ -16,6 +16,8 @@ struct User {
 
     let events: [String:String]?
     let invitedEvents: [String:String]?
+    
+    let friends: [String:String]?
     let ref: DatabaseReference?
     
     init(snapshot: DataSnapshot) {
@@ -23,6 +25,7 @@ struct User {
         var checkInvitedPlaylists: [String:String]? = nil
         var checkEvents: [String:String]? = nil
         var checkInvitedEvents: [String:String]? = nil
+        var checkFriends: [String:String]? = nil
         var checkRef: DatabaseReference? = nil
         
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
@@ -51,12 +54,19 @@ struct User {
                     checkInvitedEvents = events
                 }
             }
+            
+            if let friends = snapshotValue["friends"] {
+                if let friends = friends as? [String:String] {
+                    checkFriends = friends
+                }
+            }
         }
         
         self.playlists = checkPlaylists
         self.invitedPlaylists = checkInvitedPlaylists
         self.events = checkEvents
         self.invitedEvents = checkInvitedEvents
+        self.friends = checkFriends
         self.ref = checkRef
     }
 }

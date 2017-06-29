@@ -11,23 +11,30 @@ import Firebase
 
 class PlaylistsViewController: UIViewController {
     
+    @IBOutlet weak var selector: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
-    var playlistNames = [(uid: String, name: String)]()
+    var playlistsToShow = [(uid: String, name: String)]()
+    var publicPlaylists = [(uid: String, name: String)]()
+    var privatePlaylists = [(uid: String, name: String)]()
     var selectedPlaylist : (uid: String, name: String)?
     
-    var ref: DatabaseReference!
-    var handle: UInt!
+    
+    var userRef: DatabaseReference!
+    var publicPlaylistRef: DatabaseReference!
+    var handleUser: UInt!
+    var handlePublicPlaylist: UInt!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.ref = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
+        self.userRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
+        self.publicPlaylistRef = Database.database().reference(withPath: "playlists/public")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        handle = self.ref.observe(.value, with: { snapshot in
+        handleUser = self.userRef.observe(.value, with: { snapshot in
             var playlists = [(uid: String, name: String)]()
             
             let user = User(snapshot: snapshot)
@@ -43,15 +50,45 @@ class PlaylistsViewController: UIViewController {
                 }
             }
             
-            self.playlistNames = playlists
+            self.privatePlaylists = playlists
+            if self.selector.selectedSegmentIndex == 1 {
+                self.playlistsToShow = self.privatePlaylists
+            }
             self.tableView.reloadData()
         })
+        
+        handlePublicPlaylist = self.publicPlaylistRef.observe(.value, with: { snapshot in
+            var playlists = [(uid: String, name: String)]()
+            
+            for snap in snapshot.children {
+                let playlist = Playlist(snapshot: snap as! DataSnapshot)
+                playlists.append((uid: "public/" + (playlist.ref?.key)!, name: playlist.name))
+            }
+            self.publicPlaylists = playlists
+            if self.selector.selectedSegmentIndex == 0 {
+                self.playlistsToShow = self.publicPlaylists
+            }
+            self.tableView.reloadData()
+        })
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        self.ref.removeObserver(withHandle: handle)
+        self.userRef.removeObserver(withHandle: handleUser)
+        self.publicPlaylistRef.removeObserver(withHandle: handlePublicPlaylist)
+    }
+    
+    
+    @IBAction func selectorChange(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            playlistsToShow = publicPlaylists
+            self.tableView.reloadData()
+        } else if sender.selectedSegmentIndex == 1 {
+            playlistsToShow = privatePlaylists
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func unwindToPlaylists(segue: UIStoryboardSegue) {
@@ -61,19 +98,19 @@ class PlaylistsViewController: UIViewController {
 
 extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.playlistNames.count
+        return self.playlistsToShow.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "playlistCell", for: indexPath)
         
-        cell.textLabel?.text = self.playlistNames[indexPath.row].1
+        cell.textLabel?.text = self.playlistsToShow[indexPath.row].1
         
         return cell
     }
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        self.selectedPlaylist = self.playlistNames[indexPath.row]
+        self.selectedPlaylist = self.playlistsToShow[indexPath.row]
         self.performSegue(withIdentifier: "showPlaylist", sender: self)
     }
 }

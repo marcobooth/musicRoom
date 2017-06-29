@@ -14,15 +14,32 @@ class EventTracklistTableViewController: UITableViewController {
     var path: String?
     var handle: UInt!
     var ref: DatabaseReference!
-    var tracks = [Track]()
+    var tracks = [EventTrack]()
+    var event: Event?
+    
+    var currentUser: String!
+    
+    @IBOutlet weak var edit: UIBarButtonItem!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  self.tableView.register(EventCellTableViewCell.self, forCellReuseIdentifier: "eventCell")
-        if let p = self.path {
-            self.ref = Database.database().reference(withPath: "events/" + p + "/tracks")
+        
+        if let currentUser = Auth.auth().currentUser?.uid {
+            self.currentUser = currentUser
         }
+        if let p = self.path {
+            self.ref = Database.database().reference(withPath: "events/" + p)
+            self.ref.observeSingleEvent(of: .value, with: { snapshot in
+       
+                self.event = Event(snapshot: snapshot)
+                if self.event?.userIds == nil || self.event?.createdBy != self.currentUser {
+                    self.edit.isEnabled = false
+                    self.edit.title = ""
+                }
+            })
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,14 +47,10 @@ class EventTracklistTableViewController: UITableViewController {
         
         // Observe private events
         handle = self.ref.observe(.value, with: { snapshot in
-            var tracks = [Track]()
             
-            print("Tracks updating...")
-            for snap in snapshot.children {
-                let  track = Track(snapshot: (snap as? DataSnapshot)!)
-                tracks.append(track)
-            }
-            self.tracks = tracks.sorted(by: { $0.vote > $1.vote })
+            let event = Event(snapshot: snapshot)
+            self.event = event
+            self.tracks = event.sortedTracks()
             self.tableView.reloadData()
         })
     }
@@ -65,57 +78,61 @@ class EventTracklistTableViewController: UITableViewController {
         cell.artist.text = tracks[indexPath.row].creator
         cell.nbVote.text = String(describing: tracks[indexPath.row].vote)
         
-        if tracks[indexPath.row].voters?[(Auth.auth().currentUser?.uid)!] == true {
-            cell.upVote.setTitle("☑️", for: .normal)
+        if self.event?.userIds == nil || self.event?.userIds?[currentUser] != nil {
+        if tracks[indexPath.row].voters[currentUser] == true {
+            cell.upVote.setTitle("✅", for: .normal)
             cell.downVote.setTitle("👎", for: .normal)
-        } else if tracks[indexPath.row].voters?[(Auth.auth().currentUser?.uid)!] == nil {
+        } else if tracks[indexPath.row].voters[currentUser] == nil {
             cell.upVote.setTitle("👍", for: .normal)
             cell.downVote.setTitle("👎", for: .normal)
         } else {
             cell.upVote.setTitle("👍", for: .normal)
-            cell.downVote.setTitle("☑️", for: .normal)
+            cell.downVote.setTitle("✅", for: .normal)
         }
         cell.upVote.tag = indexPath.row
         cell.upVote.addTarget(self, action: #selector(upVote), for: .touchUpInside)
         cell.downVote.tag = indexPath.row
         cell.downVote.addTarget(self, action: #selector(downVote), for: .touchUpInside)
+        } else {
+            cell.upVote.isHidden = true
+            cell.downVote.isHidden = true
+        }
         return cell
     }
     
     func upVote(sender: UIButton) {
-        var track = tracks[sender.tag]
-        var userVote = track.voters?[(Auth.auth().currentUser?.uid)!]
+        let track = tracks[sender.tag]
+        let userVote = track.voters[currentUser]
         if userVote == false {
             track.vote += 2
-            track.voters?[(Auth.auth().currentUser?.uid)!] = true
+            track.voters[currentUser] = true
         } else if userVote == nil {
             track.vote += 1
-            track.voters?[(Auth.auth().currentUser?.uid)!] = true
+            track.voters[currentUser] = true
         } else if userVote == true {
             track.vote -= 1
-            track.voters?[(Auth.auth().currentUser?.uid)!] = nil
+            track.voters[currentUser] = nil
         }
         
-        track.ref?.setValue(track.toDict())
 
+        ref.child("tracks/" + track.trackKey).setValue(track.toDict())
     }
     
     func downVote(sender: UIButton) {
-        var track = tracks[sender.tag]
-        var userVote = track.voters?[(Auth.auth().currentUser?.uid)!]
-        
+        print("downvote")
+        let track = tracks[sender.tag]
+        let userVote = track.voters[currentUser]
         if userVote == true {
             track.vote -= 2
-            track.voters?[(Auth.auth().currentUser?.uid)!] = false
+            track.voters[currentUser] = false
         } else if userVote == nil {
             track.vote -= 1
-            track.voters?[(Auth.auth().currentUser?.uid)!] = false
+            track.voters[currentUser] = false
         } else if userVote == false {
             track.vote += 1
-            track.voters?[(Auth.auth().currentUser?.uid)!] = nil
+            track.voters[currentUser] = nil
         }
-        
-        track.ref?.setValue(track.toDict())
+        ref.child("tracks/" + track.trackKey).setValue(track.toDict())
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -126,10 +143,15 @@ class EventTracklistTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SearchTableViewController, let path = self.path {
             destination.firebasePath = "events/" + path
             destination.from = "event"
+        } else if let destination = segue.destination as? InviteFriendsTableViewController, let path = self.path {
+            destination.firebasePath = "events/" + path
+            destination.from = "event"
+            destination.name = event?.name
         }
     }
     

@@ -17,7 +17,7 @@ struct Event {
     var longitude: Double?
     var latitude: Double?
     var userIds: [String:Bool]?
-    var deezerTrackIds: [String: String]?
+    var tracks: [EventTrack]?
     var ref: DatabaseReference?
     
     init(name: String, userId: String) {
@@ -27,20 +27,21 @@ struct Event {
         self.endDate = nil
         self.longitude = nil
         self.latitude = nil
-        self.userIds = [userId : true]
+        self.userIds = nil
         self.ref = nil
+        self.tracks = nil
     }
     
     init(snapshot: DataSnapshot) {
         self.name = ""
         self.createdBy = ""
-        self.deezerTrackIds = nil
         self.userIds = nil
         self.ref = nil
         self.startDate = nil
         self.endDate = nil
         self.longitude = nil
         self.latitude = nil
+        self.tracks = nil
         
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
             if let name = snapshotValue["name"] as? String {
@@ -49,9 +50,11 @@ struct Event {
             if let createdBy = snapshotValue["createdBy"] as? String {
                 self.createdBy = createdBy
             }
-            if let deezerTrackIds = snapshotValue["deezerTrackIds"] as? [String: String] {
-                self.deezerTrackIds = deezerTrackIds
+            let trackDicts = snapshotValue["tracks"] as? [String: [String: AnyObject]]
+            if let trackDicts = trackDicts {
+                self.tracks = trackDicts.map { element in EventTrack(dict: element.value, trackKey: element.key) }
             }
+            
             if let userIds = snapshotValue["userIds"] as? [String:Bool] {
                 self.userIds = userIds
             }
@@ -72,42 +75,23 @@ struct Event {
         
     }
     
-    func toPublicObject() -> Any {
-        return [
-            "name": name,
-            "createdBy": createdBy,
-            "deezerTrackIds": deezerTrackIds
-        ]
-    }
     
-    func toPublicLocationObject() -> Any {
+    func toDict() -> Any {
         return [
             "name": name,
             "createdBy": createdBy,
-            "deezerTrackIds": deezerTrackIds,
+            "tracks": tracks,
             "startDate": startDate,
             "endDate": endDate,
             "longitude": longitude,
-            "latitude": latitude
+            "latitude": latitude,
+            "userIds": userIds,
         ]
     }
     
-    func toPublicInvitedObject() -> Any {
-        return [
-            "name": name,
-            "createdBy": createdBy,
-            "userIds" : userIds,
-            "deezerTrackIds": deezerTrackIds
-        ]
-    }
-    
-    func toPrivateObject() -> Any {
-        return [
-            "name": name,
-            "createdBy": createdBy,
-            "userIds" : userIds,
-            "deezerTrackIds": deezerTrackIds
-        ]
+    func sortedTracks() -> [EventTrack] {
+        // TODO: should this be cached?
+        return self.tracks?.sorted { $0.vote > $1.vote } ?? []
     }
     
     func checkLocation(location: CLLocation) -> Bool {

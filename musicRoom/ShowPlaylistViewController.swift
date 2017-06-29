@@ -10,6 +10,7 @@ import UIKit
 
 class ShowPlaylistViewController: UIViewController {
 
+    var playlist: Playlist?
     var playlistId: String?
     var playlistName: String?
     var tracks: [PlaylistTrack] = []
@@ -17,6 +18,7 @@ class ShowPlaylistViewController: UIViewController {
     var playlistRef: DatabaseReference?
     var playlistHandle: UInt?
     var firebasePlaylistPath: String?
+    @IBOutlet weak var edit: UIBarButtonItem!
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,10 +43,15 @@ class ShowPlaylistViewController: UIViewController {
 
         self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
             let playlist = Playlist(snapshot: snapshot)
-            
+            self.playlist = playlist
             self.tracks = playlist.sortedTracks()
             
             self.tableView.reloadData()
+            if self.playlist?.userIds == nil || self.playlist?.createdBy != Auth.auth().currentUser?.uid {
+                print("hide button edit")
+                self.edit.isEnabled = false
+                self.edit.title = ""
+            }
         })
     }
     
@@ -68,7 +75,12 @@ class ShowPlaylistViewController: UIViewController {
         if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePlaylistPath {
             destination.firebasePath = path
             destination.from = "playlist"
+        } else if let destination = segue.destination as? InviteFriendsTableViewController, let path = self.firebasePlaylistPath {
+            destination.firebasePath = path
+            destination.from = "playlist"
+            destination.name = playlistName
         }
+            
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {
