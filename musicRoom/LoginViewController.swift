@@ -22,7 +22,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         super.viewDidLoad()
         self.loginButton.layer.cornerRadius = 5
         
-        self.signInButton.style = GIDSignInButtonStyle(rawValue: 2)!
+        self.signInButton.style = GIDSignInButtonStyle(rawValue: 1)!
     }
     
     override func viewDidAppear(_ animated: Bool) {

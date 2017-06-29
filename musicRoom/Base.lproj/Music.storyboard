@@ -133,14 +133,14 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2b-tA-LSg">
-                                                    <rect key="frame" x="241" y="7" width="126" height="30"/>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k1Y-PJ-Xhw" customClass="FBSDKLoginButton">
+                                                    <rect key="frame" x="199" y="9" width="168" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Login to Facebook"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
-                                                        <action selector="linkFacebook:" destination="79v-9w-h1p" eventType="touchUpInside" id="4OZ-aI-c9a"/>
+                                                        <action selector="linkFacebook:" destination="79v-9w-h1p" eventType="valueChanged" id="y43-f0-ZMF"/>
                                                     </connections>
-                                                </button>
+                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -159,7 +159,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gGf-qJ-cRP" customClass="GIDSignInButton">
-                                                    <rect key="frame" x="319" y="4" width="48" height="31"/>
+                                                    <rect key="frame" x="199" y="4" width="168" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -171,7 +171,7 @@
                             <tableViewSection headerTitle="Friends" id="aEw-Ov-e5J">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zZb-rD-R7k">
-                                        <rect key="frame" x="0.0" y="245" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="244" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zZb-rD-R7k" id="YJx-4b-h7n">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -200,7 +200,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Kfc-ce-rBP">
-                                        <rect key="frame" x="0.0" y="289" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="288" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kfc-ce-rBP" id="Qd4-I9-h39">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -222,7 +222,7 @@
                             <tableViewSection headerTitle="Logout" id="qPD-bs-kOH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HP9-eN-TKx">
-                                        <rect key="frame" x="0.0" y="390" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="388" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HP9-eN-TKx" id="6lu-7e-EZ5">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -252,7 +252,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="79P-o0-qJg"/>
                     <connections>
                         <outlet property="deezerSignInButton" destination="DSf-Kh-bf4" id="gfg-q2-CiT"/>
-                        <outlet property="facebookSignInButton" destination="C2b-tA-LSg" id="QAw-s6-KcB"/>
+                        <outlet property="facebookSignInButton" destination="k1Y-PJ-Xhw" id="hsZ-ho-fzk"/>
                         <outlet property="googleSignInButton" destination="gGf-qJ-cRP" id="i1e-wm-h51"/>
                         <outlet property="manageFriends" destination="F4g-c0-HfU" id="2Ez-tY-21e"/>
                         <outlet property="submitUsername" destination="3Qa-VA-UJc" id="rc4-3M-BzB"/>
