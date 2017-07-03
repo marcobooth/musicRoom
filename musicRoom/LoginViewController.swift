@@ -10,19 +10,30 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 import GoogleSignIn
+import TwitterKit
 
-class LoginViewController: UIViewController, GIDSignInUIDelegate {
+class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButtonDelegate {
     
     @IBOutlet weak var login: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signInButton: GIDSignInButton!
+    @IBOutlet weak var twitterLoginButton: TWTRLogInButton!
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loginButton.layer.cornerRadius = 5
         
         self.signInButton.style = GIDSignInButtonStyle(rawValue: 1)!
+        
+        self.facebookLoginButton.delegate = self
+        self.facebookLoginButton.readPermissions = ["public_profile"]
+        if FBSDKAccessToken.current() != nil {
+            print("token is not nil")
+        } else {
+            print("token is nil")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,6 +47,34 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         }
         
         GIDSignIn.sharedInstance().uiDelegate = self
+        
+        twitterLoginButton.logInCompletion = { session, error in
+            guard error == nil else {
+                print("Twitter error", error ?? "unkown error")
+                return
+            }
+            
+            if let authToken = session?.authToken, let secretToken = session?.authTokenSecret {
+                let credential = TwitterAuthProvider.credential(withToken: authToken, secret: secretToken)
+                self.loginWithCredential(credential: credential)
+            }
+        }
+    }
+    
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        guard error == nil else {
+            print(error ?? "no error")
+            return
+        }
+        
+        if let token = FBSDKAccessToken.current().tokenString {
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            self.loginWithCredential(credential: credential)
+        }
+    }
+    
+    public func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("also hello from here")
     }
     
     @IBAction func hitEnterKey(_ sender: UITextField) {
@@ -56,16 +95,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         }
     }
     
-    @IBAction func loginWithFacebook(_ sender: Any) {
-        let login = FBSDKLoginManager()
-        login.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
-            let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-            self.loginWithCredential(credential: credential)
-        }
-    }
-    
     func loginWithCredential(credential : AuthCredential) {
-        Auth.auth().signIn(with: credential) { thing, error in
+        Auth.auth().signIn(with: credential) { user, error in
+            if (error != nil) {
+                print(error ?? "no error to be printed")
+                return
+            }
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "music", sender: self)
             }

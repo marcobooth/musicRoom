@@ -32,6 +32,12 @@
 				<string>com.googleusercontent.apps.351359987804-9b1lgdl2i88rsohc6f4qak2smtrsuuvs</string>
 			</array>
 		</dict>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>twitterkit-421hX4vFWiOBef7FRc14NyTq6</string>
+            </array>
+        </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -45,6 +51,8 @@
 		<string>fb-messenger-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+        <string>twitter</string>
+        <string>twitterauth</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

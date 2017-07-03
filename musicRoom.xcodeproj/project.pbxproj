@@ -19,6 +19,7 @@
 		2C1C21091EE9822F00B36A8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C21071EE9822F00B36A8B /* Main.storyboard */; };
 		2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C210A1EE9822F00B36A8B /* Assets.xcassets */; };
 		2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */; };
+		2C3212601F0A956100F54015 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C32125F1F0A956100F54015 /* SafariServices.framework */; };
 		2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F2B1EEE6E4300651996 /* Playlist.swift */; };
 		2C3B1F321EEE9A8A00651996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F311EEE9A8A00651996 /* User.swift */; };
 		2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F331EEEC43300651996 /* CreatePlaylistViewController.swift */; };
@@ -69,6 +70,7 @@
 		2C1C210A1EE9822F00B36A8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C1C210D1EE9822F00B36A8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C1C210F1EE9822F00B36A8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C32125F1F0A956100F54015 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		2C3B1F2B1EEE6E4300651996 /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		2C3B1F2D1EEE6F9E00651996 /* musicRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "musicRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		2C3B1F311EEE9A8A00651996 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C3212601F0A956100F54015 /* SafariServices.framework in Frameworks */,
 				2CBC29DB1EEFE34C007A907F /* libicucore.tbd in Frameworks */,
 				2CBC29D91EEFE31B007A907F /* AudioToolbox.framework in Frameworks */,
 				2CBC29D71EEFE313007A907F /* CoreAudio.framework in Frameworks */,
@@ -211,8 +214,8 @@
 				2CA169341F03EAD50070F941 /* SettingsTableViewController.swift */,
 				2CA169311F0396D90070F941 /* Friends */,
 				3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */,
-				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
+				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
 				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
 				3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */,
 				3E2F80141F0442DC00DA82F3 /* TrackList.swift */,
@@ -331,6 +334,7 @@
 		62ACA414258CF7E42A5ED6AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C32125F1F0A956100F54015 /* SafariServices.framework */,
 				2CBC29DA1EEFE34C007A907F /* libicucore.tbd */,
 				2CBC29D81EEFE31B007A907F /* AudioToolbox.framework */,
 				2CBC29D61EEFE313007A907F /* CoreAudio.framework */,

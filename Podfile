@@ -12,4 +12,5 @@ target 'musicRoom' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'GoogleSignIn'
+  pod 'TwitterKit'
 end

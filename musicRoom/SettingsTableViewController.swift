@@ -121,6 +121,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
     @IBAction func logout(_ sender: UIButton) {
         // TODO: make sure all accounts are logged out
         do {
+            FBSDKLoginManager().logOut()
             try Auth.auth().signOut()
             self.performSegue(withIdentifier: "signOut", sender: self)
         } catch let signOutError as NSError {

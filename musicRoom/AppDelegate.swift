@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import GoogleSignIn
+import TwitterKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -27,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // Google login stuff
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
+        
+        // Twitter API
+        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "")
+        
         return true
     }
 
@@ -53,8 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if url.absoluteString.lowercased().contains("facebook") == true {
+        if url.absoluteString.lowercased().contains("fb712712918916023") == true {
             return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication:sourceApplication, annotation: annotation)
+        } else if url.absoluteString.lowercased().contains("twitterkit-421hX4vFWiOBef7FRc14NyTq6") == true {
+            return Twitter.sharedInstance().application(application, open: url, options: [AnyHashable : Any]())
         } else {
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
         }
