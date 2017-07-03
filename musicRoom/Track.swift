@@ -35,7 +35,6 @@ class Track {
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
             self.init(dict: snapshotValue)
             self.ref = snapshot.ref
-            print("==== ref", self.ref)
         } else {
             // Wow Swift. Makin' me cast everything like that is ugly af
             self.init(dict: [
@@ -48,7 +47,6 @@ class Track {
     }
     
     func toDict() -> [String: Any] {
-              print("track dic")
         return [
             "deezerId": deezerId,
             "name": name,

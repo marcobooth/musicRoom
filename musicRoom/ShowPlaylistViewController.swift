@@ -12,13 +12,15 @@ class ShowPlaylistViewController: UIViewController {
 
     var playlist: Playlist?
     var playlistId: String?
+    var publicOrPrivate: String?
     var playlistName: String?
     var tracks: [PlaylistTrack] = []
 
     var playlistRef: DatabaseReference?
     var playlistHandle: UInt?
     var firebasePlaylistPath: String?
-    @IBOutlet weak var edit: UIBarButtonItem!
+
+    @IBOutlet weak var addFriendsButton: UIButton!
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,10 +29,10 @@ class ShowPlaylistViewController: UIViewController {
 
         self.title = playlistName
 
-        if let playlistId = self.playlistId {
-            firebasePlaylistPath = "playlists/private/" + playlistId
+        if let publicOrPrivate = publicOrPrivate, let playlistId = self.playlistId {
+            self.firebasePlaylistPath = "playlists/\(publicOrPrivate)/\(playlistId)"
             
-            if let path = firebasePlaylistPath {
+            if let path = self.firebasePlaylistPath {
                 self.playlistRef = Database.database().reference(withPath: path)
             }
         }
@@ -48,9 +50,7 @@ class ShowPlaylistViewController: UIViewController {
             
             self.tableView.reloadData()
             if self.playlist?.userIds == nil || self.playlist?.createdBy != Auth.auth().currentUser?.uid {
-                print("hide button edit")
-                self.edit.isEnabled = false
-                self.edit.title = ""
+                self.addFriendsButton.isEnabled = false
             }
         })
     }
@@ -72,15 +72,16 @@ class ShowPlaylistViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePlaylistPath {
-            destination.firebasePath = path
-            destination.from = "playlist"
-        } else if let destination = segue.destination as? InviteFriendsTableViewController, let path = self.firebasePlaylistPath {
-            destination.firebasePath = path
-            destination.from = "playlist"
-            destination.name = playlistName
+        if let path = self.firebasePlaylistPath {
+            if let destination = segue.destination as? SearchTableViewController {
+                destination.firebasePath = path
+                destination.from = "playlist"
+            } else if let destination = segue.destination as? InviteFriendsTableViewController {
+                destination.firebasePath = path
+                destination.from = "playlist"
+                destination.name = playlistName
+            }
         }
-            
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {

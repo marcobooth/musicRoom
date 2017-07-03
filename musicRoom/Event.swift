@@ -12,8 +12,8 @@ import CoreLocation
 struct Event {
     var name: String
     var createdBy: String
-    var startDate: String?
-    var endDate: String?
+    var startDate: UInt?
+    var endDate: UInt?
     var longitude: Double?
     var latitude: Double?
     var userIds: [String:Bool]?
@@ -55,13 +55,13 @@ struct Event {
                 self.tracks = trackDicts.map { element in EventTrack(dict: element.value, trackKey: element.key) }
             }
             
-            if let userIds = snapshotValue["userIds"] as? [String:Bool] {
+            if let userIds = snapshotValue["userIds"] as? [String: Bool] {
                 self.userIds = userIds
             }
-            if let startDate = snapshotValue["startDate"] as? String {
+            if let startDate = snapshotValue["startDate"] as? UInt {
                 self.startDate = startDate
             }
-            if let endDate = snapshotValue["endDate"] as? String {
+            if let endDate = snapshotValue["endDate"] as? UInt {
                 self.endDate = endDate
             }
             if let longitude = snapshotValue["longitude"] as? Double {
@@ -80,12 +80,12 @@ struct Event {
         return [
             "name": name,
             "createdBy": createdBy,
-            "tracks": tracks,
-            "startDate": startDate,
-            "endDate": endDate,
-            "longitude": longitude,
-            "latitude": latitude,
-            "userIds": userIds,
+            "tracks": tracks as Any,
+            "startDate": startDate as Any,
+            "endDate": endDate as Any,
+            "longitude": longitude as Any,
+            "latitude": latitude as Any,
+            "userIds": userIds as Any,
         ]
     }
     
@@ -94,7 +94,7 @@ struct Event {
         return self.tracks?.sorted { $0.vote > $1.vote } ?? []
     }
     
-    func checkLocation(location: CLLocation) -> Bool {
+    func check(location: CLLocation) -> Bool {
         if let longitude = self.longitude, let latitude = self.latitude, let startDate = self.startDate, let endDate = self.endDate {
             let eventLocation = CLLocation(latitude: latitude, longitude: longitude)
             let currentDate = Date();

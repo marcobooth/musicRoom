@@ -22,7 +22,6 @@ class EventTrack: Track {
     }
     
     override func toDict() -> [String : Any] {
-        print("eventTrack dic")
         return [
             "deezerId": deezerId,
             "name": name,

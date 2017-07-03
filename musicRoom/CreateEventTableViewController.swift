@@ -1,5 +1,5 @@
 //
-//  CreateEventViewController.swift
+//  CreateEventTableViewController.swift
 //  musicRoom
 //
 //  Created by Antoine LEBLANC on 6/23/17.
@@ -9,49 +9,64 @@
 import UIKit
 import MapKit
 
-extension Date
-{
-    func toString() -> String
-    {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.string(from: self)
+class CreateEventTableViewController: UITableViewController, MKMapViewDelegate {
+    
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var publicOrPrivateSwitch: UISwitch!
+    
+    @IBOutlet weak var specifyTimeSwitch: UISwitch!
+    @IBOutlet weak var startingTimeDatePicker: UIDatePicker!
+    @IBOutlet weak var endingTimeDatePicker: UIDatePicker!
+    
+    @IBOutlet weak var specifyLocationSwitch: UISwitch!
+    @IBOutlet weak var radiusTextField: UILabel!
+    @IBOutlet weak var radiusSlider: UISlider!
+    @IBOutlet weak var locationMapView: MKMapView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        startingTimeDatePicker.minimumDate = Date()
+        
+        var components = DateComponents()
+        components.setValue(1, for: .hour)
+        endingTimeDatePicker.minimumDate = Calendar.current.date(byAdding: components, to: Date())
     }
     
-}
-
-extension String {
-    func toDate() -> Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.date(from: self)!
-    }
-}
-
-class CreateEventViewController: UIViewController, MKMapViewDelegate {
-
-    @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var visibility: UISegmentedControl!
-    @IBOutlet weak var startDate: UIDatePicker!
-    @IBOutlet weak var endDate: UIDatePicker!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var rights: UISegmentedControl!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var rightLabel: UILabel!
-    @IBOutlet weak var betweenLabel: UILabel!
-    @IBOutlet weak var andLabel: UILabel!
-    @IBOutlet weak var located: UISwitch!
-    
-    @IBAction func visibilityChange(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 { // If public
-            rightLabel.isHidden = false
-            rightLabel.text = "Voting rights"
-            rights.isHidden = false
-        } else if sender.selectedSegmentIndex == 1 { // if Private
-            rightLabel.text = "Only invited users can see your private events"
-            rights.isHidden = true
+    @IBAction func specifyTimeChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            startingTimeDatePicker.isEnabled = false
+            endingTimeDatePicker.isEnabled = false
+        } else {
+            startingTimeDatePicker.isEnabled = true
+            endingTimeDatePicker.isEnabled = true
         }
     }
+    
+    @IBAction func specifyLocationChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            radiusTextField.text = "hello"
+            radiusSlider.isEnabled = false
+        } else {
+            startingTimeDatePicker.isEnabled = true
+            endingTimeDatePicker.isEnabled = true
+        }
+    }
+    
+    
+    
+    
+    
+//    @IBOutlet weak var name: UITextField!
+//    @IBOutlet weak var visibility: UISegmentedControl!
+//    @IBOutlet weak var startDate: UIDatePicker!
+//    @IBOutlet weak var endDate: UIDatePicker!
+//    @IBOutlet weak var mapView: MKMapView!
+//    @IBOutlet weak var scrollView: UIScrollView!
+//    @IBOutlet weak var rightLabel: UILabel!
+//    @IBOutlet weak var betweenLabel: UILabel!
+//    @IBOutlet weak var andLabel: UILabel!
+//    @IBOutlet weak var located: UISwitch!
     
     @IBAction func locatedChange(_ sender: UISwitch) {
         if sender.isOn { // If located
@@ -68,7 +83,7 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
             mapView.isHidden = true
         }
     }
-
+    
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let annotation = MKPointAnnotation()
@@ -78,22 +93,19 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        startDate.minimumDate = Date()
-        endDate.minimumDate = Date()
-        self.mapView.delegate = self
-        //scrollView.contentSize.height = 600
-    }
+    
     
     @IBAction func finish(_ sender: UIBarButtonItem) {
-        if self.name.text == "" {
+        guard self.name.text != "" else {
             self.showBasicAlert(title: "No Title", message: "Please give a name to your event.")
             return
-        } else if located.isOn && startDate.date >= endDate.date {
-                self.showBasicAlert(title: "Date contradiction", message: "The end date must be after the start date.")
-                return
+        }
+        
+        
+        
+        if located.isOn && startDate.date >= endDate.date {
+            self.showBasicAlert(title: "Date contradiction", message: "The end date must be after the start date.")
+            return
         }
         
         if let currentUser = Auth.auth().currentUser?.uid {
@@ -129,11 +141,4 @@ class CreateEventViewController: UIViewController, MKMapViewDelegate {
             
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
 }
