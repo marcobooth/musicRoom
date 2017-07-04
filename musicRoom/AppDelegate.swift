@@ -74,15 +74,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             // ...
             return
         }
-
+        print("in this thing")
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
         
         let vc = topViewController(from: self.window?.rootViewController)
+        // Teo: Second else does not get SettingsTableViewController, gets the MusicBarViewController
         if let vc = vc as? LoginViewController {
+            GIDSignIn.sharedInstance().signOut()
             vc.loginWithCredential(credential: credential)
         } else if let vc = vc as? SettingsTableViewController {
+            GIDSignIn.sharedInstance().signOut()
             vc.addSocialAccount(credential: credential)
         }
 

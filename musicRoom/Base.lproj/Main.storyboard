@@ -87,18 +87,18 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY" customClass="FBSDKLoginButton">
-                                <rect key="frame" x="62.5" y="471" width="250" height="70"/>
+                                <rect key="frame" x="87.5" y="471" width="200" height="43"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="GKU-tw-tHd"/>
-                                    <constraint firstAttribute="width" constant="250" id="Hbv-9Q-u1w"/>
+                                    <constraint firstAttribute="height" constant="43" id="GKU-tw-tHd"/>
+                                    <constraint firstAttribute="width" constant="200" id="Hbv-9Q-u1w"/>
                                 </constraints>
                                 <state key="normal" title="facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgq-bZ-RCA" customClass="TWTRLogInButton">
-                                <rect key="frame" x="87.5" y="549" width="200" height="43"/>
+                                <rect key="frame" x="87.5" y="522" width="200" height="43"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="20L-9s-bfa"/>
