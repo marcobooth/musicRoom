@@ -14,7 +14,7 @@ struct User {
     let playlists: [String:String]?
     let invitedPlaylists: [String:String]?
 
-    let events: [String:String]?
+    let events: [String: Any]?
     let invitedEvents: [String:String]?
     
     let friends: [String:String]?
@@ -50,7 +50,7 @@ struct User {
             }
             
             if let events = snapshotValue["invitedEvents"] {
-                if let events = events as? [String:String] {
+                if let events = events as? [String: String] {
                     checkInvitedEvents = events
                 }
             }

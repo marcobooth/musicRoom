@@ -16,6 +16,7 @@ struct Event {
     var endDate: UInt?
     var longitude: Double?
     var latitude: Double?
+    var radius: Int?
     var userIds: [String:Bool]?
     var tracks: [EventTrack]?
     var ref: DatabaseReference?
@@ -27,6 +28,7 @@ struct Event {
         self.endDate = nil
         self.longitude = nil
         self.latitude = nil
+        self.radius = nil
         self.userIds = nil
         self.ref = nil
         self.tracks = nil
@@ -70,9 +72,12 @@ struct Event {
             if let latitude = snapshotValue["latitude"] as? Double {
                 self.latitude = latitude
             }
+            if let radius = snapshotValue["radius"] as? Int {
+                self.radius = radius
+            }
+            
             self.ref = snapshot.ref
         }
-        
     }
     
     
@@ -94,15 +99,13 @@ struct Event {
         return self.tracks?.sorted { $0.vote > $1.vote } ?? []
     }
     
-    func check(location: CLLocation) -> Bool {
-        if let longitude = self.longitude, let latitude = self.latitude, let startDate = self.startDate, let endDate = self.endDate {
+    func checkDistance(location: CLLocation) -> Bool {
+        if let longitude = self.longitude, let latitude = self.latitude, let radius = self.radius {
             let eventLocation = CLLocation(latitude: latitude, longitude: longitude)
-            let currentDate = Date();
-            if location.distance(from: eventLocation) < 500 {
-                if startDate.toDate() < currentDate && currentDate < endDate.toDate() {
-                    return true
-                } else {return false}
-            } else {return false }
-        } else { return true }
+            
+            return location.distance(from: eventLocation) < Double(radius)
+        }
+        
+        return true
     }
 }
