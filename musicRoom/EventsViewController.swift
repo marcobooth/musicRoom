@@ -16,14 +16,12 @@ class EventsTableViewController: UITableViewController {
     var allPrivateEvents = [Event]()
 
     // TODO: need to be able to tell publicOrPrivate here
-    var userEvents: [(uid: String, name: String)]?
     var privateEvents: [(uid: String, name: String)]?
     var publicEvents: [(uid: String, name: String)]?
     var selectedEvent: (uid: String, name: String, publicOrPrivate: String)?
 
     var userRef: DatabaseReference?
-    var publicEventRef: DatabaseReference?
-    var privateEventRef: DatabaseReference?
+    var publicEventsRef: DatabaseReference?
     
     var userHandle: UInt?
     var publicEventsHandle: UInt?
@@ -31,13 +29,14 @@ class EventsTableViewController: UITableViewController {
     let locationManager = CLLocationManager()
     var locationReceivedOnce = false
     
+    // MARK: lifecycle
+    
     override func viewDidLoad() {
         if let userId = Auth.auth().currentUser?.uid {
             self.userRef = Database.database().reference(withPath: "users/" + userId)
         }
         
-        self.publicEventRef = Database.database().reference(withPath: "events/public")
-        self.privateEventRef = Database.database().reference(withPath: "events/private")
+        self.publicEventsRef = Database.database().reference(withPath: "events/public")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,64 +52,32 @@ class EventsTableViewController: UITableViewController {
         self.userHandle = self.userRef?.observe(.value, with: { snapshot in
             let user = User(snapshot: snapshot)
             
-            // if user is the owner of a private event, it is always shown
-//            self.userEvents = user.events
-            
-            
-            
-            
-            
-            
-//            var events = [(uid: String, name: String)]()
-//            self.allPrivateEvents = []
-//            
-//            
-//            if let userEvents = user.events {
-//                for event in userEvents {
-//                    self.privateEventRef.child(event.key).observeSingleEvent(of: .value, with: { snapshot in
-//                        self.allPrivateEvents.append(Event(snapshot: snapshot))
-//                    })
-//                    events.append((uid: "private/" + event.key, name: event.value))
-//                }
-//            }
-//            
-//            // if user is in the the event, check if it's in the correct location before showing it
-//            if let invitedEvents = user.invitedEvents {
-//                for event in invitedEvents {
-//                    self.privateEventRef.child(event.key).observeSingleEvent(of: .value, with: { snapshot in
-//                        let eventToCheck = Event(snapshot: snapshot)
-//                        self.allPrivateEvents.append(eventToCheck)
-//                        if let location = self.locationManager.location {
-//                            if eventToCheck.checkLocation(location: location) == true || eventToCheck.createdBy == Auth.auth().currentUser?.uid {
-//                                events.append((uid: "private/" + event.key, name: event.value))
-//                            }
-//                        }
-//                    })
-//                }
-//            }
+            self.privateEvents = user.events?.map { element in (uid: element.key, name: element.value) }
         })
-
-//        publicEventsHandle = self.publicEventRef.observe(.value, with: { snapshot in
-//            var events = [(uid: String, name: String)]()
-//            self.allPublicEvents.removeAll()
-//            
-//            for snap in snapshot.children {
-//                let event = Event(snapshot: (snap as? DataSnapshot)!)
-//                self.allPublicEvents.append(event)
-//                if let location = self.locationManager.location {
-//                    if event.checkLocation(location: location) == true || event.createdBy == Auth.auth().currentUser?.uid {
-//                        events.append((uid: "public/" + (event.ref?.key)!, name: event.name))
-//                    }
-//                }
-//            }
-//            self.publicEvents = events
-//            if self.selector.selectedSegmentIndex == 0 {
-//                self.eventsToShow = self.publicEvents
-//                self.tableView.reloadData()
-//            }
-//            
-//            
-//        })
+        
+        self.publicEventsHandle = self.publicEventsRef?.observe(.value, with: { snapshot in
+            var events = [(uid: String, name: String)]()
+            
+            for snap in snapshot.children {
+                if let snap = snap as? DataSnapshot {
+                    let event = Event(snapshot: snap)
+                    events.append((uid: ""))
+                }
+                
+            }
+        })
+        
+        publicPlaylistHandle = self.publicPlaylistRef?.observe(.value, with: { snapshot in
+            var playlists = [(uid: String, name: String)]()
+            
+            for snap in snapshot.children {
+                let playlist = Playlist(snapshot: snap as! DataSnapshot)
+                playlists.append((uid: "public/" + (playlist.ref?.key)!, name: playlist.name))
+            }
+            
+            self.publicPlaylists = playlists
+            self.tableView.reloadData()
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -123,8 +90,8 @@ class EventsTableViewController: UITableViewController {
         if let handle = self.userHandle {
             self.userRef?.removeObserver(withHandle: handle)
         }
-        if let handle = self.userHandle {
-            self.publicEventRef?.removeObserver(withHandle: handle)
+        if let handle = self.publicEventsHandle {
+            self.publicEventsRef?.removeObserver(withHandle: handle)
         }
     }
     
@@ -142,82 +109,79 @@ class EventsTableViewController: UITableViewController {
     
     // MARK: tableView
     
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if section == 0 {
-//            return "Private playlists"
-//        } else if section == 1 {
-//            return "Public playlists"
-//        }
-//        
-//        return nil
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if let playlists = eventsForSection(section: section) {
-//            return playlists.count
-//        }
-//        
-//        return 1
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "playlistCell", for: indexPath)
-//        
-//        let playlists = eventsForSection(section: indexPath.section)
-//        
-//        if let playlists = playlists, playlists.count > 0 {
-//            cell.textLabel?.text = playlists[indexPath.row].1
-//        } else {
-//            if indexPath.section == 0 {
-//                cell.textLabel?.text = "No private playlists yet..."
-//            } else if indexPath.section == 1 {
-//                cell.textLabel?.text = "No public playlists yet..."
-//            }
-//            
-//            cell.selectionStyle = UITableViewCellSelectionStyle.none
-//        }
-//        
-//        return cell
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-//        var playlists: [(uid: String, name: String)]?
-//        
-//        if indexPath.section == 0 {
-//            playlists = self.privatePlaylists
-//        } else if indexPath.section == 1 {
-//            playlists = self.publicPlaylists
-//        }
-//        
-//        if let playlists = playlists {
-//            let playlist = playlists[indexPath.row]
-//            let publicOrPrivate = indexPath.section == 0 ? "private" : "public"
-//            
-//            self.selectedPlaylist = (playlist.uid, playlist.name, publicOrPrivate)
-//        }
-//        
-//        self.performSegue(withIdentifier: "showPlaylist", sender: self)
-//        
-//        
-//        
-//        
-//        self.selectedEvent = self.eventsToShow[indexPath.row - 1]
-//        self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
-//    }
-//    
-//    private func eventsForSection(section: Int) -> [(uid: String, name: String)]? {
-//        if section == 0 {
-//            return self.privateEvents
-//        } else if section == 1 {
-//            return self.publicEvents
-//        }
-//        
-//        return nil
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Private events"
+        } else if section == 1 {
+            return "Public events"
+        }
+        
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let playlists = eventsForSection(section: section) {
+            return playlists.count
+        }
+        
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "playlistCell", for: indexPath)
+
+        if let playlists = eventsForSection(section: indexPath.section), playlists.count > 0 {
+            cell.textLabel?.text = playlists[indexPath.row].1
+        } else {
+            if indexPath.section == 0 {
+                cell.textLabel?.text = "No private events yet..."
+            } else if indexPath.section == 1 {
+                cell.textLabel?.text = "No public events yet..."
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+        }
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        var playlists: [(uid: String, name: String)]?
+        
+        if indexPath.section == 0 {
+            playlists = self.privatePlaylists
+        } else if indexPath.section == 1 {
+            playlists = self.publicPlaylists
+        }
+        
+        if let playlists = playlists {
+            let playlist = playlists[indexPath.row]
+            let publicOrPrivate = indexPath.section == 0 ? "private" : "public"
+            
+            self.selectedPlaylist = (playlist.uid, playlist.name, publicOrPrivate)
+        }
+        
+        self.selectedEvent = self.eventsToShow[indexPath.row - 1]
+        self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
+    }
+    
+    // MARK: helpers
+    
+    private func eventsForSection(section: Int) -> [(uid: String, name: String)]? {
+        if section == 0 {
+            return self.userEvents
+        } else if section == 1 {
+            return self.privateEvents
+        } else if section == 2 {
+            return self.publicEvents
+        }
+        
+        return nil
+    }
     
 }
 
