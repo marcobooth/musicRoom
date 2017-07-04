@@ -10,14 +10,17 @@ import UIKit
 import GoogleSignIn
 import FBSDKLoginKit
 
-class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
+class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, FBSDKLoginButtonDelegate {
     
     @IBOutlet weak var deezerSignInButton: UIButton!
     @IBOutlet weak var googleSignInButton: GIDSignInButton!
-    @IBOutlet weak var facebookSignInButton: UIButton!
+    @IBOutlet weak var facebookSignInButton: FBSDKLoginButton!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var submitUsername: UIButton!
     @IBOutlet weak var manageFriends: UIButton!
+    @IBOutlet weak var deezerLabel: UILabel!
+    @IBOutlet weak var facebookLabel: UILabel!
+    @IBOutlet weak var googleLabel: UILabel!
     
     var usernameRef: DatabaseReference!
     var handle: UInt!
@@ -26,8 +29,18 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
         super.viewDidLoad()
         
         self.usernameRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)! + "/username")
-        self.googleSignInButton.style = GIDSignInButtonStyle(rawValue: 2)!
+        
+        if let buttonStyle = GIDSignInButtonStyle(rawValue: 1) {
+            self.googleSignInButton.style = buttonStyle
+        }
+        
         self.updateAccountsView()
+        
+        self.facebookSignInButton.delegate = self
+        self.facebookSignInButton.readPermissions = ["public_profile"]
+        
+        self.facebookLabel.isHidden = true
+        self.googleLabel.isHidden = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -72,25 +85,34 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
 
     
     @IBAction func loginToDeezer(_ sender: UIButton) {
+        // ASK Teo: call function after return from this async call. Potentially add a spinner
         DeezerSession.sharedInstance.deezerConnect?.authorize([DeezerConnectPermissionBasicAccess, DeezerConnectPermissionManageLibrary])
     }
     
-    @IBAction func linkFacebook(_ sender: UIButton) {
-        let login = FBSDKLoginManager()
-        login.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
-            if error != nil || result?.token == nil {
-                print("error adding facebook", error.debugDescription)
-                return
-            }
-            let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        guard error == nil && result.isCancelled == false else {
+            print(error ?? "no error")
+            return
+        }
+        
+        // current and tokenString both have ! - ??
+        if let token = FBSDKAccessToken.current().tokenString {
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            FBSDKLoginManager().logOut()
             self.addSocialAccount(credential: credential)
         }
     }
     
+    public func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
     func addSocialAccount(credential : AuthCredential) {
+        print("trying to add account", credential)
         Auth.auth().currentUser?.link(with: credential, completion: { user, error in
             if error != nil {
-                self.showBasicAlert(title: "Account not linked", message: error.debugDescription)
+                print("Error", error.debugDescription)
+                self.showBasicAlert(title: "Account not linked", message: "This credential is already associated with a different user account")
             } else {
                 self.updateAccountsView()
             }
@@ -101,19 +123,23 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
         guard let user = Auth.auth().currentUser else {
             return
         }
-        
+
         if DeezerSession.sharedInstance.deezerConnect?.userId != nil {
-            self.deezerSignInButton.titleLabel?.text = "Account added"
-            self.deezerSignInButton.isEnabled = false
-            self.deezerSignInButton.setTitleColor(UIColor.gray, for: .disabled)
+            self.deezerSignInButton.isHidden = true
+            self.deezerLabel.isHidden = false
+        } else {
+            self.deezerLabel.isHidden = true
+            self.deezerSignInButton.isHidden = false
         }
         
         for provider in user.providerData {
             if provider.providerID == "facebook.com" {
                 self.facebookSignInButton.isHidden = true
+                self.facebookLabel.isHidden = false
             }
             if provider.providerID == "google.com" {
                 self.googleSignInButton.isHidden = true
+                self.googleLabel.isHidden = false
             }
         }
     }
@@ -121,6 +147,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate {
     @IBAction func logout(_ sender: UIButton) {
         // TODO: make sure all accounts are logged out
         do {
+            GIDSignIn.sharedInstance().signOut()
             FBSDKLoginManager().logOut()
             try Auth.auth().signOut()
             self.performSegue(withIdentifier: "signOut", sender: self)

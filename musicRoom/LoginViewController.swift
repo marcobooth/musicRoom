@@ -25,15 +25,14 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButt
         super.viewDidLoad()
         self.loginButton.layer.cornerRadius = 5
         
-        self.signInButton.style = GIDSignInButtonStyle(rawValue: 1)!
+        if let buttonStyle = GIDSignInButtonStyle(rawValue: 1) {
+            self.signInButton.style = buttonStyle
+        }
         
         self.facebookLoginButton.delegate = self
         self.facebookLoginButton.readPermissions = ["public_profile"]
-        if FBSDKAccessToken.current() != nil {
-            print("token is not nil")
-        } else {
-            print("token is nil")
-        }
+        
+        setTwitterLoginCompletion()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,8 +46,27 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButt
         }
         
         GIDSignIn.sharedInstance().uiDelegate = self
-        
-        twitterLoginButton.logInCompletion = { session, error in
+    }
+    
+    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        guard error == nil && result.isCancelled == false else {
+            print(error ?? "no error")
+            return
+        }
+
+        if let token = FBSDKAccessToken.current().tokenString {
+            let credential = FacebookAuthProvider.credential(withAccessToken: token)
+            FBSDKLoginManager().logOut()
+            self.loginWithCredential(credential: credential)
+        }
+    }
+    
+    public func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("logging out")
+    }
+    
+    func setTwitterLoginCompletion() {
+        self.twitterLoginButton.logInCompletion = { session, error in
             guard error == nil else {
                 print("Twitter error", error ?? "unkown error")
                 return
@@ -59,22 +77,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButt
                 self.loginWithCredential(credential: credential)
             }
         }
-    }
-    
-    public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        guard error == nil else {
-            print(error ?? "no error")
-            return
-        }
-        
-        if let token = FBSDKAccessToken.current().tokenString {
-            let credential = FacebookAuthProvider.credential(withAccessToken: token)
-            self.loginWithCredential(credential: credential)
-        }
-    }
-    
-    public func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        print("also hello from here")
     }
     
     @IBAction func hitEnterKey(_ sender: UITextField) {
@@ -114,9 +116,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButt
     @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
         print("I'm back")
     }
-}
-
-extension LoginViewController {
+    
     func showEmailAlert(title : String, message : String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
 

@@ -16,6 +16,7 @@ class MusicBarViewController: UIViewController, DZRPlayerDelegate {
     private var refPath: String?
     private var ref: DatabaseReference?
     private var playableHandle: UInt?
+    @IBOutlet weak var containerView: UIView!
     
     private var tracks: [Track] = []
     private var currentIndex: Int = 0

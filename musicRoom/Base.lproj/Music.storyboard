@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FjF-9F-qjF" id="kaJ-p8-OGu">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1K-oO-Ojf">
@@ -117,11 +117,11 @@
                         <sections>
                             <tableViewSection headerTitle="Accounts" id="KUd-mw-xwN">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="nCX-x9-uES">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="nCX-x9-uES">
+                                        <rect key="frame" x="0.0" y="56" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCX-x9-uES" id="wjT-TJ-AM3">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Deezer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6p-oH-ZIa">
@@ -132,21 +132,28 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSf-Kh-bf4">
-                                                    <rect key="frame" x="259" y="6" width="108" height="30"/>
+                                                    <rect key="frame" x="259" y="7" width="108" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Login to Deezer"/>
                                                     <connections>
                                                         <action selector="loginToDeezer:" destination="79v-9w-h1p" eventType="touchUpInside" id="7d8-1y-Ef2"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Account added" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Yy-Uu-lV9">
+                                                    <rect key="frame" x="250" y="11" width="117" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="eAn-q7-gNe">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="eAn-q7-gNe">
+                                        <rect key="frame" x="0.0" y="106" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eAn-q7-gNe" id="upj-iq-Pmb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9Y-Fe-23M">
@@ -156,22 +163,36 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k1Y-PJ-Xhw" customClass="FBSDKLoginButton">
-                                                    <rect key="frame" x="199" y="9" width="168" height="24"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Account added" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GFr-8m-984">
+                                                    <rect key="frame" x="250" y="11" width="117" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1Y-PJ-Xhw" customClass="FBSDKLoginButton">
+                                                    <rect key="frame" x="199" y="11" width="168" height="30"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="168" id="a5a-f4-Btv"/>
+                                                    </constraints>
                                                     <connections>
                                                         <action selector="linkFacebook:" destination="79v-9w-h1p" eventType="valueChanged" id="y43-f0-ZMF"/>
                                                     </connections>
                                                 </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="k1Y-PJ-Xhw" secondAttribute="bottom" constant="0.5" id="LjM-qi-27Y"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="k1Y-PJ-Xhw" secondAttribute="trailing" id="Qeb-go-sfd"/>
+                                                <constraint firstItem="k1Y-PJ-Xhw" firstAttribute="top" secondItem="upj-iq-Pmb" secondAttribute="topMargin" constant="3" id="dzN-3s-46c"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oot-6p-cEz">
-                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="oot-6p-cEz">
+                                        <rect key="frame" x="0.0" y="156" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oot-6p-cEz" id="gFj-aj-rbn">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Google" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfk-F9-8y5">
@@ -181,12 +202,26 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gGf-qJ-cRP" customClass="GIDSignInButton">
-                                                    <rect key="frame" x="199" y="4" width="168" height="31"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Account added" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kaa-W7-D3a">
+                                                    <rect key="frame" x="250" y="11" width="117" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGf-qJ-cRP" customClass="GIDSignInButton">
+                                                    <rect key="frame" x="199" y="10" width="168" height="40"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="168" id="ex6-Bo-atm"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="gGf-qJ-cRP" secondAttribute="bottom" constant="1.5" id="7QB-K7-me7"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="gGf-qJ-cRP" secondAttribute="trailing" id="SwX-ez-PL2"/>
+                                                <constraint firstItem="gGf-qJ-cRP" firstAttribute="top" secondItem="gFj-aj-rbn" secondAttribute="topMargin" constant="2" id="WW0-fX-7Rw"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -194,10 +229,10 @@
                             <tableViewSection headerTitle="Friends" id="aEw-Ov-e5J">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zZb-rD-R7k">
-                                        <rect key="frame" x="0.0" y="244" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="272" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zZb-rD-R7k" id="YJx-4b-h7n">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Create a Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="seE-5e-0gc">
@@ -223,10 +258,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Kfc-ce-rBP">
-                                        <rect key="frame" x="0.0" y="288" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="316" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kfc-ce-rBP" id="Qd4-I9-h39">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F4g-c0-HfU">
@@ -245,10 +280,10 @@
                             <tableViewSection headerTitle="Logout" id="qPD-bs-kOH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HP9-eN-TKx">
-                                        <rect key="frame" x="0.0" y="388" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="416" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HP9-eN-TKx" id="6lu-7e-EZ5">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bz4-uC-iHh">
@@ -274,8 +309,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="79P-o0-qJg"/>
                     <connections>
+                        <outlet property="deezerLabel" destination="6Yy-Uu-lV9" id="wuh-Ag-URI"/>
                         <outlet property="deezerSignInButton" destination="DSf-Kh-bf4" id="gfg-q2-CiT"/>
+                        <outlet property="facebookLabel" destination="GFr-8m-984" id="nDz-M1-fXJ"/>
                         <outlet property="facebookSignInButton" destination="k1Y-PJ-Xhw" id="hsZ-ho-fzk"/>
+                        <outlet property="googleLabel" destination="Kaa-W7-D3a" id="Pap-Lq-fPh"/>
                         <outlet property="googleSignInButton" destination="gGf-qJ-cRP" id="i1e-wm-h51"/>
                         <outlet property="manageFriends" destination="F4g-c0-HfU" id="2Ez-tY-21e"/>
                         <outlet property="submitUsername" destination="3Qa-VA-UJc" id="rc4-3M-BzB"/>
@@ -292,7 +330,7 @@
         <scene sceneID="4wk-O6-Huz">
             <objects>
                 <navigationController title="Events" id="jwx-b5-o9t" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Events" image="accept" id="Xus-P6-kep"/>
+                    <tabBarItem key="tabBarItem" title="Events" image="events" id="Xus-P6-kep"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="MmN-PM-0U2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -318,7 +356,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aTk-qf-tT0" id="hBS-3j-cch">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ViB-yh-noK">
@@ -1083,6 +1121,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="Ast-c8-9sR" id="FgB-dy-8HR"/>
                         <outlet property="nowPlayingText" destination="bmY-0d-ktv" id="O5i-G6-yu8"/>
                     </connections>
                 </viewController>
@@ -1113,7 +1152,7 @@
         <scene sceneID="Wxn-v3-SS6">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zl1-0u-8Rg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Playlists" image="cancel" id="emG-Uo-E9f"/>
+                    <tabBarItem key="tabBarItem" title="Playlists" image="playlist" id="emG-Uo-E9f"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gep-T1-PUo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1132,7 +1171,7 @@
         <scene sceneID="NnQ-ez-BNM">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ioj-8Z-sC7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" id="Ifw-LE-RKp"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="Ifw-LE-RKp"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yqr-3E-85Z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1152,7 +1191,10 @@
         <image name="accept" width="30" height="30"/>
         <image name="cancel" width="30" height="30"/>
         <image name="locationMarker" width="50" height="50"/>
+        <image name="events" width="30" height="30"/>
+        <image name="playlist" width="30" height="30"/>
         <image name="plus" width="30" height="30"/>
+        <image name="settings" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="3Dr-1W-PGZ"/>
