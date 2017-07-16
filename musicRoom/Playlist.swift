@@ -70,5 +70,4 @@ struct Playlist {
             "createdBy": createdBy,
         ]
     }
-    
 }

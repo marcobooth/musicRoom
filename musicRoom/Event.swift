@@ -19,7 +19,7 @@ struct Event {
     var radius: Int?
     var userIds: [String:Bool]?
     var tracks: [EventTrack]?
-    var ref: DatabaseReference?
+    var uid: String = ""
     
     init(name: String, userId: String) {
         self.name = name
@@ -30,7 +30,6 @@ struct Event {
         self.latitude = nil
         self.radius = nil
         self.userIds = nil
-        self.ref = nil
         self.tracks = nil
     }
     
@@ -38,7 +37,6 @@ struct Event {
         self.name = ""
         self.createdBy = ""
         self.userIds = nil
-        self.ref = nil
         self.startDate = nil
         self.endDate = nil
         self.longitude = nil
@@ -76,8 +74,10 @@ struct Event {
                 self.radius = radius
             }
             
-            self.ref = snapshot.ref
+            
         }
+        
+        self.uid = snapshot.ref.key
     }
     
     
@@ -85,12 +85,13 @@ struct Event {
         return [
             "name": name,
             "createdBy": createdBy,
-            "tracks": tracks as Any,
             "startDate": startDate as Any,
             "endDate": endDate as Any,
             "longitude": longitude as Any,
             "latitude": latitude as Any,
+            "radius": radius as Any,
             "userIds": userIds as Any,
+            "tracks": tracks as Any,
         ]
     }
     
@@ -99,7 +100,7 @@ struct Event {
         return self.tracks?.sorted { $0.vote > $1.vote } ?? []
     }
     
-    func checkDistance(location: CLLocation) -> Bool {
+    func closeEnough(to location: CLLocation) -> Bool {
         if let longitude = self.longitude, let latitude = self.latitude, let radius = self.radius {
             let eventLocation = CLLocation(latitude: latitude, longitude: longitude)
             

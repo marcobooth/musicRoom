@@ -1,5 +1,5 @@
 //
-//  EventCellTableViewCell.swift
+//  EventTrackTableViewCell.swift
 //  musicRoom
 //
 //  Created by Antoine LEBLANC on 6/26/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventCellTableViewCell: UITableViewCell {
+class EventTrackTableViewCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var artist: UILabel!

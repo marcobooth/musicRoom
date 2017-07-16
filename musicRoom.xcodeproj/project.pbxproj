@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		123AAD001EFD443300D9F98D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123AACFF1EFD443200D9F98D /* Event.swift */; };
-		126FDB7C1F01468B00452C95 /* EventCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126FDB7A1F01468B00452C95 /* EventCellTableViewCell.swift */; };
-		126FDB7D1F01468B00452C95 /* EventCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 126FDB7B1F01468B00452C95 /* EventCellTableViewCell.xib */; };
 		12A29F6D1F039EB60078E2D1 /* InviteFriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */; };
 		12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */; };
 		12A29F721F03B68F0078E2D1 /* AddFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */; };
@@ -50,13 +48,13 @@
 		3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */; };
 		3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80141F0442DC00DA82F3 /* TrackList.swift */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
+		3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */; };
+		3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		123AACFF1EFD443200D9F98D /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		126FDB7A1F01468B00452C95 /* EventCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCellTableViewCell.swift; sourceTree = "<group>"; };
-		126FDB7B1F01468B00452C95 /* EventCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCellTableViewCell.xib; sourceTree = "<group>"; };
 		12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsTableViewController.swift; sourceTree = "<group>"; };
 		12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendsTableViewCell.xib; sourceTree = "<group>"; };
@@ -131,6 +129,8 @@
 		3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
 		3E2F80141F0442DC00DA82F3 /* TrackList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTrackTableViewCell.swift; sourceTree = "<group>"; };
+		3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTrackTableViewCell.xib; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
 		CC63330E3D286E52158C924D /* Pods_musicRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_musicRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -167,8 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				12AD26D91EFD1091004913F8 /* EventsViewController.swift */,
-				126FDB7A1F01468B00452C95 /* EventCellTableViewCell.swift */,
-				126FDB7B1F01468B00452C95 /* EventCellTableViewCell.xib */,
+				3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */,
+				3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */,
 				3E09ECEB1F0A9727008FE113 /* EventTracklistViewController.swift */,
 				3E09ECED1F0ABD35008FE113 /* CreateEventTableViewController.swift */,
 			);
@@ -416,7 +416,7 @@
 				2C9C54521EED743B001F77E3 /* Music.storyboard in Resources */,
 				3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */,
 				12B5DAA51F0235F700FC8149 /* GoogleService-Info.plist in Resources */,
-				126FDB7D1F01468B00452C95 /* EventCellTableViewCell.xib in Resources */,
+				3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */,
 				12A29F721F03B68F0078E2D1 /* AddFriendsTableViewCell.xib in Resources */,
 				2CBC29D01EEFE2D5007A907F /* DZRResources.bundle in Resources */,
 				2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */,
@@ -497,13 +497,13 @@
 				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
 				3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */,
 				3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */,
-				126FDB7C1F01468B00452C95 /* EventCellTableViewCell.swift in Sources */,
 				12FD073E1F05301E00E080F0 /* EventTrack.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
 				2CA169351F03EAD50070F941 /* SettingsTableViewController.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,
 				3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */,
+				3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */,
 				2CA169301F0396B40070F941 /* Alert.swift in Sources */,
 				12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */,
 				12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */,

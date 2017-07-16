@@ -291,16 +291,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventCell" id="aTk-qf-tT0">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventCell" textLabel="ViB-yh-noK" style="IBUITableViewCellStyleDefault" id="aTk-qf-tT0">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aTk-qf-tT0" id="hBS-3j-cch">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ViB-yh-noK">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="03x-OM-hWV" kind="show" identifier="eventTracklistSegue" id="Wk0-nw-QeY"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -317,6 +323,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="blM-gt-Hfs" id="MUI-2Y-o0q"/>
+                        <segue destination="03x-OM-hWV" kind="show" identifier="eventTracklistSegue" id="fVo-ur-wfc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="veC-qN-jQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -341,6 +348,10 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="zii-F1-Sky"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="03x-OM-hWV" id="2VF-P4-nbS"/>
+                                    <outlet property="delegate" destination="03x-OM-hWV" id="i1f-h4-C78"/>
+                                </connections>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="SCo-15-lC8">
                                 <rect key="frame" x="24" y="72" width="327" height="30"/>
@@ -364,6 +375,7 @@
                             <constraint firstItem="5dP-4O-A0T" firstAttribute="centerX" secondItem="fZU-ki-kxX" secondAttribute="centerX" id="1dy-Lk-Y7X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SCo-15-lC8" secondAttribute="trailing" constant="8" id="4Mf-CW-itW"/>
                             <constraint firstItem="SCo-15-lC8" firstAttribute="top" secondItem="ZNv-fx-TPN" secondAttribute="bottom" constant="8" id="CJl-lS-Gxc"/>
+                            <constraint firstItem="5dP-4O-A0T" firstAttribute="width" secondItem="fZU-ki-kxX" secondAttribute="width" id="Iab-Fh-oKq"/>
                             <constraint firstItem="5dP-4O-A0T" firstAttribute="top" secondItem="SCo-15-lC8" secondAttribute="bottom" constant="8" id="Saf-Yd-xZo"/>
                             <constraint firstItem="SCo-15-lC8" firstAttribute="leading" secondItem="fZU-ki-kxX" secondAttribute="leadingMargin" constant="8" id="VSu-q3-42X"/>
                             <constraint firstItem="AiZ-hv-TOM" firstAttribute="top" secondItem="5dP-4O-A0T" secondAttribute="bottom" constant="8" id="glt-NX-l5p"/>
@@ -1120,7 +1132,7 @@
         <image name="plus" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b4K-nm-Z5y"/>
-        <segue reference="Qgu-wg-fJf"/>
+        <segue reference="3Dr-1W-PGZ"/>
+        <segue reference="Xf5-jA-VtS"/>
     </inferredMetricsTieBreakers>
 </document>
