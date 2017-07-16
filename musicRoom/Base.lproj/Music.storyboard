@@ -22,41 +22,58 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aen-wG-zTe">
-                                <rect key="frame" x="16" y="72" width="343" height="538"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="42" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aen-wG-zTe">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" id="FjF-9F-qjF" customClass="FriendTableViewCell" customModule="musicRoom" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" rowHeight="42" id="FjF-9F-qjF" customClass="FriendTableViewCell" customModule="musicRoom" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FjF-9F-qjF" id="kaJ-p8-OGu">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="41.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1K-oO-Ojf">
-                                                    <rect key="frame" x="298" y="10" width="25" height="25"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1K-oO-Ojf">
+                                                    <rect key="frame" x="342" y="8.5" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="ZPp-Bm-T7Q"/>
+                                                        <constraint firstAttribute="height" constant="25" id="nnV-cK-LgO"/>
+                                                    </constraints>
                                                     <state key="normal" title="Add Friend" image="plus"/>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zz5-Hz-vxW">
-                                                    <rect key="frame" x="274" y="10" width="25" height="25"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zz5-Hz-vxW">
+                                                    <rect key="frame" x="342" y="8.5" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="iyZ-id-mcV"/>
+                                                        <constraint firstAttribute="width" constant="25" id="xtZ-CD-eJ6"/>
+                                                    </constraints>
                                                     <state key="normal" title="Accept" image="accept"/>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Alg-Ie-l1O">
-                                                    <rect key="frame" x="298" y="10" width="25" height="25"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Reject" image="cancel"/>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYT-OV-qo4">
-                                                    <rect key="frame" x="29" y="11" width="76" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYT-OV-qo4">
+                                                    <rect key="frame" x="8" y="10.5" width="76" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Alg-Ie-l1O">
+                                                    <rect key="frame" x="309" y="8.5" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="Bed-zk-oyw"/>
+                                                        <constraint firstAttribute="width" constant="25" id="bpo-z5-7kG"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Reject" image="cancel"/>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Zz5-Hz-vxW" firstAttribute="centerY" secondItem="kaJ-p8-OGu" secondAttribute="centerY" id="0VT-Jy-bVX"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="h1K-oO-Ojf" secondAttribute="trailing" id="93K-Ph-vay"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Zz5-Hz-vxW" secondAttribute="trailing" id="9SG-cf-sYi"/>
+                                                <constraint firstItem="Alg-Ie-l1O" firstAttribute="centerY" secondItem="kaJ-p8-OGu" secondAttribute="centerY" id="Aoi-dD-Pid"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="XYT-OV-qo4" secondAttribute="leading" id="D7C-yH-9Xw"/>
+                                                <constraint firstItem="Zz5-Hz-vxW" firstAttribute="leading" secondItem="Alg-Ie-l1O" secondAttribute="trailing" constant="8" id="Dck-RY-S7m"/>
+                                                <constraint firstItem="h1K-oO-Ojf" firstAttribute="centerY" secondItem="kaJ-p8-OGu" secondAttribute="centerY" id="cTG-5C-2YN"/>
+                                                <constraint firstItem="XYT-OV-qo4" firstAttribute="centerY" secondItem="kaJ-p8-OGu" secondAttribute="centerY" id="yIc-Oa-ltI"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="accept" destination="Zz5-Hz-vxW" id="Q6E-d7-LZP"/>
@@ -73,6 +90,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PNh-EU-8pb" firstAttribute="top" secondItem="aen-wG-zTe" secondAttribute="bottom" id="Hp2-iX-4Gn"/>
+                            <constraint firstItem="aen-wG-zTe" firstAttribute="width" secondItem="yVF-jZ-mhu" secondAttribute="width" id="cN7-1V-8ia"/>
+                            <constraint firstItem="aen-wG-zTe" firstAttribute="centerX" secondItem="yVF-jZ-mhu" secondAttribute="centerX" id="gSR-10-hfw"/>
+                            <constraint firstItem="aen-wG-zTe" firstAttribute="top" secondItem="5Mp-8c-fsg" secondAttribute="bottom" id="p6k-8l-lSc"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Friends" id="r4C-62-14h"/>
                     <connections>
