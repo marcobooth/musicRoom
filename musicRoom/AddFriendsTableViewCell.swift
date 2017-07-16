@@ -1,21 +1,17 @@
 //
-//  EventCellTableViewCell.swift
+//  AddFriendsTableViewCell.swift
 //  musicRoom
 //
-//  Created by Antoine LEBLANC on 6/26/17.
+//  Created by Antoine LEBLANC on 6/28/17.
 //  Copyright © 2017 Marco BOOTH. All rights reserved.
 //
 
 import UIKit
 
-class EventCellTableViewCell: UITableViewCell {
+class AddFriendsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var artist: UILabel!
-    @IBOutlet weak var nbVote: UILabel!
-    @IBOutlet weak var upVote: UIButton!
-    @IBOutlet weak var downVote: UIButton!
-    
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var friend: UISwitch!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,4 +23,5 @@ class EventCellTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 }

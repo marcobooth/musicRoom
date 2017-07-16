@@ -10,25 +10,35 @@ import UIKit
 import Firebase
 import CoreLocation
 
-class EventsTableViewController: UITableViewController, CLLocationManagerDelegate {
+class EventsTableViewController: UITableViewController {
 
+    var privateEvents: [(uid: String, name: String)]?
+    var allPublicEvents: [Event]?
+    var publicEvents: [(uid: String, name: String)]?
+    var selectedEvent: (uid: String, name: String, publicOrPrivate: String)?
 
-    @IBOutlet weak var selector: UISegmentedControl!
-    var eventsToShow = [(uid: String, name: String)]()
-    var privateEvents = [(uid: String, name: String)]()
-    var publicEvents = [(uid: String, name: String)]()
-    var selectedEvent : (uid: String, name: String)?
-    let userRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
-    let publicEventRef = Database.database().reference(withPath: "events/public")
+    var userRef: DatabaseReference?
+    var publicEventsRef: DatabaseReference?
+    
+    var userHandle: UInt?
+    var publicEventsHandle: UInt?
+    
     let locationManager = CLLocationManager()
-    var handleUser: UInt!
-    var handlePublicEvents: UInt!
+    var lastKnownLocation: CLLocation?
+    
+    // MARK: lifecycle
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        if let userId = Auth.auth().currentUser?.uid {
+            self.userRef = Database.database().reference(withPath: "users/" + userId)
+        }
         
+        self.publicEventsRef = Database.database().reference(withPath: "events/public")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        // Start location
         if CLLocationManager.locationServicesEnabled() {
             self.locationManager.requestWhenInUseAuthorization()
             self.locationManager.delegate = self
@@ -36,108 +46,149 @@ class EventsTableViewController: UITableViewController, CLLocationManagerDelegat
             self.locationManager.startUpdatingLocation()
         }
         
-        DeezerSession.sharedInstance.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
-        DeezerSession.sharedInstance.setUp()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Observe private events
-        handleUser = self.userRef.observe(.value, with: { snapshot in
-            var events = [(uid: String, name: String)]()
-            
+        self.userHandle = self.userRef?.observe(.value, with: { snapshot in
             let user = User(snapshot: snapshot)
-            if let userEvents = user.events {
-                for event in userEvents {
-                    events.append((uid: "private/" + event.key, name: event.value))
-                }
-            }
             
-            if let invitedEvents = user.invitedEvents {
-                for event in invitedEvents {
-                    events.append((uid: "private/" + event.key, name: event.value))
-                }
-            }
-            
-            self.privateEvents = events
-            if self.selector.selectedSegmentIndex == 1 {
-                self.eventsToShow = self.privateEvents
-            }
-            self.tableView.reloadData()
+            self.privateEvents = user.events?.map { element in (uid: element.key, name: element.value) }
         })
         
-        // Observe public events
-        handlePublicEvents = self.publicEventRef.observe(.value, with: { snapshot in
-            var events = [(uid: String, name: String)]()
+        self.publicEventsHandle = self.publicEventsRef?.observe(.value, with: { snapshot in
+            var events = [Event]()
             
             for snap in snapshot.children {
-                let event = Event(snapshot: (snap as? DataSnapshot)!)
-                if let location = self.locationManager.location {
-                    if event.checkLocation(location: location) == true {
-                        events.append((uid: "public/" + (event.ref?.key)!, name: event.name))
-                    }
+                if let snap = snap as? DataSnapshot {
+                    let event = Event(snapshot: snap)
+                    
+                    // TODO: check location
+                    events.append(event)
                 }
             }
-            self.publicEvents = events
-            if self.selector.selectedSegmentIndex == 0 {
-                self.eventsToShow = self.publicEvents
-            }
-            self.tableView.reloadData()
+            
+            self.allPublicEvents = events
+            
+            self.refilterPublicEvents()
         })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // Remove listener with handle
-        self.userRef.removeObserver(withHandle: handleUser)
-        self.publicEventRef.removeObserver(withHandle: handlePublicEvents)
-    }
-    
-    @IBAction func selectorChange(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            eventsToShow = publicEvents
-            self.tableView.reloadData()
-        } else if sender.selectedSegmentIndex == 1 {
-            eventsToShow = privateEvents
-            self.tableView.reloadData()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.stopUpdatingLocation()
+        }
+
+        if let handle = self.userHandle {
+            self.userRef?.removeObserver(withHandle: handle)
+        }
+        if let handle = self.publicEventsHandle {
+            self.publicEventsRef?.removeObserver(withHandle: handle)
         }
     }
     
+    // MARK: segues
+    
+    @IBAction func unwindToEvents(segue: UIStoryboardSegue) {
+        print("I'm back in the events list")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "eventTracklistSegue", let destination = segue.destination as? EventTracklistViewController {
+            destination.eventUid = self.selectedEvent?.uid
+            destination.publicOrPrivate = self.selectedEvent?.publicOrPrivate
+        }
+    }
+    
+    // MARK: tableView
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Private events"
+        } else if section == 1 {
+            return "Public events"
+        }
+        
+        return nil
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.eventsToShow.count + 1
+        if let playlists = eventsForSection(section: section), playlists.count > 0 {
+            return playlists.count
+        }
+        
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath)
-        if indexPath.row == 0 {
-            cell.textLabel?.text = "Create Event"
+
+        if let playlists = eventsForSection(section: indexPath.section), playlists.count > 0 {
+            cell.textLabel?.text = playlists[indexPath.row].name
         } else {
-            cell.textLabel?.text = self.eventsToShow[indexPath.row - 1].1
+            if indexPath.section == 0 {
+                cell.textLabel?.text = "No private events yet..."
+            } else if indexPath.section == 1 {
+                if lastKnownLocation == nil {
+                    cell.textLabel?.text = "Waiting for location..."
+                } else {
+                    cell.textLabel?.text = "No public events yet..."
+                }
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
         }
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            self.performSegue(withIdentifier: "createEventSegue", sender: self)
-        } else {
-            self.selectedEvent = self.eventsToShow[indexPath.row - 1]
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let events = eventsForSection(section: indexPath.section), events.count > 0 {
+            let metadata = events[indexPath.row]
+            let publicOrPrivate = indexPath.section == 0 ? "private" : "public"
+            self.selectedEvent = (uid: metadata.uid, name: metadata.name, publicOrPrivate: publicOrPrivate)
+
             self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
         }
     }
     
-    @IBAction func unwindToEvents(segue: UIStoryboardSegue) {
-        print("I'm back")
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "eventTracklistSegue" {
-            let dest = segue.destination as! EventTracklistTableViewController
-            dest.path = self.selectedEvent?.uid
+    // MARK: helpers
+    
+    private func eventsForSection(section: Int) -> [(uid: String, name: String)]? {
+        if section == 0 {
+            return self.privateEvents
+        } else if section == 1 {
+            return self.publicEvents
         }
+        
+        return nil
     }
     
+    func refilterPublicEvents() {
+        guard let lastKnownLocation = self.lastKnownLocation else {
+            self.publicEvents = nil
+            return
+        }
+        
+        let closeEnough = self.allPublicEvents?.filter { event in
+            return event.closeEnough(to: lastKnownLocation)
+        }
+        
+        self.publicEvents = closeEnough?.map { event in
+            return (uid: event.uid, name: event.name)
+        }
+    }
+}
+
+extension EventsTableViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // unclear what the best practice is for getting the last known location (first? last? average? hum)
+        self.lastKnownLocation = locations.first
+        
+        self.refilterPublicEvents()
+        
+        self.tableView.reloadSections(IndexSet(integer: 1), with: .fade)
+    }
 }

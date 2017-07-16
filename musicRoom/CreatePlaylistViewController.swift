@@ -19,6 +19,7 @@ class CreatePlaylistViewController: UIViewController {
     }
     
     // TODO: Add multi-location call and error check
+    // TODO: improve UI
     @IBAction func createPlaylist(_ sender: UIButton) {
         print("createPlaylist")
         

@@ -12,13 +12,14 @@ import CoreLocation
 struct Event {
     var name: String
     var createdBy: String
-    var startDate: String?
-    var endDate: String?
+    var startDate: UInt?
+    var endDate: UInt?
     var longitude: Double?
     var latitude: Double?
+    var radius: Int?
     var userIds: [String:Bool]?
-    var deezerTrackIds: [String: String]?
-    var ref: DatabaseReference?
+    var tracks: [EventTrack]?
+    var uid: String = ""
     
     init(name: String, userId: String) {
         self.name = name
@@ -27,20 +28,20 @@ struct Event {
         self.endDate = nil
         self.longitude = nil
         self.latitude = nil
-        self.userIds = [userId : true]
-        self.ref = nil
+        self.radius = nil
+        self.userIds = nil
+        self.tracks = nil
     }
     
     init(snapshot: DataSnapshot) {
         self.name = ""
         self.createdBy = ""
-        self.deezerTrackIds = nil
         self.userIds = nil
-        self.ref = nil
         self.startDate = nil
         self.endDate = nil
         self.longitude = nil
         self.latitude = nil
+        self.tracks = nil
         
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
             if let name = snapshotValue["name"] as? String {
@@ -49,16 +50,18 @@ struct Event {
             if let createdBy = snapshotValue["createdBy"] as? String {
                 self.createdBy = createdBy
             }
-            if let deezerTrackIds = snapshotValue["deezerTrackIds"] as? [String: String] {
-                self.deezerTrackIds = deezerTrackIds
+            let trackDicts = snapshotValue["tracks"] as? [String: [String: AnyObject]]
+            if let trackDicts = trackDicts {
+                self.tracks = trackDicts.map { element in EventTrack(dict: element.value, trackKey: element.key) }
             }
-            if let userIds = snapshotValue["userIds"] as? [String:Bool] {
+            
+            if let userIds = snapshotValue["userIds"] as? [String: Bool] {
                 self.userIds = userIds
             }
-            if let startDate = snapshotValue["startDate"] as? String {
+            if let startDate = snapshotValue["startDate"] as? UInt {
                 self.startDate = startDate
             }
-            if let endDate = snapshotValue["endDate"] as? String {
+            if let endDate = snapshotValue["endDate"] as? UInt {
                 self.endDate = endDate
             }
             if let longitude = snapshotValue["longitude"] as? Double {
@@ -67,58 +70,43 @@ struct Event {
             if let latitude = snapshotValue["latitude"] as? Double {
                 self.latitude = latitude
             }
-            self.ref = snapshot.ref
+            if let radius = snapshotValue["radius"] as? Int {
+                self.radius = radius
+            }
+            
+            
         }
         
+        self.uid = snapshot.ref.key
     }
     
-    func toPublicObject() -> Any {
+    
+    func toDict() -> Any {
         return [
             "name": name,
             "createdBy": createdBy,
-            "deezerTrackIds": deezerTrackIds
+            "startDate": startDate as Any,
+            "endDate": endDate as Any,
+            "longitude": longitude as Any,
+            "latitude": latitude as Any,
+            "radius": radius as Any,
+            "userIds": userIds as Any,
+            "tracks": tracks as Any,
         ]
     }
     
-    func toPublicLocationObject() -> Any {
-        return [
-            "name": name,
-            "createdBy": createdBy,
-            "deezerTrackIds": deezerTrackIds,
-            "startDate": startDate,
-            "endDate": endDate,
-            "longitude": longitude,
-            "latitude": latitude
-        ]
+    func sortedTracks() -> [EventTrack] {
+        // TODO: should this be cached?
+        return self.tracks?.sorted { $0.vote > $1.vote } ?? []
     }
     
-    func toPublicInvitedObject() -> Any {
-        return [
-            "name": name,
-            "createdBy": createdBy,
-            "userIds" : userIds,
-            "deezerTrackIds": deezerTrackIds
-        ]
-    }
-    
-    func toPrivateObject() -> Any {
-        return [
-            "name": name,
-            "createdBy": createdBy,
-            "userIds" : userIds,
-            "deezerTrackIds": deezerTrackIds
-        ]
-    }
-    
-    func checkLocation(location: CLLocation) -> Bool {
-        if let longitude = self.longitude, let latitude = self.latitude, let startDate = self.startDate, let endDate = self.endDate {
+    func closeEnough(to location: CLLocation) -> Bool {
+        if let longitude = self.longitude, let latitude = self.latitude, let radius = self.radius {
             let eventLocation = CLLocation(latitude: latitude, longitude: longitude)
-            let currentDate = Date();
-            if location.distance(from: eventLocation) < 500 {
-                if startDate.toDate() < currentDate && currentDate < endDate.toDate() {
-                    return true
-                } else {return false}
-            } else {return false }
-        } else { return true }
+            
+            return location.distance(from: eventLocation) < Double(radius)
+        }
+        
+        return true
     }
 }

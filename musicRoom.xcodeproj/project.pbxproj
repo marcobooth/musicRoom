@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		123AAD001EFD443300D9F98D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123AACFF1EFD443200D9F98D /* Event.swift */; };
-		126FDB7C1F01468B00452C95 /* EventCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126FDB7A1F01468B00452C95 /* EventCellTableViewCell.swift */; };
-		126FDB7D1F01468B00452C95 /* EventCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 126FDB7B1F01468B00452C95 /* EventCellTableViewCell.xib */; };
+		12A29F6D1F039EB60078E2D1 /* InviteFriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */; };
+		12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */; };
+		12A29F721F03B68F0078E2D1 /* AddFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */; };
 		12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F751F03E7CB0078E2D1 /* Track.swift */; };
 		12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD26D91EFD1091004913F8 /* EventsViewController.swift */; };
-		12AD26DE1EFD2EB4004913F8 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD26DD1EFD2EB4004913F8 /* CreateEventViewController.swift */; };
 		12B5DAA51F0235F700FC8149 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 12B5DAA41F0235F700FC8149 /* GoogleService-Info.plist */; };
-		12E7F3FC1F012F0D00E9E3DD /* EventTracklistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E7F3FB1F012F0D00E9E3DD /* EventTracklistTableViewController.swift */; };
+		12FD073E1F05301E00E080F0 /* EventTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FD073D1F05301E00E080F0 /* EventTrack.swift */; };
 		2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1C21031EE9822F00B36A8B /* AppDelegate.swift */; };
 		2C1C21091EE9822F00B36A8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C21071EE9822F00B36A8B /* Main.storyboard */; };
 		2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C1C210A1EE9822F00B36A8B /* Assets.xcassets */; };
@@ -40,24 +40,28 @@
 		2CBC29DB1EEFE34C007A907F /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBC29DA1EEFE34C007A907F /* libicucore.tbd */; };
 		2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */; };
 		2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */; };
+		3E09ECEC1F0A9727008FE113 /* EventTracklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E09ECEB1F0A9727008FE113 /* EventTracklistViewController.swift */; };
+		3E09ECEE1F0ABD35008FE113 /* CreateEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E09ECED1F0ABD35008FE113 /* CreateEventTableViewController.swift */; };
 		3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */; };
 		3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */; };
 		3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */; };
 		3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */; };
 		3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80141F0442DC00DA82F3 /* TrackList.swift */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
+		3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */; };
+		3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		123AACFF1EFD443200D9F98D /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		126FDB7A1F01468B00452C95 /* EventCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCellTableViewCell.swift; sourceTree = "<group>"; };
-		126FDB7B1F01468B00452C95 /* EventCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCellTableViewCell.xib; sourceTree = "<group>"; };
+		12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsTableViewController.swift; sourceTree = "<group>"; };
+		12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsTableViewCell.swift; sourceTree = "<group>"; };
+		12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendsTableViewCell.xib; sourceTree = "<group>"; };
 		12A29F751F03E7CB0078E2D1 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		12AD26D91EFD1091004913F8 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
-		12AD26DD1EFD2EB4004913F8 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		12B5DAA41F0235F700FC8149 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		12E7F3FB1F012F0D00E9E3DD /* EventTracklistTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTracklistTableViewController.swift; sourceTree = "<group>"; };
+		12FD073D1F05301E00E080F0 /* EventTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTrack.swift; sourceTree = "<group>"; };
 		1CA2E501F6F03AF8F1B3B554 /* Pods-musicRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		2C1C21001EE9822F00B36A8B /* musicRoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = musicRoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C1C21031EE9822F00B36A8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,12 +121,16 @@
 		2CBC29DA1EEFE34C007A907F /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowPlaylistViewController.swift; sourceTree = "<group>"; };
 		2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		3E09ECEB1F0A9727008FE113 /* EventTracklistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTracklistViewController.swift; sourceTree = "<group>"; };
+		3E09ECED1F0ABD35008FE113 /* CreateEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventTableViewController.swift; sourceTree = "<group>"; };
 		3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
 		3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBarViewController.swift; sourceTree = "<group>"; };
 		3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
 		3E2F80141F0442DC00DA82F3 /* TrackList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTrackTableViewCell.swift; sourceTree = "<group>"; };
+		3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTrackTableViewCell.xib; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
 		CC63330E3D286E52158C924D /* Pods_musicRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_musicRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -145,14 +153,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12A29F6E1F03B6300078E2D1 /* InviteFriends */ = {
+			isa = PBXGroup;
+			children = (
+				12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */,
+				12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */,
+				12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */,
+			);
+			name = InviteFriends;
+			sourceTree = "<group>";
+		};
 		12AD26D61EFD0D2E004913F8 /* Events */ = {
 			isa = PBXGroup;
 			children = (
 				12AD26D91EFD1091004913F8 /* EventsViewController.swift */,
-				12AD26DD1EFD2EB4004913F8 /* CreateEventViewController.swift */,
-				12E7F3FB1F012F0D00E9E3DD /* EventTracklistTableViewController.swift */,
-				126FDB7A1F01468B00452C95 /* EventCellTableViewCell.swift */,
-				126FDB7B1F01468B00452C95 /* EventCellTableViewCell.xib */,
+				3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */,
+				3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */,
+				3E09ECEB1F0A9727008FE113 /* EventTracklistViewController.swift */,
+				3E09ECED1F0ABD35008FE113 /* CreateEventTableViewController.swift */,
 			);
 			name = Events;
 			sourceTree = "<group>";
@@ -185,6 +203,7 @@
 				2CBC29821EEFDD93007A907F /* Playlists */,
 				12AD26D61EFD0D2E004913F8 /* Events */,
 				2CBC29A71EEFDE89007A907F /* Deezer */,
+				12A29F6E1F03B6300078E2D1 /* InviteFriends */,
 				2C1C21071EE9822F00B36A8B /* Main.storyboard */,
 				2CA1692F1F0396B40070F941 /* Alert.swift */,
 				2C9C54501EED743B001F77E3 /* Music.storyboard */,
@@ -207,6 +226,7 @@
 				2C3B1F2B1EEE6E4300651996 /* Playlist.swift */,
 				12A29F751F03E7CB0078E2D1 /* Track.swift */,
 				123AACFF1EFD443200D9F98D /* Event.swift */,
+				12FD073D1F05301E00E080F0 /* EventTrack.swift */,
 				2C3B1F311EEE9A8A00651996 /* User.swift */,
 				3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */,
 			);
@@ -396,7 +416,8 @@
 				2C9C54521EED743B001F77E3 /* Music.storyboard in Resources */,
 				3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */,
 				12B5DAA51F0235F700FC8149 /* GoogleService-Info.plist in Resources */,
-				126FDB7D1F01468B00452C95 /* EventCellTableViewCell.xib in Resources */,
+				3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */,
+				12A29F721F03B68F0078E2D1 /* AddFriendsTableViewCell.xib in Resources */,
 				2CBC29D01EEFE2D5007A907F /* DZRResources.bundle in Resources */,
 				2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */,
 				2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */,
@@ -462,28 +483,31 @@
 				2C9C544F1EED68BD001F77E3 /* PlaylistsViewController.swift in Sources */,
 				2CBC29AB1EEFDF9C007A907F /* DeezerSession.swift in Sources */,
 				2C9C54481EED636D001F77E3 /* LoginViewController.swift in Sources */,
-				12E7F3FC1F012F0D00E9E3DD /* EventTracklistTableViewController.swift in Sources */,
 				2C8061F71F027C9100171E65 /* FriendsViewController.swift in Sources */,
 				2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */,
 				2CA169331F03B39E0070F941 /* FriendTableViewCell.swift in Sources */,
 				12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */,
 				3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */,
-				12AD26DE1EFD2EB4004913F8 /* CreateEventViewController.swift in Sources */,
+				3E09ECEE1F0ABD35008FE113 /* CreateEventTableViewController.swift in Sources */,
 				2C3B1F321EEE9A8A00651996 /* User.swift in Sources */,
 				3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */,
+				3E09ECEC1F0A9727008FE113 /* EventTracklistViewController.swift in Sources */,
 				2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */,
 				2C3B1F341EEEC43300651996 /* CreatePlaylistViewController.swift in Sources */,
 				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
 				3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */,
 				3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */,
-				126FDB7C1F01468B00452C95 /* EventCellTableViewCell.swift in Sources */,
+				12FD073E1F05301E00E080F0 /* EventTrack.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
 				2CA169351F03EAD50070F941 /* SettingsTableViewController.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,
 				3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */,
+				3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */,
 				2CA169301F0396B40070F941 /* Alert.swift in Sources */,
 				12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */,
+				12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */,
+				12A29F6D1F039EB60078E2D1 /* InviteFriendsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
