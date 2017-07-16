@@ -126,12 +126,6 @@ class FriendsViewController: UIViewController {
     func updateUsernames() {
         let filteredUsernames = self.usernamesSnapshot.filter { username in
             if username.key != self.myUsername && self.friendsSnapshot[username.value] == nil && self.invitationsSnapshot[username.value] == nil && self.pendingInvitationsSnapshot[username.value] == nil {
-                print("this will be true")
-                print(self.pendingInvitationsSnapshot)
-                print(self.invitationsSnapshot)
-                print(self.friendsSnapshot)
-                print(username)
-                print("end")
                 return true
             }
             return false
@@ -143,8 +137,6 @@ class FriendsViewController: UIViewController {
         }
 
         self.filteredUsernames = filtered
-        print("filtered", self.filteredUsernames)
-        print("pendingInvitations", self.pendingInvitationsSnapshot)
         self.tableView.reloadSections(IndexSet(integer: 3), with: .none)
     }
     
@@ -230,6 +222,8 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("asking for cell at row:", indexPath)
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "friend", for: indexPath)
         guard let friendCell = cell as? FriendTableViewCell else {
             return cell
@@ -246,6 +240,8 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
             friendCell.reject.tag = indexPath.row
             friendCell.accept.addTarget(self, action: #selector(acceptInvitation), for: .touchUpInside)
             friendCell.reject.addTarget(self, action: #selector(rejectInvitation), for: .touchUpInside)
+            friendCell.accept.isHidden = false
+            friendCell.reject.isHidden = false
             friendCell.addFriend.isHidden = true
         } else if indexPath.section == 2 {
             friendCell.username.text = self.pendingInvitations[indexPath.row].username
@@ -258,7 +254,9 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
             friendCell.addFriend.tag = indexPath.row
             friendCell.accept.isHidden = true
             friendCell.reject.isHidden = true
+            friendCell.addFriend.isHidden = false
         }
+
         return friendCell
     }
     
