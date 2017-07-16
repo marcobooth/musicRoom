@@ -94,6 +94,7 @@ class EventsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "eventTracklistSegue", let destination = segue.destination as? EventTracklistViewController {
             destination.eventUid = self.selectedEvent?.uid
+            destination.eventName = self.selectedEvent?.name
             destination.publicOrPrivate = self.selectedEvent?.publicOrPrivate
         }
     }
@@ -179,6 +180,9 @@ class EventsTableViewController: UITableViewController {
         self.publicEvents = closeEnough?.map { event in
             return (uid: event.uid, name: event.name)
         }
+        
+        // TODO: reload only public section without crashing
+        self.tableView.reloadData()
     }
 }
 
@@ -188,7 +192,5 @@ extension EventsTableViewController: CLLocationManagerDelegate {
         self.lastKnownLocation = locations.first
         
         self.refilterPublicEvents()
-        
-        self.tableView.reloadSections(IndexSet(integer: 1), with: .fade)
     }
 }

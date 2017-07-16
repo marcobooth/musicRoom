@@ -71,7 +71,6 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     // MARK: actions
     
     @IBAction func specifyTimeChanged(_ sender: UISwitch) {
-        print("time changed:", sender.isOn)
         if sender.isOn {
             startingTimeDatePicker.isEnabled = true
             endingTimeDatePicker.isEnabled = true
@@ -82,7 +81,6 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     }
     
     @IBAction func specifyLocationChanged(_ sender: UISwitch) {
-        print("location changed:", sender.isOn)
         if sender.isOn {
             setRadius()
             self.radiusSlider.isEnabled = true
@@ -157,7 +155,10 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
         let newEventRef = eventRef.childByAutoId()
         // TODO: combine into single call
         newEventRef.setValue(newEvent.toDict())
-        userRef.child("events/" + newEventRef.key).setValue(eventName)
+        
+        if !publicOrPrivateSwitch.isOn {
+            userRef.child("events/" + newEventRef.key).setValue(eventName)
+        }
 
         self.performSegue(withIdentifier: "unwindToEvents", sender: self)
     }

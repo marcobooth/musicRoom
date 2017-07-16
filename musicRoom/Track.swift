@@ -36,13 +36,7 @@ class Track {
             self.init(dict: snapshotValue)
             self.ref = snapshot.ref
         } else {
-            // Wow Swift. Makin' me cast everything like that is ugly af
-            self.init(dict: [
-                "deezerId": "" as AnyObject,
-                "name": "" as AnyObject,
-                "creator": "" as AnyObject,
-                "duration": 0 as AnyObject
-            ])
+            self.init(dict: [:])
         }
     }
     

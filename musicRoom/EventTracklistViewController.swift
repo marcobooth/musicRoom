@@ -10,6 +10,7 @@ import UIKit
 
 class EventTracklistViewController: UIViewController {
     var eventUid: String?
+    var eventName: String?
     var publicOrPrivate: String?
     var firebasePath: String?
     
@@ -31,6 +32,7 @@ class EventTracklistViewController: UIViewController {
             self.eventRef = Database.database().reference(withPath: path)
         }
         
+        self.title = self.eventName
     }
     
     override func viewWillAppear(_ animated: Bool) {
