@@ -59,47 +59,78 @@ class EventTracklistViewController: UIViewController {
     }
     
     func upVote(sender: UIButton) {
-        guard let currentUser = Auth.auth().currentUser?.uid else {
+        let track = tracks[sender.tag]
+        guard let currentUser = Auth.auth().currentUser?.uid, let ref = self.eventRef?.child("tracks/" + track.trackKey) else {
             return
         }
         
-        let track = tracks[sender.tag]
-        let userVote = track.voters[currentUser]
+        ref.runTransactionBlock({ (currentData: MutableData) in
+
+            guard let currentValue = currentData.value as? [String: AnyObject] else {
+                return TransactionResult.abort()
+            }
+            
+            let currentTrack = EventTrack(dict: currentValue, trackKey: track.trackKey)
+            
+            let userVote = currentTrack.voters?[currentUser]
+            
+            if userVote == false {
+                currentTrack.vote += 2
+                currentTrack.voters?[currentUser] = true
+            } else if userVote == nil {
+                currentTrack.vote += 1
+                currentTrack.voters?[currentUser] = true
+            } else if userVote == true {
+                currentTrack.vote -= 1
+                currentTrack.voters?[currentUser] = nil
+            }
+            
+            currentData.value = currentTrack.toDict()
+            return TransactionResult.success(withValue: currentData)
+        }, andCompletionBlock: {
+            (error, committed, snapshot) in
+            if error != nil {
+                print(error?.localizedDescription ?? "No description of the error")
+            }
+        })
         
-        if userVote == false {
-            track.vote += 2
-            track.voters[currentUser] = true
-        } else if userVote == nil {
-            track.vote += 1
-            track.voters[currentUser] = true
-        } else if userVote == true {
-            track.vote -= 1
-            track.voters[currentUser] = nil
-        }
-        
-        eventRef?.child("tracks/" + track.trackKey).setValue(track.toDict())
     }
     
     func downVote(sender: UIButton) {
-        guard let currentUser = Auth.auth().currentUser?.uid else {
+        let track = tracks[sender.tag]
+        guard let currentUser = Auth.auth().currentUser?.uid, let ref = self.eventRef?.child("tracks/" + track.trackKey) else {
             return
         }
         
-        let track = tracks[sender.tag]
-        let userVote = track.voters[currentUser]
-        
-        if userVote == true {
-            track.vote -= 2
-            track.voters[currentUser] = false
-        } else if userVote == nil {
-            track.vote -= 1
-            track.voters[currentUser] = false
-        } else if userVote == false {
-            track.vote += 1
-            track.voters[currentUser] = nil
-        }
-        
-        eventRef?.child("tracks/" + track.trackKey).setValue(track.toDict())
+        ref.runTransactionBlock({ (currentData: MutableData) in
+            
+            guard let currentValue = currentData.value as? [String: AnyObject] else {
+                return TransactionResult.abort()
+            }
+            
+            let currentTrack = EventTrack(dict: currentValue, trackKey: track.trackKey)
+            
+            let userVote = currentTrack.voters?[currentUser]
+
+            if userVote == true {
+                currentTrack.vote -= 2
+                currentTrack.voters?[currentUser] = false
+            } else if userVote == nil {
+                currentTrack.vote -= 1
+                currentTrack.voters?[currentUser] = false
+            } else if userVote == false {
+                currentTrack.vote += 1
+                currentTrack.voters?[currentUser] = nil
+            }
+            
+            currentData.value = currentTrack.toDict()
+            return TransactionResult.success(withValue: currentData)
+        }, andCompletionBlock: {
+            (error, committed, snapshot) in
+            if error != nil {
+                print(error?.localizedDescription ?? "No description of the error")
+            }
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -135,10 +166,10 @@ extension EventTracklistViewController: UITableViewDataSource, UITableViewDelega
         cell.nbVote.text = String(describing: tracks[indexPath.row].vote)
         
         if let currentUser = Auth.auth().currentUser?.uid, self.event?.userIds == nil || self.event?.userIds?[currentUser] != nil {
-            if tracks[indexPath.row].voters[currentUser] == true {
+            if tracks[indexPath.row].voters?[currentUser] == true {
                 cell.upVote.setTitle("✅", for: .normal)
                 cell.downVote.setTitle("👎", for: .normal)
-            } else if tracks[indexPath.row].voters[currentUser] == nil {
+            } else if tracks[indexPath.row].voters?[currentUser] == nil {
                 cell.upVote.setTitle("👍", for: .normal)
                 cell.downVote.setTitle("👎", for: .normal)
             } else {

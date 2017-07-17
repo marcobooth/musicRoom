@@ -11,24 +11,22 @@ import Foundation
 class EventTrack: Track {
     let trackKey: String
     var vote: Int
-    var voters: [String: Bool]
+    var voters: [String: Bool]?
     
     init(dict: [String: AnyObject], trackKey: String) {
         self.trackKey = trackKey
         self.vote = dict["vote"] as? NSInteger ?? 0
-        self.voters = dict["voters"] as? [String: Bool] ?? ["Fake": true]
+        self.voters = dict["voters"] as? [String: Bool] ?? [:]
         
         super.init(dict: dict)
     }
     
     override func toDict() -> [String : Any] {
-        return [
-            "deezerId": deezerId,
-            "name": name,
-            "creator": creator,
-            "duration": duration,
-            "vote": vote,
-            "voters": voters
-        ]
+        var dict = super.toDict()
+        
+        dict["vote"] = vote
+        dict["voters"] = voters
+        
+        return dict
     }
 }
