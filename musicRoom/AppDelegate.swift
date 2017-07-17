@@ -11,6 +11,7 @@ import Firebase
 import FBSDKCoreKit
 import GoogleSignIn
 import TwitterKit
+import SafariServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -30,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().delegate = self
         
         // Twitter API
-        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "")
+        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "lolyouwish")
         
         return true
     }
@@ -76,20 +77,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         }
         print("in this thing")
         guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                       accessToken: authentication.accessToken)
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
-        let vc = topViewController(from: self.window?.rootViewController)
-        // Teo: Second else does not get SettingsTableViewController, gets the MusicBarViewController
-        if let vc = vc as? LoginViewController {
-            GIDSignIn.sharedInstance().signOut()
-            vc.loginWithCredential(credential: credential)
-        } else if let vc = vc as? SettingsTableViewController {
-            GIDSignIn.sharedInstance().signOut()
-            vc.addSocialAccount(credential: credential)
-        }
-
-        // ...
+        segueFromCurrentVC(from: self.window?.rootViewController, credential: credential)
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -98,15 +88,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // ...
     }
     
-    func topViewController(from viewController: UIViewController?) -> UIViewController? {
-        if let tabBarViewController = viewController as? UITabBarController {
-            return topViewController(from: tabBarViewController.selectedViewController)
-        } else if let navigationController = viewController as? UINavigationController {
-            return topViewController(from: navigationController.visibleViewController)
-        } else if let presentedViewController = viewController?.presentedViewController {
-            return topViewController(from: presentedViewController)
+    func segueFromCurrentVC(from vc: UIViewController?, credential: AuthCredential) {
+        if let vc = vc as? LoginViewController {
+            GIDSignIn.sharedInstance().signOut()
+            vc.loginWithCredential(credential: credential)
+            return
+        } else if let vc = vc as? SettingsTableViewController {
+            GIDSignIn.sharedInstance().signOut()
+            vc.addSocialAccount(credential: credential)
+            return
+        }
+        
+        // dig through all the VCs until we find either of the two above
+        if let vc = vc as? MusicBarViewController {
+            segueFromCurrentVC(from: vc.embeddedViewController, credential: credential)
+        } else if let tabBarVC = vc as? UITabBarController {
+            segueFromCurrentVC(from: tabBarVC.selectedViewController, credential: credential)
+        } else if let navController = vc as? UINavigationController {
+            segueFromCurrentVC(from: navController.visibleViewController, credential: credential)
+        } else if let presentedVC = vc?.presentedViewController {
+            segueFromCurrentVC(from: presentedVC, credential: credential)
         } else {
-            return viewController
+            print("Couldn't find the VC from which we can segue.")
         }
     }
 }

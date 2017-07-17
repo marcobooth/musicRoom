@@ -22,6 +22,8 @@ class MusicBarViewController: UIViewController, DZRPlayerDelegate {
     private var currentIndex: Int = 0
     private var shuffle: Bool = false
     
+    public var embeddedViewController: UIViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,6 +102,15 @@ class MusicBarViewController: UIViewController, DZRPlayerDelegate {
             if track.deezerId == startedPlayingId {
                 self.nowPlayingText.text = track.name + " by " + track.creator
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("preparing for the music bar segue")
+        if segue.identifier == "musicBarEmbed" {
+            self.embeddedViewController = segue.destination
+        } else {
+            print("other segue", segue.destination)
         }
     }
 }
