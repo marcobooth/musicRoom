@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().delegate = self
         
         // Twitter API
-        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "lolyouwish")
+        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "lol")
         
         return true
     }
@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if url.absoluteString.lowercased().contains("fb712712918916023") == true {
             return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication:sourceApplication, annotation: annotation)
-        } else if url.absoluteString.lowercased().contains("twitterkit-421hX4vFWiOBef7FRc14NyTq6") == true {
+        } else if url.absoluteString.lowercased().contains("twitterkit-") == true {
             return Twitter.sharedInstance().application(application, open: url, options: [AnyHashable : Any]())
         } else {
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
