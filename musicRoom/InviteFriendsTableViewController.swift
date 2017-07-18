@@ -11,9 +11,9 @@ import UIKit
 class InviteFriendsTableViewController: UITableViewController {
 
     var firebasePath: String?
-    var userRef: DatabaseReference!
-    var eventOrPlaylistRef: DatabaseReference!
-    var eventOrPlaylistHandle: UInt!
+    var userRef: DatabaseReference?
+    var eventOrPlaylistRef: DatabaseReference?
+    var eventOrPlaylistHandle: UInt?
     var from: String?
     var name: String?
     var friends = [String:String]()
@@ -34,21 +34,21 @@ class InviteFriendsTableViewController: UITableViewController {
         self.eventOrPlaylistRef = Database.database().reference(withPath: path)
         self.userRef = Database.database().reference(withPath: "users/" + uid)
         
-        self.userRef.observeSingleEvent(of: .value, with: { snapshot in
+        self.userRef?.observeSingleEvent(of: .value, with: { snapshot in
+            self.friends = [:]
+            
             if let friends = User(snapshot: snapshot).friends {
                 self.friends = friends
-            } else {
-                self.friends = [:]
             }
             
             self.updateFriends()
         })
         
-        self.eventOrPlaylistHandle = self.eventOrPlaylistRef.child("userIds").observe(.value, with: { snapshot in
+        self.eventOrPlaylistHandle = self.eventOrPlaylistRef?.child("userIds").observe(.value, with: { snapshot in
+            self.invited = [:]
+            
             if let invited = snapshot.value as? [String:Bool] {
                 self.invited = invited
-            } else {
-                self.invited = [:]
             }
             
             self.updateFriends()
@@ -86,7 +86,7 @@ class InviteFriendsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 && self.friends.count != 0 {
-            return "Invited"
+            return "Collaborators"
         } else if section == 1 && self.uninvitedFriends.count != 0 {
             return "Uninvited"
         }
@@ -96,6 +96,9 @@ class InviteFriendsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+            if self.invitedFriends.count == 0 {
+                return 1
+            }
             return self.invitedFriends.count
         } else {
             return self.uninvitedFriends.count
@@ -109,10 +112,19 @@ class InviteFriendsTableViewController: UITableViewController {
         }
         
         if indexPath.section == 0 {
-            friendCell.name.text = self.invitedFriends[indexPath.row].name
-            friendCell.addFriend.isHidden = true
+            if self.invitedFriends.count != 0 {
+                friendCell.name.text = self.invitedFriends[indexPath.row].name
+                friendCell.name.textColor = UIColor.black
+                friendCell.addFriend.isHidden = true
+            } else {
+                friendCell.name.text = "No friends added yet"
+                friendCell.name.textColor = UIColor.gray
+                friendCell.addFriend.isHidden = true
+            }
+
         } else {
             friendCell.name.text = self.uninvitedFriends[indexPath.row].name
+            friendCell.name.textColor = UIColor.black
             friendCell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
             friendCell.addFriend.tag = indexPath.row
         }
@@ -121,10 +133,10 @@ class InviteFriendsTableViewController: UITableViewController {
     }
     
     func addFriend(button : UIButton) {
-        if let from = self.from, let name = self.name {
+        if let from = self.from, let name = self.name, let eventOrPlaylistRef = self.eventOrPlaylistRef {
             let addFriend: [String: Any] = [
-                "users/\(self.uninvitedFriends[button.tag].id)/\(from)s/\(self.eventOrPlaylistRef.key)": name,
-                "\(from)s/private/\(self.eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)": true,
+                "users/\(self.uninvitedFriends[button.tag].id)/\(from)s/\(eventOrPlaylistRef.key)": name,
+                "\(from)s/private/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)": true,
             ]
             
             let ref = Database.database().reference()
