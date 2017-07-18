@@ -106,11 +106,8 @@ class MusicBarViewController: UIViewController, DZRPlayerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("preparing for the music bar segue")
         if segue.identifier == "musicBarEmbed" {
             self.embeddedViewController = segue.destination
-        } else {
-            print("other segue", segue.destination)
         }
     }
 }
