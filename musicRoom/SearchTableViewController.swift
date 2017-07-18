@@ -152,14 +152,15 @@ extension SearchTableViewController: UISearchResultsUpdating {
     func filterContentForSearchText(searchText: String) {
         if cachedResults[searchText] == nil {
             if searchText != "" {
-                print("Searching for:", searchText)
+                // print("Searching for:", searchText)
+                
                 DZRObject.search(for: DZRSearchType.track, withQuery: searchText, requestManager: DZRRequestManager.default(), callback: { (_ results: DZRObjectList?, _ error: Error?) -> Void in
                     guard let results = results, error == nil else {
                         print("Error searching with text:", error as Any)
                         return
                     }
                     
-                    print("Got", results.count(), "search results.", searchText)
+                    // print("Got", results.count(), "search results.", searchText)
                     
                     let tracks = [Track?](repeating: nil, count: Int(results.count()))
                     self.cachedResults[searchText] = TrackResults(deezerTracks: results, tracks: tracks)

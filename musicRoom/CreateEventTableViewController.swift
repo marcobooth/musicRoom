@@ -153,7 +153,6 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
         let userRef = Database.database().reference(withPath: "users/" + userId)
         
         let newEventRef = eventRef.childByAutoId()
-        // TODO: combine into single call
         newEventRef.setValue(newEvent.toDict())
         
         if !publicOrPrivateSwitch.isOn {

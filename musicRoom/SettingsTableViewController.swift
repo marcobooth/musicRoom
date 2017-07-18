@@ -22,13 +22,15 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
     @IBOutlet weak var facebookLabel: UILabel!
     @IBOutlet weak var googleLabel: UILabel!
     
-    var usernameRef: DatabaseReference!
-    var handle: UInt!
+    var usernameRef: DatabaseReference?
+    var usernameHandle: UInt?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.usernameRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)! + "/username")
+        if let uid = Auth.auth().currentUser?.uid {
+            self.usernameRef = Database.database().reference(withPath: "users/" + uid + "/username")
+        }
         
         if let buttonStyle = GIDSignInButtonStyle(rawValue: 1) {
             self.googleSignInButton.style = buttonStyle
@@ -48,8 +50,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
         self.updateAccountsView()
         GIDSignIn.sharedInstance().uiDelegate = self
         
-        handle = self.usernameRef.observe(.value, with: { snapshot in
-
+        self.usernameHandle = self.usernameRef?.observe(.value, with: { snapshot in
             if let username = snapshot.value as? String {
                 self.username.isUserInteractionEnabled = false
                 self.username.text = username
@@ -66,7 +67,9 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // Remove listener with handle
-        self.usernameRef.removeObserver(withHandle: handle)
+        if let usernameHandle = self.usernameHandle {
+            self.usernameRef?.removeObserver(withHandle: usernameHandle)
+        }
     }
     
     @IBAction func submitUsername(_ sender: UIButton) {
@@ -98,7 +101,6 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             return
         }
         
-        // current and tokenString both have ! - ??
         if let token = FBSDKAccessToken.current().tokenString {
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
             FBSDKLoginManager().logOut()
@@ -111,7 +113,6 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
     }
     
     func addSocialAccount(credential : AuthCredential) {
-        print("trying to add account", credential)
         Auth.auth().currentUser?.link(with: credential, completion: { user, error in
             if error != nil {
                 print("Error", error.debugDescription)

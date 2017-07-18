@@ -179,10 +179,10 @@
 			isa = PBXGroup;
 			children = (
 				2CBC29AE1EEFE2D5007A907F /* DeezerSDK */,
-				2C1C21021EE9822F00B36A8B /* musicRoom */,
-				2C1C21011EE9822F00B36A8B /* Products */,
-				9317D3EB579A6B47D0B13661 /* Pods */,
 				62ACA414258CF7E42A5ED6AE /* Frameworks */,
+				2C1C21021EE9822F00B36A8B /* musicRoom */,
+				9317D3EB579A6B47D0B13661 /* Pods */,
+				2C1C21011EE9822F00B36A8B /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -197,25 +197,25 @@
 		2C1C21021EE9822F00B36A8B /* musicRoom */ = {
 			isa = PBXGroup;
 			children = (
-				2C9C54491EED63B9001F77E3 /* Signup/Login */,
-				2C9C544A1EED63CB001F77E3 /* Settings */,
-				2C3B1F301EEE6FE400651996 /* Models */,
-				2CBC29821EEFDD93007A907F /* Playlists */,
-				12AD26D61EFD0D2E004913F8 /* Events */,
-				2CBC29A71EEFDE89007A907F /* Deezer */,
-				12A29F6E1F03B6300078E2D1 /* InviteFriends */,
-				2C1C21071EE9822F00B36A8B /* Main.storyboard */,
 				2CA1692F1F0396B40070F941 /* Alert.swift */,
+				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
+				2CBC29A71EEFDE89007A907F /* Deezer */,
+				12AD26D61EFD0D2E004913F8 /* Events */,
+				2CA169311F0396D90070F941 /* Friends */,
+				12A29F6E1F03B6300078E2D1 /* InviteFriends */,
+				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
+				2C1C21071EE9822F00B36A8B /* Main.storyboard */,
+				2C3B1F301EEE6FE400651996 /* Models */,
 				2C9C54501EED743B001F77E3 /* Music.storyboard */,
 				3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */,
-				2CA169341F03EAD50070F941 /* SettingsTableViewController.swift */,
-				2CA169311F0396D90070F941 /* Friends */,
+				2CBC29821EEFDD93007A907F /* Playlists */,
 				3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */,
-				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
-				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
+				2C9C544A1EED63CB001F77E3 /* Settings */,
+				2CA169341F03EAD50070F941 /* SettingsTableViewController.swift */,
+				2C9C54491EED63B9001F77E3 /* Signup/Login */,
+				3E2F80141F0442DC00DA82F3 /* TrackList.swift */,
 				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
 				3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */,
-				3E2F80141F0442DC00DA82F3 /* TrackList.swift */,
 			);
 			path = musicRoom;
 			sourceTree = "<group>";
