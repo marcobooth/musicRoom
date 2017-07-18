@@ -222,8 +222,6 @@ extension FriendsViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("asking for cell at row:", indexPath)
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "friend", for: indexPath)
         guard let friendCell = cell as? FriendTableViewCell else {
             return cell
