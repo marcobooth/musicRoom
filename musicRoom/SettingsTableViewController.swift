@@ -49,12 +49,15 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
         GIDSignIn.sharedInstance().uiDelegate = self
         
         handle = self.usernameRef.observe(.value, with: { snapshot in
+
             if let username = snapshot.value as? String {
                 self.username.isUserInteractionEnabled = false
                 self.username.text = username
                 self.submitUsername.isHidden = true
                 self.manageFriends.isHidden = false
             } else {
+                self.username.isUserInteractionEnabled = true
+                self.submitUsername.isHidden = false
                 self.manageFriends.isHidden = true
             }
         })
