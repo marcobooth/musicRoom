@@ -28,11 +28,9 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
+        if let uid = Auth.auth().currentUser?.uid {
+            self.usernameRef = Database.database().reference(withPath: "users/" + uid + "/username")
         }
-        
-        self.usernameRef = Database.database().reference(withPath: "users/" + uid + "/username")
         
         if let buttonStyle = GIDSignInButtonStyle(rawValue: 1) {
             self.googleSignInButton.style = buttonStyle
