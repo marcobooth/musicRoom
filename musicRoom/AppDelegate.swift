@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().delegate = self
         
         // Twitter API
-        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "lol")
+        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "")
         
         return true
     }
@@ -75,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             // ...
             return
         }
-        print("in this thing")
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         

@@ -45,7 +45,6 @@ class EventTracklistViewController: UIViewController {
             self.event = event
             self.tracks = event.sortedTracks()
             
-            // TODO: don't have to reload all the data
             self.tableView.reloadData()
         })
     }
@@ -174,7 +173,7 @@ extension EventTracklistViewController: UITableViewDataSource, UITableViewDelega
                 cell.downVote.setTitle("👎", for: .normal)
             } else {
                 cell.upVote.setTitle("👍", for: .normal)
-                cell.downVote.setTitle("✅", for: .normal)
+                cell.downVote.setTitle("❌", for: .normal)
             }
             cell.upVote.tag = indexPath.row
             cell.upVote.addTarget(self, action: #selector(upVote), for: .touchUpInside)
