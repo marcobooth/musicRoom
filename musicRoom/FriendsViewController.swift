@@ -10,15 +10,15 @@ import UIKit
 
 class FriendsViewController: UIViewController {
 
-    var friendsRef: DatabaseReference!
-    var invitationsRef: DatabaseReference!
-    var usernamesRef: DatabaseReference!
-    var pendingInvitationsRef: DatabaseReference!
+    var friendsRef: DatabaseReference?
+    var invitationsRef: DatabaseReference?
+    var usernamesRef: DatabaseReference?
+    var pendingInvitationsRef: DatabaseReference?
     
-    var friendsHandle: UInt!
-    var invitationsHandle: UInt!
-    var usernamesHandle: UInt!
-    var pendingInvitationsHandle: UInt!
+    var friendsHandle: UInt?
+    var invitationsHandle: UInt?
+    var usernamesHandle: UInt?
+    var pendingInvitationsHandle: UInt?
     
     var myUsername : String?
     var uid: String?
@@ -39,8 +39,9 @@ class FriendsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //TODO: System-wide to check for logout. For possibly uid and username, should go back if not found
-        let uid = (Auth.auth().currentUser?.uid)!
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
         
         let ref = Database.database().reference(withPath: "users/\(uid)/username")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -63,7 +64,7 @@ class FriendsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        friendsHandle = self.friendsRef.observe(.value, with: { snapshot in
+        friendsHandle = self.friendsRef?.observe(.value, with: { snapshot in
             var friends = [(id: String, username: String)]()
             
             if let allFriends = snapshot.value as? [String:String] {
@@ -80,7 +81,7 @@ class FriendsViewController: UIViewController {
             self.updateUsernames()
         })
         
-        invitationsHandle = self.invitationsRef.observe(.value, with: { snapshot in
+        invitationsHandle = self.invitationsRef?.observe(.value, with: { snapshot in
             var invitations = [(id: String, username: String)]()
             
             if let allInvitations = snapshot.value as? [String:String] {
@@ -97,7 +98,7 @@ class FriendsViewController: UIViewController {
             self.updateUsernames()
         })
         
-        usernamesHandle = self.usernamesRef.observe(.value, with: { snapshot in
+        usernamesHandle = self.usernamesRef?.observe(.value, with: { snapshot in
             if let usernamesSnapshot = snapshot.value as? [String:String] {
                 self.usernamesSnapshot = usernamesSnapshot
             } else {
@@ -107,7 +108,7 @@ class FriendsViewController: UIViewController {
             self.updateUsernames()
         })
         
-        pendingInvitationsHandle = self.pendingInvitationsRef.observe(.value, with: { snapshot in
+        pendingInvitationsHandle = self.pendingInvitationsRef?.observe(.value, with: { snapshot in
             var pendingInvitations = [(id: String, username: String)]()
             if let allPendingInvitations = snapshot.value as? [String:String] {
                 self.pendingInvitationsSnapshot = allPendingInvitations
@@ -142,11 +143,19 @@ class FriendsViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
-        self.invitationsRef.removeObserver(withHandle: invitationsHandle)
-        self.friendsRef.removeObserver(withHandle: friendsHandle)
-        self.usernamesRef.removeObserver(withHandle: usernamesHandle)
-        self.pendingInvitationsRef.removeObserver(withHandle: pendingInvitationsHandle)
+        
+        if let invitationsHandle = self.invitationsHandle {
+            self.invitationsRef?.removeObserver(withHandle: invitationsHandle)
+        }
+        if let friendsHandle = self.friendsHandle {
+            self.friendsRef?.removeObserver(withHandle: friendsHandle)
+        }
+        if let usernamesHandle = self.usernamesHandle {
+            self.usernamesRef?.removeObserver(withHandle: usernamesHandle)
+        }
+        if let pendingInvitationsHandle = self.pendingInvitationsHandle {
+            self.pendingInvitationsRef?.removeObserver(withHandle: pendingInvitationsHandle)
+        }
     }
     
     func addFriend(button : UIButton) {
