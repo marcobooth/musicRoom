@@ -11,13 +11,13 @@ import Foundation
 struct User {
     
     //    let key: String
-    let playlists: [String: String]?
-    let invitedPlaylists: [String: String]?
+    var playlists: [String: String]?
+    var invitedPlaylists: [String: String]?
 
-    let events: [String: String]?
-    let invitedEvents: [String: String]?
+    var events: [String: String]?
+    var invitedEvents: [String: String]?
     
-    let friends: [String: String]?
+    var friends = [String: String]()
     let ref: DatabaseReference?
     
     init(snapshot: DataSnapshot) {
@@ -25,7 +25,6 @@ struct User {
         var checkInvitedPlaylists: [String: String]? = nil
         var checkEvents: [String: String]? = nil
         var checkInvitedEvents: [String: String]? = nil
-        var checkFriends: [String: String]? = nil
         var checkRef: DatabaseReference? = nil
         
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
@@ -57,7 +56,7 @@ struct User {
             
             if let friends = snapshotValue["friends"] {
                 if let friends = friends as? [String:String] {
-                    checkFriends = friends
+                    self.friends = friends
                 }
             }
         }
@@ -66,7 +65,6 @@ struct User {
         self.invitedPlaylists = checkInvitedPlaylists
         self.events = checkEvents
         self.invitedEvents = checkInvitedEvents
-        self.friends = checkFriends
         self.ref = checkRef
     }
 }
