@@ -11,7 +11,6 @@ import UIKit
 class InviteFriendsTableViewController: UITableViewController {
 
     var firebasePath: String?
-    var userRef: DatabaseReference?
     var eventOrPlaylistRef: DatabaseReference?
     var eventOrPlaylistHandle: UInt?
     var from: String?
@@ -32,23 +31,19 @@ class InviteFriendsTableViewController: UITableViewController {
             return
         }
         self.eventOrPlaylistRef = Database.database().reference(withPath: path)
-        self.userRef = Database.database().reference(withPath: "users/" + uid)
+        let userRef = Database.database().reference(withPath: "users/" + uid)
         
-        self.userRef?.observeSingleEvent(of: .value, with: { snapshot in
-            self.friends = [:]
-            
-            if let friends = User(snapshot: snapshot).friends {
-                self.friends = friends
-            }
+        userRef.observeSingleEvent(of: .value, with: { snapshot in
+            self.friends = User(snapshot: snapshot).friends
             
             self.updateFriends()
         })
         
         self.eventOrPlaylistHandle = self.eventOrPlaylistRef?.child("userIds").observe(.value, with: { snapshot in
-            self.invited = [:]
-            
             if let invited = snapshot.value as? [String:Bool] {
                 self.invited = invited
+            } else {
+                self.invited = [:]
             }
             
             self.updateFriends()
@@ -143,7 +138,7 @@ class InviteFriendsTableViewController: UITableViewController {
             ref.updateChildValues(addFriend, withCompletionBlock: { (error, ref) -> Void in
                 if error != nil {
                     print("Error updating data: \(error.debugDescription)")
-                    self.showBasicAlert(title: "Error", message: "There was a problem")
+                    self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
                 }
             })
         }
