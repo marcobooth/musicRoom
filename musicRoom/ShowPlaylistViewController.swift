@@ -85,7 +85,7 @@ class ShowPlaylistViewController: UIViewController {
     }
     
     @IBAction func shuffleMusic(_ sender: UIButton) {
-        if let musicBarVC = getMusicBarViewController(), let path = firebasePlaylistPath {
+        if let musicBarVC = getMusicBarVC(), let path = firebasePlaylistPath {
             musicBarVC.setMusic(toPlaylist: path, startingAt: nil)
         }
     }
@@ -103,7 +103,7 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        if let musicBarVC = getMusicBarViewController(), let path = firebasePlaylistPath {
+        if let musicBarVC = getMusicBarVC(), let path = firebasePlaylistPath {
             musicBarVC.setMusic(toPlaylist: path, startingAt: indexPath.row)
         }
     }

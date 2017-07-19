@@ -10,63 +10,24 @@ import Foundation
 
 struct User {
     
-    //    let key: String
     let playlists: [String: String]?
-    let invitedPlaylists: [String: String]?
-
     let events: [String: String]?
-    let invitedEvents: [String: String]?
-    
     let friends: [String: String]?
-    let ref: DatabaseReference?
+    
+    // TODO: do we need this?
+    // let ref: DatabaseReference?
+    
+    init(dict: [String: AnyObject]) {
+        self.playlists = dict["playlists"] as? [String: String]
+        self.events = dict["events"] as? [String: String]
+        self.friends = dict["friends"] as? [String: String]
+    }
     
     init(snapshot: DataSnapshot) {
-        var checkPlaylists: [String: String]? = nil
-        var checkInvitedPlaylists: [String: String]? = nil
-        var checkEvents: [String: String]? = nil
-        var checkInvitedEvents: [String: String]? = nil
-        var checkFriends: [String: String]? = nil
-        var checkRef: DatabaseReference? = nil
-        
         if let snapshotValue = snapshot.value as? [String: AnyObject] {
-            checkRef = snapshot.ref
-            
-            if let playlists = snapshotValue["playlists"] {
-                if let playlists = playlists as? [String:String] {
-                    checkPlaylists = playlists
-                }
-            }
-            
-            if let playlists = snapshotValue["invitedPlaylists"] {
-                if let playlists = playlists as? [String:String] {
-                    checkInvitedPlaylists = playlists
-                }
-            }
-            
-            if let events = snapshotValue["events"] {
-                if let events = events as? [String: String] {
-                    checkEvents = events
-                }
-            }
-            
-            if let events = snapshotValue["invitedEvents"] {
-                if let events = events as? [String: String] {
-                    checkInvitedEvents = events
-                }
-            }
-            
-            if let friends = snapshotValue["friends"] {
-                if let friends = friends as? [String:String] {
-                    checkFriends = friends
-                }
-            }
+            self.init(dict: snapshotValue)
+        } else {
+            self.init(dict: [:])
         }
-        
-        self.playlists = checkPlaylists
-        self.invitedPlaylists = checkInvitedPlaylists
-        self.events = checkEvents
-        self.invitedEvents = checkInvitedEvents
-        self.friends = checkFriends
-        self.ref = checkRef
     }
 }

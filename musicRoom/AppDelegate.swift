@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().delegate = self
         
         // Twitter API
-        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "")
+        Twitter.sharedInstance().start(withConsumerKey: "421hX4vFWiOBef7FRc14NyTq6", consumerSecret: "fKbV0qQRMQJASI5nw1mOkUTeFV9GdIl7OqZsDoWKOvHOOT3Fl0")
         
         return true
     }

@@ -10,8 +10,10 @@ import Foundation
 import CoreLocation
 
 struct Event {
-    var name: String
-    var createdBy: String
+    var uid: String?
+    
+    var name: String?
+    var createdBy: String?
     var startDate: UInt?
     var endDate: UInt?
     var longitude: Double?
@@ -19,72 +21,56 @@ struct Event {
     var radius: Int?
     var userIds: [String:Bool]?
     var tracks: [EventTrack]?
-    var uid: String = ""
     
-    init(name: String, userId: String) {
-        self.name = name
-        self.createdBy = userId
-        self.startDate = nil
-        self.endDate = nil
-        self.longitude = nil
-        self.latitude = nil
-        self.radius = nil
-        self.userIds = nil
-        self.tracks = nil
+    var playingOnDeviceId: String?
+    var currentTrack: Track?
+    var currentlyPlaying: Bool?
+    
+    init(uid: String?, dict: [String: Any]) {
+        self.uid = uid
+        
+        self.name = dict["name"] as? String
+        self.createdBy = dict["createdBy"] as? String
+        self.startDate = dict["startDate"] as? UInt
+        self.endDate = dict["endDate"] as? UInt
+        self.longitude = dict["longitude"] as? Double
+        self.latitude = dict["latitude"] as? Double
+        self.radius = dict["radius"] as? Int
+        self.userIds = dict["userIds"] as? [String: Bool]
+        
+        let trackDicts = dict["tracks"] as? [String: [String: AnyObject]]
+        if let trackDicts = trackDicts {
+            self.tracks = trackDicts.map { element in EventTrack(dict: element.value, trackKey: element.key) }
+        }
+        
+        self.playingOnDeviceId = dict["playingOnDeviceid"] as? String
+        if let currentTrack = dict["currentTrack"] as? [String: AnyObject] {
+            self.currentTrack = Track(dict: currentTrack)
+        }
+        
+        self.currentlyPlaying = dict["currentlyPlaying"] as? Bool
+    }
+    
+    init(name: String, createdBy: String) {
+        self.init(uid: nil, dict: [
+            "name": name,
+            "createdBy": createdBy,
+        ])
     }
     
     init(snapshot: DataSnapshot) {
-        self.name = ""
-        self.createdBy = ""
-        self.userIds = nil
-        self.startDate = nil
-        self.endDate = nil
-        self.longitude = nil
-        self.latitude = nil
-        self.tracks = nil
-        
-        if let snapshotValue = snapshot.value as? [String: AnyObject] {
-            if let name = snapshotValue["name"] as? String {
-                self.name = name
-            }
-            if let createdBy = snapshotValue["createdBy"] as? String {
-                self.createdBy = createdBy
-            }
-            let trackDicts = snapshotValue["tracks"] as? [String: [String: AnyObject]]
-            if let trackDicts = trackDicts {
-                self.tracks = trackDicts.map { element in EventTrack(dict: element.value, trackKey: element.key) }
-            }
-            
-            if let userIds = snapshotValue["userIds"] as? [String: Bool] {
-                self.userIds = userIds
-            }
-            if let startDate = snapshotValue["startDate"] as? UInt {
-                self.startDate = startDate
-            }
-            if let endDate = snapshotValue["endDate"] as? UInt {
-                self.endDate = endDate
-            }
-            if let longitude = snapshotValue["longitude"] as? Double {
-                self.longitude = longitude
-            }
-            if let latitude = snapshotValue["latitude"] as? Double {
-                self.latitude = latitude
-            }
-            if let radius = snapshotValue["radius"] as? Int {
-                self.radius = radius
-            }
-            
-            
+        if let snapshotValue = snapshot.value as? [String: Any] {
+            self.init(uid: snapshot.ref.key, dict: snapshotValue)
+        } else {
+            print("Failed to cast snapshot value for event:", snapshot.value as Any)
+            self.init(uid: nil, dict: [:])
         }
-        
-        self.uid = snapshot.ref.key
     }
     
-    
-    func toDict() -> Any {
+    func toDict() -> [String: Any] {
         return [
-            "name": name,
-            "createdBy": createdBy,
+            "name": name as Any,
+            "createdBy": createdBy as Any,
             "startDate": startDate as Any,
             "endDate": endDate as Any,
             "longitude": longitude as Any,
@@ -92,6 +78,9 @@ struct Event {
             "radius": radius as Any,
             "userIds": userIds as Any,
             "tracks": tracks as Any,
+            "playingOnDeviceId": playingOnDeviceId as Any,
+            "currentTrack": currentTrack as Any,
+            "currentlyPlaying": currentlyPlaying as Any,
         ]
     }
     

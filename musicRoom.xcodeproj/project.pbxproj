@@ -46,8 +46,8 @@
 		3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */; };
 		3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */; };
 		3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */; };
+		3E2D8BA91F1FA23200A8DA94 /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */; };
 		3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */; };
-		3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80141F0442DC00DA82F3 /* TrackList.swift */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
 		3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */; };
 		3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */; };
@@ -128,8 +128,8 @@
 		3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
 		3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBarViewController.swift; sourceTree = "<group>"; };
+		3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicController.swift; sourceTree = "<group>"; };
 		3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
-		3E2F80141F0442DC00DA82F3 /* TrackList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTrackTableViewCell.swift; sourceTree = "<group>"; };
 		3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTrackTableViewCell.xib; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 				2C9C544A1EED63CB001F77E3 /* Settings */,
 				2CA169341F03EAD50070F941 /* SettingsTableViewController.swift */,
 				2C9C54491EED63B9001F77E3 /* Signup/Login */,
-				3E2F80141F0442DC00DA82F3 /* TrackList.swift */,
+				3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */,
 				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
 				3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */,
 			);
@@ -491,7 +491,6 @@
 				2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */,
 				2CA169331F03B39E0070F941 /* FriendTableViewCell.swift in Sources */,
 				12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */,
-				3E2F80151F0442DC00DA82F3 /* TrackList.swift in Sources */,
 				3E09ECEE1F0ABD35008FE113 /* CreateEventTableViewController.swift in Sources */,
 				2C3B1F321EEE9A8A00651996 /* User.swift in Sources */,
 				3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */,
@@ -501,6 +500,7 @@
 				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
 				3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */,
 				3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */,
+				3E2D8BA91F1FA23200A8DA94 /* MusicController.swift in Sources */,
 				12FD073E1F05301E00E080F0 /* EventTrack.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
