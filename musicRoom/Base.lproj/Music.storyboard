@@ -331,7 +331,7 @@
             <objects>
                 <navigationController title="Events" id="jwx-b5-o9t" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Events" image="events" id="Xus-P6-kep"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MmN-PM-0U2">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="MmN-PM-0U2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -425,7 +425,7 @@
                                         <rect key="frame" x="163.5" y="0.0" width="163.5" height="30"/>
                                         <state key="normal" title="Add friends"/>
                                         <connections>
-                                            <segue destination="oib-9F-muc" kind="show" id="3Dr-1W-PGZ"/>
+                                            <action selector="addFriends:" destination="03x-OM-hWV" eventType="touchUpInside" id="wRN-Zn-qlb"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -450,7 +450,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addFriendsButton" destination="oWK-gd-RYt" id="aWE-FH-rLB"/>
                         <outlet property="tableView" destination="5dP-4O-A0T" id="4QI-6J-fHx"/>
+                        <segue destination="oib-9F-muc" kind="show" identifier="addAFriend" id="Ahb-w1-gNa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WRQ-vn-l2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1221,7 +1223,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zl1-0u-8Rg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Playlists" image="playlist" id="emG-Uo-E9f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gep-T1-PUo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gep-T1-PUo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1240,7 +1242,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ioj-8Z-sC7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="settings" id="Ifw-LE-RKp"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yqr-3E-85Z">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Yqr-3E-85Z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1264,7 +1266,7 @@
         <image name="settings" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b4K-nm-Z5y"/>
-        <segue reference="Qgu-wg-fJf"/>
+        <segue reference="Ahb-w1-gNa"/>
+        <segue reference="Xf5-jA-VtS"/>
     </inferredMetricsTieBreakers>
 </document>

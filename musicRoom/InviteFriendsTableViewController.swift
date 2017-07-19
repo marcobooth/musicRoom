@@ -13,6 +13,7 @@ class InviteFriendsTableViewController: UITableViewController {
     var firebasePath: String?
     var eventOrPlaylistRef: DatabaseReference?
     var eventOrPlaylistHandle: UInt?
+    var publicEvent: Bool?
     var from: String?
     var name: String?
     var friends = [String:String]()
@@ -22,6 +23,10 @@ class InviteFriendsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.publicEvent == true {
+            self.title = "Delegate Control"
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,12 +85,20 @@ class InviteFriendsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if self.publicEvent == true {
+            if section == 0 && self.friends.count != 0 {
+                return "Delegated Control"
+            } else if section == 1 && self.uninvitedFriends.count != 0 {
+                return "Invite to Control"
+            }
+            return nil
+        }
+        
         if section == 0 && self.friends.count != 0 {
             return "Collaborators"
         } else if section == 1 && self.uninvitedFriends.count != 0 {
             return "Uninvited"
         }
-        
         return nil
     }
 
@@ -112,7 +125,11 @@ class InviteFriendsTableViewController: UITableViewController {
                 friendCell.name.textColor = UIColor.black
                 friendCell.addFriend.isHidden = true
             } else {
-                friendCell.name.text = "No friends added yet"
+                if self.publicEvent == true {
+                    friendCell.name.text = "No friends have delegation control"
+                } else {
+                    friendCell.name.text = "No friends added yet"
+                }
                 friendCell.name.textColor = UIColor.gray
                 friendCell.addFriend.isHidden = true
             }
@@ -129,6 +146,12 @@ class InviteFriendsTableViewController: UITableViewController {
     
     func addFriend(button : UIButton) {
         if let from = self.from, let name = self.name, let eventOrPlaylistRef = self.eventOrPlaylistRef {
+            if self.publicEvent == true {
+                let publicEventRef = Database.database().reference(withPath: "events/public/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)")
+                publicEventRef.setValue(true)
+                return
+            }
+            
             let addFriend: [String: Any] = [
                 "users/\(self.uninvitedFriends[button.tag].id)/\(from)s/\(eventOrPlaylistRef.key)": name,
                 "\(from)s/private/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)": true,

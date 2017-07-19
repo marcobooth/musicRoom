@@ -15,7 +15,7 @@ class EventsTableViewController: UITableViewController {
     var privateEvents: [(uid: String, name: String)]?
     var allPublicEvents: [Event]?
     var publicEvents: [(uid: String, name: String)]?
-    var selectedEvent: (uid: String, name: String, publicOrPrivate: String)?
+    var selectedEvent: (uid: String, name: String, publicEvent: Bool)?
 
     var userRef: DatabaseReference?
     var publicEventsRef: DatabaseReference?
@@ -95,7 +95,7 @@ class EventsTableViewController: UITableViewController {
         if segue.identifier == "eventTracklistSegue", let destination = segue.destination as? EventTracklistViewController {
             destination.eventUid = self.selectedEvent?.uid
             destination.eventName = self.selectedEvent?.name
-            destination.publicOrPrivate = self.selectedEvent?.publicOrPrivate
+            destination.publicEvent = self.selectedEvent?.publicEvent
         }
     }
     
@@ -148,8 +148,8 @@ class EventsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let events = eventsForSection(section: indexPath.section), events.count > 0 {
             let metadata = events[indexPath.row]
-            let publicOrPrivate = indexPath.section == 0 ? "private" : "public"
-            self.selectedEvent = (uid: metadata.uid, name: metadata.name, publicOrPrivate: publicOrPrivate)
+            let publicOrPrivate = indexPath.section == 0 ? false : true
+            self.selectedEvent = (uid: metadata.uid, name: metadata.name, publicEvent: publicOrPrivate)
 
             self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
         }
