@@ -96,7 +96,7 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let playlists = playlistsForSection(section: section) {
+        if let playlists = playlistsForSection(section: section), playlists.count > 0 {
             return playlists.count
         }
         

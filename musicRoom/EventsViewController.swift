@@ -116,8 +116,8 @@ class EventsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let playlists = eventsForSection(section: section), playlists.count > 0 {
-            return playlists.count
+        if let events = eventsForSection(section: section), events.count > 0 {
+            return events.count
         }
         
         return 1
@@ -181,7 +181,6 @@ class EventsTableViewController: UITableViewController {
             return (uid: event.uid, name: event.name)
         }
         
-        // TODO: reload only public section without crashing
         self.tableView.reloadData()
     }
 }
