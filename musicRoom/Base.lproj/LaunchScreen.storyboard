@@ -24,18 +24,10 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="EXo-Li-cUQ">
                                 <rect key="frame" x="84" y="249" width="206" height="168"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prepare yourself for amazingness." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zN-tK-Ckm">
-                                <rect key="frame" x="57" y="425" width="260" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="EXo-Li-cUQ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="PB9-OT-QQG"/>
-                            <constraint firstItem="8zN-tK-Ckm" firstAttribute="top" secondItem="EXo-Li-cUQ" secondAttribute="bottom" constant="8" id="QpJ-Cr-mqf"/>
-                            <constraint firstItem="8zN-tK-Ckm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cVw-Fr-TcU"/>
                             <constraint firstItem="EXo-Li-cUQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="sry-RY-z9Z"/>
                         </constraints>
                     </view>
