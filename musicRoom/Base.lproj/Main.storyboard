@@ -25,7 +25,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="l3e-QF-DEi">
                                 <rect key="frame" x="84.5" y="20" width="206" height="168"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PuZ-eR-Dfm">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="256" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PuZ-eR-Dfm">
                                 <rect key="frame" x="84.5" y="205" width="206" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="206" id="rNN-Gc-umN"/>
@@ -34,7 +34,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G9N-oj-J7D">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="254" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G9N-oj-J7D">
                                 <rect key="frame" x="84.5" y="243" width="206" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="206" id="ZNV-Eh-9u9"/>
@@ -46,7 +46,7 @@
                                     <action selector="hitEnterKey:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="LZH-Lw-eiP"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9D-nV-ylD">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="257" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9D-nV-ylD">
                                 <rect key="frame" x="118" y="281" width="139" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Forgot your password?">
@@ -57,7 +57,7 @@
                                     <segue destination="gTV-7v-ylo" kind="show" identifier="forgotPassword" id="H9g-tO-Utj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2wW-g9-7Mg">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="256" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2wW-g9-7Mg">
                                 <rect key="frame" x="87.5" y="317" width="200" height="30"/>
                                 <color key="backgroundColor" red="0.22188965590000001" green="0.23576928680000001" blue="0.64099312819999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -70,7 +70,7 @@
                                     <action selector="loginAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DY4-XB-GxS"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WBI-mR-qxb" customClass="GIDSignInButton">
+                            <view contentMode="scaleToFill" verticalHuggingPriority="228" translatesAutoresizingMaskIntoConstraints="NO" id="WBI-mR-qxb" customClass="GIDSignInButton">
                                 <rect key="frame" x="87.5" y="373" width="200" height="43"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -78,7 +78,7 @@
                                     <constraint firstAttribute="height" constant="43" id="3YA-Yy-Wlp"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY" customClass="FBSDKLoginButton">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="226" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80d-tX-tpY" customClass="FBSDKLoginButton">
                                 <rect key="frame" x="87.5" y="424" width="200" height="43"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -89,7 +89,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgq-bZ-RCA" customClass="TWTRLogInButton">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="238" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgq-bZ-RCA" customClass="TWTRLogInButton">
                                 <rect key="frame" x="87.5" y="475" width="200" height="43"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -100,8 +100,8 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-KX-QOy">
-                                <rect key="frame" x="77" y="530" width="221" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-KX-QOy">
+                                <rect key="frame" x="77" y="530" width="221" height="129"/>
                                 <state key="normal" title="Don't have an account? Sign up!">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
