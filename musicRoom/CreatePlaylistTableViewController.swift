@@ -14,7 +14,7 @@ class CreatePlaylistTableViewController: UITableViewController {
     
     @IBAction func createPlaylist(_ sender: UIButton) {
         
-        guard let text = self.name.text else {
+        guard let text = self.name.text, self.name.text != "" else {
             self.showBasicAlert(title: "Invalid name", message: "Please enter a name")
             return
         }
