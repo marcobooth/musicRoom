@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		123AAD001EFD443300D9F98D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123AACFF1EFD443200D9F98D /* Event.swift */; };
-		12A29F6D1F039EB60078E2D1 /* InviteFriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */; };
 		12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */; };
 		12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F751F03E7CB0078E2D1 /* Track.swift */; };
 		12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD26D91EFD1091004913F8 /* EventsViewController.swift */; };
@@ -38,6 +37,7 @@
 		2CBC29D71EEFE313007A907F /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBC29D61EEFE313007A907F /* CoreAudio.framework */; };
 		2CBC29D91EEFE31B007A907F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBC29D81EEFE31B007A907F /* AudioToolbox.framework */; };
 		2CBC29DB1EEFE34C007A907F /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CBC29DA1EEFE34C007A907F /* libicucore.tbd */; };
+		2CC153091F20EA69008E3DC5 /* InviteFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC153081F20EA69008E3DC5 /* InviteFriendsViewController.swift */; };
 		2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */; };
 		2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */; };
 		3E09ECEC1F0A9727008FE113 /* EventTracklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E09ECEB1F0A9727008FE113 /* EventTracklistViewController.swift */; };
@@ -55,7 +55,6 @@
 
 /* Begin PBXFileReference section */
 		123AACFF1EFD443200D9F98D /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsTableViewController.swift; sourceTree = "<group>"; };
 		12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		12A29F751F03E7CB0078E2D1 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		12AD26D91EFD1091004913F8 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +118,7 @@
 		2CBC29D61EEFE313007A907F /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		2CBC29D81EEFE31B007A907F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2CBC29DA1EEFE34C007A907F /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		2CC153081F20EA69008E3DC5 /* InviteFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsViewController.swift; sourceTree = "<group>"; };
 		2CD631D11EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowPlaylistViewController.swift; sourceTree = "<group>"; };
 		2CF005CB1EFD62D6007E2DDF /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		3E09ECEB1F0A9727008FE113 /* EventTracklistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTracklistViewController.swift; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 		12A29F6E1F03B6300078E2D1 /* InviteFriends */ = {
 			isa = PBXGroup;
 			children = (
-				12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */,
+				2CC153081F20EA69008E3DC5 /* InviteFriendsViewController.swift */,
 				12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */,
 			);
 			name = InviteFriends;
@@ -491,6 +491,7 @@
 				3E09ECEE1F0ABD35008FE113 /* CreateEventTableViewController.swift in Sources */,
 				2C3B1F321EEE9A8A00651996 /* User.swift in Sources */,
 				3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */,
+				2CC153091F20EA69008E3DC5 /* InviteFriendsViewController.swift in Sources */,
 				3E09ECEC1F0A9727008FE113 /* EventTracklistViewController.swift in Sources */,
 				2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */,
 				2CF005CC1EFD62D6007E2DDF /* ForgotPasswordViewController.swift in Sources */,
@@ -507,7 +508,6 @@
 				2CA169301F0396B40070F941 /* Alert.swift in Sources */,
 				12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */,
 				12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */,
-				12A29F6D1F039EB60078E2D1 /* InviteFriendsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

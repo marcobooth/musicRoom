@@ -354,7 +354,7 @@
             <objects>
                 <navigationController title="Events" id="jwx-b5-o9t" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Events" image="events" id="Xus-P6-kep"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MmN-PM-0U2">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="MmN-PM-0U2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -390,7 +390,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yqM-ua-sxU">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -491,7 +491,7 @@
                     <connections>
                         <outlet property="addFriendsButton" destination="oWK-gd-RYt" id="aWE-FH-rLB"/>
                         <outlet property="tableView" destination="5dP-4O-A0T" id="4QI-6J-fHx"/>
-                        <segue destination="oib-9F-muc" kind="show" identifier="addAFriend" id="Ahb-w1-gNa"/>
+                        <segue destination="U4n-ti-RAD" kind="show" identifier="addAFriend" id="B73-mu-iE5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WRQ-vn-l2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -510,7 +510,7 @@
                             <tableViewSection headerTitle="Basic information" id="K3l-lo-uhr">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="uYa-Ub-XvP">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uYa-Ub-XvP" id="YUf-cg-ZYp">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -539,7 +539,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jGt-Qs-EZM">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jGt-Qs-EZM" id="zWI-lc-MnB">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -568,7 +568,7 @@
                             <tableViewSection headerTitle="Date" id="Jf0-2N-7ZY">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bIy-0f-c5d">
-                                        <rect key="frame" x="0.0" y="199.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="200" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bIy-0f-c5d" id="IIc-S6-r5V">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -595,7 +595,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="150" id="wPx-C8-73s">
-                                        <rect key="frame" x="0.0" y="243.5" width="375" height="150"/>
+                                        <rect key="frame" x="0.0" y="244" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wPx-C8-73s" id="J00-gd-b9x">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
@@ -628,7 +628,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="150" id="iYc-iA-YC4">
-                                        <rect key="frame" x="0.0" y="393.5" width="375" height="150"/>
+                                        <rect key="frame" x="0.0" y="394" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iYc-iA-YC4" id="BHr-ys-SVQ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
@@ -665,7 +665,7 @@
                             <tableViewSection headerTitle="Location" id="Stf-Oq-hFX">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="itT-Np-d21">
-                                        <rect key="frame" x="0.0" y="599.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="600" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="itT-Np-d21" id="oqv-Kr-bMz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -693,7 +693,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="lca-0w-ztB">
-                                        <rect key="frame" x="0.0" y="643.5" width="375" height="84"/>
+                                        <rect key="frame" x="0.0" y="644" width="375" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lca-0w-ztB" id="Js6-Jp-VzD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
@@ -731,7 +731,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="243" id="2Yf-xC-DS4">
-                                        <rect key="frame" x="0.0" y="727.5" width="375" height="243"/>
+                                        <rect key="frame" x="0.0" y="728" width="375" height="243"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Yf-xC-DS4" id="kOe-3Y-EOY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="242"/>
@@ -812,63 +812,82 @@
             </objects>
             <point key="canvasLocation" x="3822" y="1092"/>
         </scene>
-        <!--Add friends-->
-        <scene sceneID="nbI-P4-SL5">
+        <!--Add Friends-->
+        <scene sceneID="EJq-jr-tfx">
             <objects>
-                <tableViewController id="oib-9F-muc" customClass="InviteFriendsTableViewController" customModule="musicRoom" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="9V1-ss-RT7">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="U4n-ti-RAD" customClass="InviteFriendsViewController" customModule="musicRoom" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="grE-cF-cGF"/>
+                        <viewControllerLayoutGuide type="bottom" id="sR8-Dc-h1y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sc5-Ws-oJs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inviteFriend" id="zHE-Ry-SD5" customClass="AddFriendsTableViewCell" customModule="musicRoom" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zHE-Ry-SD5" id="Wgk-hs-met">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdw-Qf-mxL">
-                                            <rect key="frame" x="8" y="11" width="250" height="21"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9V1-ss-RT7">
+                                <rect key="frame" x="0.0" y="64" width="375" height="519"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inviteFriend" id="zHE-Ry-SD5" customClass="AddFriendsTableViewCell" customModule="musicRoom" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zHE-Ry-SD5" id="Wgk-hs-met">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdw-Qf-mxL">
+                                                    <rect key="frame" x="8" y="11" width="250" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="250" id="p9W-0d-n1R"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3A-5H-dYn">
+                                                    <rect key="frame" x="337" y="6" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="eaE-QB-Zcf"/>
+                                                        <constraint firstAttribute="height" constant="30" id="wJJ-wN-O1y"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="plus"/>
+                                                </button>
+                                            </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="250" id="p9W-0d-n1R"/>
+                                                <constraint firstItem="u3A-5H-dYn" firstAttribute="top" secondItem="Wgk-hs-met" secondAttribute="topMargin" constant="-2" id="XYu-4g-H9f"/>
+                                                <constraint firstItem="fdw-Qf-mxL" firstAttribute="top" secondItem="Wgk-hs-met" secondAttribute="topMargin" constant="3" id="bxC-bH-mos"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="fdw-Qf-mxL" secondAttribute="leading" id="e3b-ej-syJ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="u3A-5H-dYn" secondAttribute="trailing" id="eg7-Qz-krB"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3A-5H-dYn">
-                                            <rect key="frame" x="337" y="6" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="30" id="eaE-QB-Zcf"/>
-                                                <constraint firstAttribute="height" constant="30" id="wJJ-wN-O1y"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="plus"/>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="u3A-5H-dYn" firstAttribute="top" secondItem="Wgk-hs-met" secondAttribute="topMargin" constant="-2" id="XYu-4g-H9f"/>
-                                        <constraint firstItem="fdw-Qf-mxL" firstAttribute="top" secondItem="Wgk-hs-met" secondAttribute="topMargin" constant="3" id="bxC-bH-mos"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="fdw-Qf-mxL" secondAttribute="leading" id="e3b-ej-syJ"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="u3A-5H-dYn" secondAttribute="trailing" id="eg7-Qz-krB"/>
-                                    </constraints>
-                                </tableViewCellContentView>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="addFriend" destination="u3A-5H-dYn" id="pRL-GS-kTG"/>
+                                            <outlet property="name" destination="fdw-Qf-mxL" id="cPU-wQ-UMY"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
-                                    <outlet property="addFriend" destination="u3A-5H-dYn" id="pRL-GS-kTG"/>
-                                    <outlet property="name" destination="fdw-Qf-mxL" id="cPU-wQ-UMY"/>
+                                    <outlet property="dataSource" destination="U4n-ti-RAD" id="A1X-UX-owd"/>
+                                    <outlet property="delegate" destination="U4n-ti-RAD" id="nRj-ii-O19"/>
                                 </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="oib-9F-muc" id="Ehc-eu-XAI"/>
-                            <outlet property="delegate" destination="oib-9F-muc" id="xgd-Ue-gpP"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Add friends" id="UdJ-Ff-3Dz"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qe5-hX-pzj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sR8-Dc-h1y" firstAttribute="top" secondItem="9V1-ss-RT7" secondAttribute="bottom" constant="35" id="Rlb-Li-siM"/>
+                            <constraint firstItem="9V1-ss-RT7" firstAttribute="top" secondItem="grE-cF-cGF" secondAttribute="bottom" id="uTn-EN-0Zv"/>
+                            <constraint firstItem="9V1-ss-RT7" firstAttribute="centerX" secondItem="sc5-Ws-oJs" secondAttribute="centerX" id="wt2-PM-hex"/>
+                            <constraint firstItem="9V1-ss-RT7" firstAttribute="width" secondItem="sc5-Ws-oJs" secondAttribute="width" id="zEE-R4-rCd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Friends" id="ARg-i4-M7D"/>
+                    <connections>
+                        <outlet property="tableView" destination="9V1-ss-RT7" id="AED-Kt-VeU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6OY-Fo-0eL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4944.8000000000002" y="-2.2488755622188905"/>
+            <point key="canvasLocation" x="5022" y="-2"/>
         </scene>
         <!--Playlists-->
         <scene sceneID="zt2-DW-wgv">
@@ -1102,7 +1121,7 @@
                                         <rect key="frame" x="163.5" y="0.0" width="163.5" height="30"/>
                                         <state key="normal" title="Add friends"/>
                                         <connections>
-                                            <segue destination="oib-9F-muc" kind="show" id="b4K-nm-Z5y"/>
+                                            <segue destination="U4n-ti-RAD" kind="show" id="FvY-vx-R0w"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1273,7 +1292,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zl1-0u-8Rg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Playlists" image="playlist" id="emG-Uo-E9f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gep-T1-PUo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gep-T1-PUo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1292,7 +1311,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ioj-8Z-sC7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="settings" id="Ifw-LE-RKp"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yqr-3E-85Z">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Yqr-3E-85Z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1316,7 +1335,7 @@
         <image name="settings" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b4K-nm-Z5y"/>
-        <segue reference="Qgu-wg-fJf"/>
+        <segue reference="Xf5-jA-VtS"/>
+        <segue reference="B73-mu-iE5"/>
     </inferredMetricsTieBreakers>
 </document>

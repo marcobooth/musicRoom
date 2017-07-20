@@ -76,7 +76,7 @@ class ShowPlaylistViewController: UIViewController {
             if let destination = segue.destination as? SearchTableViewController {
                 destination.firebasePath = path
                 destination.from = "playlist"
-            } else if let destination = segue.destination as? InviteFriendsTableViewController {
+            } else if let destination = segue.destination as? InviteFriendsViewController {
                 destination.firebasePath = path
                 destination.from = "playlist"
                 destination.name = playlistName

@@ -1,15 +1,15 @@
 //
-//  InviteFriendsTableViewController.swift
+//  InviteFriendsViewController.swift
 //  musicRoom
 //
-//  Created by Antoine LEBLANC on 6/28/17.
+//  Created by Marco BOOTH on 7/20/17.
 //  Copyright © 2017 Marco BOOTH. All rights reserved.
 //
 
 import UIKit
 
-class InviteFriendsTableViewController: UITableViewController {
-
+class InviteFriendsViewController: UIViewController {
+    
     var firebasePath: String?
     var eventOrPlaylistRef: DatabaseReference?
     var eventOrPlaylistHandle: UInt?
@@ -20,6 +20,7 @@ class InviteFriendsTableViewController: UITableViewController {
     var invited = [String:Bool]()
     var invitedFriends = [(id: String, name: String)]()
     var uninvitedFriends = [(id: String, name: String)]()
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +59,7 @@ class InviteFriendsTableViewController: UITableViewController {
     func updateFriends() {
         var invitedFriends = [(id: String, name: String)]()
         var uninvitedFriends = [(id: String, name: String)]()
-
+        
         for friend in self.friends {
             if invited[friend.key] != nil {
                 invitedFriends.append((id: friend.key, name: friend.value))
@@ -68,7 +69,7 @@ class InviteFriendsTableViewController: UITableViewController {
         }
         self.invitedFriends = invitedFriends
         self.uninvitedFriends = uninvitedFriends
-
+        
         self.tableView.reloadData()
     }
     
@@ -80,11 +81,36 @@ class InviteFriendsTableViewController: UITableViewController {
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func addFriend(button : UIButton) {
+        if let from = self.from, let name = self.name, let eventOrPlaylistRef = self.eventOrPlaylistRef {
+            if self.publicEvent == true {
+                let publicEventRef = Database.database().reference(withPath: "events/public/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)")
+                publicEventRef.setValue(true)
+                return
+            }
+            
+            let addFriend: [String: Any] = [
+                "users/\(self.uninvitedFriends[button.tag].id)/\(from)s/\(eventOrPlaylistRef.key)": name,
+                "\(from)s/private/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)": true,
+                ]
+            
+            let ref = Database.database().reference()
+            ref.updateChildValues(addFriend, withCompletionBlock: { (error, ref) -> Void in
+                if error != nil {
+                    print("Error updating data: \(error.debugDescription)")
+                    self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
+                }
+            })
+        }
+    }
+}
+
+extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if self.publicEvent == true {
             if section == 0 && self.friends.count != 0 {
                 return "Delegated Control"
@@ -101,8 +127,8 @@ class InviteFriendsTableViewController: UITableViewController {
         }
         return nil
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             if self.invitedFriends.count == 0 {
                 return 1
@@ -113,7 +139,7 @@ class InviteFriendsTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inviteFriend", for: indexPath)
         guard let friendCell = cell as? AddFriendsTableViewCell else {
             return cell
@@ -133,37 +159,15 @@ class InviteFriendsTableViewController: UITableViewController {
                 friendCell.name.textColor = UIColor.gray
                 friendCell.addFriend.isHidden = true
             }
-
+            
         } else {
             friendCell.name.text = self.uninvitedFriends[indexPath.row].name
             friendCell.name.textColor = UIColor.black
             friendCell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
             friendCell.addFriend.tag = indexPath.row
         }
-
+        
         return friendCell
     }
-    
-    func addFriend(button : UIButton) {
-        if let from = self.from, let name = self.name, let eventOrPlaylistRef = self.eventOrPlaylistRef {
-            if self.publicEvent == true {
-                let publicEventRef = Database.database().reference(withPath: "events/public/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)")
-                publicEventRef.setValue(true)
-                return
-            }
-            
-            let addFriend: [String: Any] = [
-                "users/\(self.uninvitedFriends[button.tag].id)/\(from)s/\(eventOrPlaylistRef.key)": name,
-                "\(from)s/private/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)": true,
-            ]
-            
-            let ref = Database.database().reference()
-            ref.updateChildValues(addFriend, withCompletionBlock: { (error, ref) -> Void in
-                if error != nil {
-                    print("Error updating data: \(error.debugDescription)")
-                    self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
-                }
-            })
-        }
-    }
 }
+

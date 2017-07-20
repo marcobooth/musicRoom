@@ -147,7 +147,7 @@ class EventTracklistViewController: UIViewController {
         if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePath {
             destination.firebasePath = path
             destination.from = "event"
-        } else if let destination = segue.destination as? InviteFriendsTableViewController, let path = self.firebasePath {
+        } else if let destination = segue.destination as? InviteFriendsViewController, let path = self.firebasePath {
             destination.publicEvent = self.publicEvent
             destination.firebasePath = path
             destination.from = "event"
