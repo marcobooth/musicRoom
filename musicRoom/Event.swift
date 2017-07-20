@@ -24,7 +24,7 @@ struct Event {
     
     var playingOnDeviceId: String?
     var currentTrack: Track?
-    var currentlyPlaying: Bool?
+    var isCurrentlyPlaying: Bool?
     
     init(uid: String?, dict: [String: Any]) {
         self.uid = uid
@@ -48,7 +48,7 @@ struct Event {
             self.currentTrack = Track(dict: currentTrack)
         }
         
-        self.currentlyPlaying = dict["currentlyPlaying"] as? Bool
+        self.isCurrentlyPlaying = dict["isCurrentlyPlaying"] as? Bool
     }
     
     init(name: String, createdBy: String) {
@@ -80,7 +80,7 @@ struct Event {
             "tracks": tracks as Any,
             "playingOnDeviceId": playingOnDeviceId as Any,
             "currentTrack": currentTrack as Any,
-            "currentlyPlaying": currentlyPlaying as Any,
+            "isCurrentlyPlaying": isCurrentlyPlaying as Any,
         ]
     }
     
