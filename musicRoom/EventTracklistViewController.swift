@@ -144,7 +144,7 @@ class EventTracklistViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePath {
+        if let destination = segue.destination as? SongSearchViewController, let path = self.firebasePath {
             destination.firebasePath = path
             destination.from = "event"
         } else if let destination = segue.destination as? InviteFriendsViewController, let path = self.firebasePath {
