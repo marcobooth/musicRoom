@@ -49,6 +49,9 @@
 		3E2D8BA91F1FA23200A8DA94 /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */; };
 		3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */; };
 		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
+		3E8960A21F20B68C004BF2D2 /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8960A11F20B68C004BF2D2 /* PlayerDelegate.swift */; };
+		3E8960A51F20FB17004BF2D2 /* PlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8960A41F20FB17004BF2D2 /* PlaylistController.swift */; };
+		3E8960A71F20FD1E004BF2D2 /* SnapshotHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8960A61F20FD1E004BF2D2 /* SnapshotHandler.swift */; };
 		3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */; };
 		3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */; };
 		751561F4A73B2FEDC7623420 /* Pods_musicRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC63330E3D286E52158C924D /* Pods_musicRoom.framework */; };
@@ -131,6 +134,9 @@
 		3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicController.swift; sourceTree = "<group>"; };
 		3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
 		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		3E8960A11F20B68C004BF2D2 /* PlayerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
+		3E8960A41F20FB17004BF2D2 /* PlaylistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistController.swift; sourceTree = "<group>"; };
+		3E8960A61F20FD1E004BF2D2 /* SnapshotHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHandler.swift; sourceTree = "<group>"; };
 		3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTrackTableViewCell.swift; sourceTree = "<group>"; };
 		3EA623251F1B9C6E0072652B /* EventTrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTrackTableViewCell.xib; sourceTree = "<group>"; };
 		8E283CC1190C5F535B60B1B1 /* Pods-musicRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-musicRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-musicRoom/Pods-musicRoom.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +206,7 @@
 		2C1C21021EE9822F00B36A8B /* musicRoom */ = {
 			isa = PBXGroup;
 			children = (
+				3E8960A31F20FAFE004BF2D2 /* Controllers */,
 				2CA1692F1F0396B40070F941 /* Alert.swift */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
 				2CBC29A71EEFDE89007A907F /* Deezer */,
@@ -216,7 +223,6 @@
 				2C9C544A1EED63CB001F77E3 /* Settings */,
 				2CA169341F03EAD50070F941 /* SettingsTableViewController.swift */,
 				2C9C54491EED63B9001F77E3 /* Signup/Login */,
-				3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */,
 				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
 				3E24C2891F029BFE00E30432 /* TrackTableViewCell.xib */,
 			);
@@ -280,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				2CBC29AA1EEFDF9C007A907F /* DeezerSession.swift */,
+				3E8960A11F20B68C004BF2D2 /* PlayerDelegate.swift */,
 			);
 			name = Deezer;
 			sourceTree = "<group>";
@@ -329,6 +336,16 @@
 				2CBC29CE1EEFE2D5007A907F /* NSError+DZRPlayer.h */,
 			);
 			path = include;
+			sourceTree = "<group>";
+		};
+		3E8960A31F20FAFE004BF2D2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */,
+				3E8960A41F20FB17004BF2D2 /* PlaylistController.swift */,
+				3E8960A61F20FD1E004BF2D2 /* SnapshotHandler.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		62ACA414258CF7E42A5ED6AE /* Frameworks */ = {
@@ -501,12 +518,15 @@
 				3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */,
 				3E24C28A1F029BFE00E30432 /* TrackTableViewCell.swift in Sources */,
 				3E2D8BA91F1FA23200A8DA94 /* MusicController.swift in Sources */,
+				3E8960A51F20FB17004BF2D2 /* PlaylistController.swift in Sources */,
 				12FD073E1F05301E00E080F0 /* EventTrack.swift in Sources */,
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
 				2CA169351F03EAD50070F941 /* SettingsTableViewController.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,
+				3E8960A21F20B68C004BF2D2 /* PlayerDelegate.swift in Sources */,
 				3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */,
+				3E8960A71F20FD1E004BF2D2 /* SnapshotHandler.swift in Sources */,
 				3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */,
 				2CA169301F0396B40070F941 /* Alert.swift in Sources */,
 				12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */,

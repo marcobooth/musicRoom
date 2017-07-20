@@ -162,7 +162,7 @@ class EventTracklistViewController: UIViewController {
     // MARK: events
     @IBAction func startEvent(_ sender: UIButton) {
         if let path = self.firebasePath {
-            self.getMusicBarVC()?.setMusic(toEvent: path)
+            DeezerSession.sharedInstance.setMusic(toEvent: path)
         }
     }
 }

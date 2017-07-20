@@ -8,17 +8,36 @@
 
 import Foundation
 
-class MusicController: DZRObjectList {
-//    private let playableType: String?
-//    private let playablePath: String?
+class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
+    private var playablePath: String
     private var playableRef: DatabaseReference? = nil
     private var playableHandle: UInt? = nil
     
-    private var tracks: [Track]? = nil
+    var tracks: [Track]?
+    
+    private let allLetters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    private var randID: String
+    
+    var snapshotHandler: SnapshotHandler?
 
     // MARK: lifecycle
     
-    private init(isEvent: Bool, path: String) {
+    init(path: String, whenReady: @escaping (MusicController) -> ()) {
+        self.playablePath = path
+        
+        // from: https://stackoverflow.com/a/26845710
+        self.randID = ""
+        
+        let lettersLength = UInt32(allLetters.length)
+        for _ in 0 ..< 16 {
+            let rand = arc4random_uniform(lettersLength)
+            var nextChar = allLetters.character(at: Int(rand))
+            self.randID += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        // have to do this so that it compiles
+        super.init()
+        
         // TODO: set both user's playing event, the event's device as this one: make sure they have the rights and all
         
         //        var amOnline = new Firebase('https://<demo>.firebaseio.com/.info/connected');
@@ -30,35 +49,15 @@ class MusicController: DZRObjectList {
         //            }
         //        });
         
-        // have to do this before the self is captured in the closure
-        super.init()
-        
         playableRef = Database.database().reference(withPath: path)
 
         playableHandle = playableRef?.observe(.value, with: { snapshot in
-            if isEvent {
-                // TODO: we actually have to keep the songs we've already played around so Deezer doesn't get confused
-                // about the indexes
-                self.tracks = Event(snapshot: snapshot).sortedTracks()
-            } else {
-                self.tracks = Playlist(snapshot: snapshot).sortedTracks()
-                
-                // TODO: If the track index has changed, reset currentIndex
-                // DeezerSession.sharedInstance.player?.currentTrack.identifier()
-            }
+            self.snapshotHandler?.snapshotChanged(snapshot: snapshot)
+
+            whenReady(self)
         })
     }
-    
-    public convenience init(playlist path: String, startIndex: Int?) {
-        // TODO: startIndex
-        
-        self.init(isEvent: false, path: path)
-    }
-    
-    public convenience init(event path: String) {
-        self.init(isEvent: true, path: path)
-    }
-    
+
     func destroy() {
         if let ref = playableRef, let handle = playableHandle {
             ref.removeObserver(withHandle: handle)
@@ -66,7 +65,7 @@ class MusicController: DZRObjectList {
     }
     
     func getTrackFor(dzrId: String) -> Track? {
-        // TODO: optimize for events?
+        // TODO: change for events?
         
         if let tracks = self.tracks {
             for track in tracks {
@@ -79,35 +78,24 @@ class MusicController: DZRObjectList {
         return nil
     }
     
-    // MARK: DZRObjectList
-    
-    override func object(at index: UInt, with manager: DZRRequestManager!, callback: ((Any?, Error?) -> Void)!) {
-        let track = self.tracks?[Int(index)]
-        
-        DZRTrack.object(withIdentifier: track?.deezerId, requestManager: DZRRequestManager.default(), callback: {(
-            _ trackObject: Any?, _ error: Error?) -> Void in
-            if let trackObject = trackObject as? DZRTrack {
-                callback(trackObject, nil)
-            } else {
-                callback(nil, error)
-            }
-        })
+    // TODO: incredibly unclear what this identifier function does, so I'm not sure if I'm doing it right
+    func identifier() -> String {
+        return self.randID
     }
     
-    // these two object functions I've defined because I don't know if Deezer uses them...
-    override func objects(at indexes: IndexSet!, with manager: DZRRequestManager!, callback: (([Any]?, Error?) -> Void)!) {
-        print("Don't use this one, silly Deezer! (objects() in MusicController)")
+    /*!
+     Hand over a track iterator which itself will provide the tracks of the playable object
+     to a DZRPlayer.
+     */
+    func iterator() -> DZRPlayableIterator {
+        return self
     }
     
-    override func allObjects(with manager: DZRRequestManager!, callback: (([Any]?, Error?) -> Void)!) {
-        print("Don't use this one, silly Deezer! (allObjects() in MusicController)")
+    func current(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
+        print("This should be implemented in a subclass")
     }
     
-    override func count() -> UInt {
-        if let count = tracks?.count {
-            return UInt(count)
-        }
-        
-        return 0
+    func next(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
+        print("This should be implemented in a subclass")
     }
 }
