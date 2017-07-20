@@ -197,7 +197,6 @@
 		2C1C21021EE9822F00B36A8B /* musicRoom */ = {
 			isa = PBXGroup;
 			children = (
-				2C4954701F20EFA100670EAA /* SongSearchViewController.swift */,
 				2CA1692F1F0396B40070F941 /* Alert.swift */,
 				2C1C21031EE9822F00B36A8B /* AppDelegate.swift */,
 				2CBC29A71EEFDE89007A907F /* Deezer */,
@@ -212,6 +211,7 @@
 				2CBC29821EEFDD93007A907F /* Playlists */,
 				2C9C544A1EED63CB001F77E3 /* Settings */,
 				2CA169341F03EAD50070F941 /* SettingsTableViewController.swift */,
+				2C4954701F20EFA100670EAA /* SongSearchViewController.swift */,
 				2C9C54491EED63B9001F77E3 /* Signup/Login */,
 				3E2F80141F0442DC00DA82F3 /* TrackList.swift */,
 				3E24C2881F029BFE00E30432 /* TrackTableViewCell.swift */,
