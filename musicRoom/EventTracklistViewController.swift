@@ -22,6 +22,7 @@ class EventTracklistViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addFriendsButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +46,20 @@ class EventTracklistViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Observe private events
         self.eventHandle = self.eventRef?.observe(.value, with: { snapshot in
             let event = Event(snapshot: snapshot)
             
             self.event = event
-            self.tracks = event.sortedTracks()
             
+            self.tracks = event.sortedTracks()
             self.tableView.reloadData()
+            
+            if event.createdBy == Auth.auth().currentUser?.uid {
+//                if event.playingOnDeviceId == 
+                // TODO
+            } else {
+                self.startButton.isEnabled = false
+            }
         })
     }
     
@@ -67,6 +74,8 @@ class EventTracklistViewController: UIViewController {
     @IBAction func addFriends(_ sender: UIButton) {
         self.performSegue(withIdentifier: "addAFriend", sender: nil)
     }
+
+    // MARK: helpers
     
     func upVote(sender: UIButton) {
         let track = tracks[sender.tag]
@@ -143,6 +152,8 @@ class EventTracklistViewController: UIViewController {
         })
     }
     
+    // MARK: segues
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SongSearchViewController, let path = self.firebasePath {
             destination.firebasePath = path
@@ -157,6 +168,13 @@ class EventTracklistViewController: UIViewController {
     
     @IBAction func unwindToEventTracklist(segue: UIStoryboardSegue) {
         print("I'm back in the event tracklist")
+    }
+    
+    // MARK: events
+    @IBAction func startEvent(_ sender: UIButton) {
+        if let path = self.firebasePath {
+            DeezerSession.sharedInstance.setMusic(toEvent: path)
+        }
     }
 }
 

@@ -121,7 +121,7 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             return
         }
         
-        var newEvent = Event(name: eventName, userId: userId)
+        var newEvent = Event(name: eventName, createdBy: userId)
         
         if !publicOrPrivateSwitch.isOn {
             newEvent.userIds = [userId: true]

@@ -41,12 +41,6 @@ class PlaylistsViewController: UIViewController {
                 }
             }
             
-            if let invitedPlaylists = user.invitedPlaylists {
-                for playlist in invitedPlaylists {
-                    playlists.append((uid: playlist.key, name: playlist.value))
-                }
-            }
-            
             self.privatePlaylists = playlists
             self.tableView.reloadData()
         })
