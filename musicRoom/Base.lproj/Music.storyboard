@@ -420,6 +420,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvc-sO-kKj">
                                         <rect key="frame" x="0.0" y="0.0" width="163.5" height="30"/>
                                         <state key="normal" title="Start"/>
+                                        <connections>
+                                            <action selector="startEvent:" destination="03x-OM-hWV" eventType="touchUpInside" id="JyU-jW-YxA"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWK-gd-RYt">
                                         <rect key="frame" x="163.5" y="0.0" width="163.5" height="30"/>
@@ -450,6 +453,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="startButton" destination="bvc-sO-kKj" id="IdT-CB-Bax"/>
                         <outlet property="tableView" destination="5dP-4O-A0T" id="4QI-6J-fHx"/>
                     </connections>
                 </viewController>
@@ -1120,7 +1124,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5T-mW-FBa">
                                 <rect key="frame" x="0.0" y="583" width="375" height="35"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nothing playing yet..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmY-0d-ktv">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmY-0d-ktv">
                                         <rect key="frame" x="8" y="9" width="359" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
@@ -1149,7 +1153,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="containerView" destination="Ast-c8-9sR" id="FgB-dy-8HR"/>
                         <outlet property="nowPlayingText" destination="bmY-0d-ktv" id="O5i-G6-yu8"/>
                     </connections>
                 </viewController>

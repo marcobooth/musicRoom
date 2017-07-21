@@ -21,6 +21,7 @@ class EventTracklistViewController: UIViewController {
     var event: Event?
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var startButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +39,20 @@ class EventTracklistViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Observe private events
         self.eventHandle = self.eventRef?.observe(.value, with: { snapshot in
             let event = Event(snapshot: snapshot)
             
             self.event = event
-            self.tracks = event.sortedTracks()
             
+            self.tracks = event.sortedTracks()
             self.tableView.reloadData()
+            
+            if event.createdBy == Auth.auth().currentUser?.uid {
+//                if event.playingOnDeviceId == 
+                // TODO
+            } else {
+                self.startButton.isEnabled = false
+            }
         })
     }
     
@@ -56,6 +63,8 @@ class EventTracklistViewController: UIViewController {
             self.eventRef?.removeObserver(withHandle: handle)
         }
     }
+    
+    // MARK: helpers
     
     func upVote(sender: UIButton) {
         let track = tracks[sender.tag]
@@ -132,6 +141,8 @@ class EventTracklistViewController: UIViewController {
         })
     }
     
+    // MARK: segues
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePath {
             destination.firebasePath = path
@@ -145,6 +156,13 @@ class EventTracklistViewController: UIViewController {
     
     @IBAction func unwindToEventTracklist(segue: UIStoryboardSegue) {
         print("I'm back in the event tracklist")
+    }
+    
+    // MARK: events
+    @IBAction func startEvent(_ sender: UIButton) {
+        if let path = self.firebasePath {
+            DeezerSession.sharedInstance.setMusic(toEvent: path)
+        }
     }
 }
 

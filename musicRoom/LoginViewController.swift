@@ -87,7 +87,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButt
     @IBAction func loginAction(_ sender: UIButton) {
         Auth.auth().signIn(withEmail: login.text!, password: password.text!) { user, error in
             if error == nil && user?.isEmailVerified == true {
-                print("Logged in...")
+                print("Logged into Firebase...")
                 self.performSegue(withIdentifier: "music", sender: self)
             } else if user == nil {
                 self.showBasicAlert(title: "No account", message: "We can not find any record of this account")
