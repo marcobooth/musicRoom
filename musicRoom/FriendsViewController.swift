@@ -165,7 +165,10 @@ class FriendsViewController: UIViewController {
         }
         
         // Adds friend with false value in current user table and adds invitation to invited user's table
-        let addFriend = ["\(uid)/pendingInvitations/\(self.filteredUsernames[button.tag].id)": self.filteredUsernames[button.tag].username, "\(self.filteredUsernames[button.tag].id)/friendInvitations/\(uid)": username] as [String : Any]
+        let addFriend = [
+            "\(uid)/pendingInvitations/\(self.filteredUsernames[button.tag].id)": self.filteredUsernames[button.tag].username,
+            "\(self.filteredUsernames[button.tag].id)/friendInvitations/\(uid)": username
+        ] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: addFriend)
     }
@@ -177,7 +180,12 @@ class FriendsViewController: UIViewController {
         }
         
         // Deletes invitation and adds username as friend in both user's tables
-        let acceptInvitation = ["\(uid)/friends/\(self.invitations[button.tag].id)": self.invitations[button.tag].username, "\(self.invitations[button.tag].id)/friends/\(uid)": username, "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull(), "\(self.invitations[button.tag].id)/pendingInvitations/\(uid)": NSNull()] as [String : Any]
+        let acceptInvitation = [
+            "\(uid)/friends/\(self.invitations[button.tag].id)": self.invitations[button.tag].username,
+            "\(self.invitations[button.tag].id)/friends/\(uid)": username,
+            "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull(),
+            "\(self.invitations[button.tag].id)/pendingInvitations/\(uid)": NSNull()
+        ] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: acceptInvitation)
     }
@@ -199,7 +207,10 @@ class FriendsViewController: UIViewController {
             return
         }
         // Deletes friend reference from both user's tables
-        let deleteFriend = ["\(self.friends[row].id)/friends/\(uid)": NSNull(), "\(uid)/friends/\(self.friends[row].id)": NSNull()] as [String : Any]
+        let deleteFriend = [
+            "\(self.friends[row].id)/friends/\(uid)": NSNull(),
+            "\(uid)/friends/\(self.friends[row].id)": NSNull()
+        ] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: deleteFriend)
     }
