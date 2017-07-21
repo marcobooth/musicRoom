@@ -21,6 +21,8 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     var playedOnce = false
     
+    public var deviceId: String?
+    
     func setUp(playerDelegate: PlayerDelegate) {
         print("Setting up deezer")
 
@@ -30,6 +32,10 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         DZRRequestManager.default().dzrConnect = self.deezerConnect
         self.deezerPlayer = DZRPlayer(connection: self.deezerConnect)
         self.deezerPlayer?.delegate = self
+        
+        InstanceID.instanceID().getID(handler: { (instanceId, error) in
+            self.deviceId = instanceId
+        })
     }
     
     // MARK: login, logout
@@ -62,13 +68,8 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     public func setMusic(toEvent path: String) {
         print("setMusic:", path)
-        print("haven't done events yet")
         
-//        self.controller?.destroy()
-//        self.controller = MusicController(event: path) { newController in
-//            print("playing")
-//            self.deezerPlayer?.play(newController)
-//        }
+        self.controller = EventController(event: path, takeOverFrom: self.controller)
     }
     
     public func clearMusic() {

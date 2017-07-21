@@ -55,8 +55,10 @@ class EventTracklistViewController: UIViewController {
             self.tableView.reloadData()
             
             if event.createdBy == Auth.auth().currentUser?.uid {
-//                if event.playingOnDeviceId == 
-                // TODO
+                if event.playingOnDeviceId != nil && event.playingOnDeviceId != "" {
+                    // probably should turn this into another button
+                    self.startButton.isEnabled = false
+                }
             } else {
                 self.startButton.isEnabled = false
             }
@@ -172,8 +174,14 @@ class EventTracklistViewController: UIViewController {
     
     // MARK: events
     @IBAction func startEvent(_ sender: UIButton) {
-        if let path = self.firebasePath {
-            DeezerSession.sharedInstance.setMusic(toEvent: path)
+        //TODO: stop from doing anything if deviceId is already set, but then are we putting in a stop button?
+        if let path = self.firebasePath, let deviceId = DeezerSession.sharedInstance.deviceId {
+            let eventRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
+            eventRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
+                if error == nil {
+                    DeezerSession.sharedInstance.setMusic(toEvent: path)
+                }
+            })
         }
     }
 }
@@ -214,5 +222,9 @@ extension EventTracklistViewController: UITableViewDataSource, UITableViewDelega
             cell.downVote.isHidden = true
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
 }

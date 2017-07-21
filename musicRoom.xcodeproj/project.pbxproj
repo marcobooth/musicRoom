@@ -21,6 +21,8 @@
 		2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F2B1EEE6E4300651996 /* Playlist.swift */; };
 		2C3B1F321EEE9A8A00651996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F311EEE9A8A00651996 /* User.swift */; };
 		2C4954711F20EFA100670EAA /* SongSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4954701F20EFA100670EAA /* SongSearchViewController.swift */; };
+		2C4A24121F2218AA00235C9F /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A24111F2218AA00235C9F /* EventController.swift */; };
+		2C4A24141F22384000235C9F /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A24131F22384000235C9F /* PlayerDelegate.swift */; };
 		2C6FFE3B1F1F95D00019BB87 /* CreatePlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6FFE3A1F1F95D00019BB87 /* CreatePlaylistTableViewController.swift */; };
 		2C8061F71F027C9100171E65 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8061F61F027C9100171E65 /* FriendsViewController.swift */; };
 		2C9C54461EED5F94001F77E3 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C54451EED5F94001F77E3 /* SignupViewController.swift */; };
@@ -48,8 +50,6 @@
 		3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */; };
 		3E2D8BA91F1FA23200A8DA94 /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */; };
 		3E2F80111F04283F00DA82F3 /* PlaylistTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */; };
-		3E334A311EFC04BD00DF1B07 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */; };
-		3E8960A21F20B68C004BF2D2 /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8960A11F20B68C004BF2D2 /* PlayerDelegate.swift */; };
 		3E8960A51F20FB17004BF2D2 /* PlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8960A41F20FB17004BF2D2 /* PlaylistController.swift */; };
 		3E8960A71F20FD1E004BF2D2 /* SnapshotHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8960A61F20FD1E004BF2D2 /* SnapshotHandler.swift */; };
 		3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */; };
@@ -76,6 +76,8 @@
 		2C3B1F2D1EEE6F9E00651996 /* musicRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "musicRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		2C3B1F311EEE9A8A00651996 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2C4954701F20EFA100670EAA /* SongSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongSearchViewController.swift; sourceTree = "<group>"; };
+		2C4A24111F2218AA00235C9F /* EventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
+		2C4A24131F22384000235C9F /* PlayerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
 		2C6FFE3A1F1F95D00019BB87 /* CreatePlaylistTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePlaylistTableViewController.swift; sourceTree = "<group>"; };
 		2C8061F61F027C9100171E65 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		2C9C54451EED5F94001F77E3 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -133,8 +135,6 @@
 		3E24C28C1F02F77E00E30432 /* MusicBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBarViewController.swift; sourceTree = "<group>"; };
 		3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicController.swift; sourceTree = "<group>"; };
 		3E2F80101F04283F00DA82F3 /* PlaylistTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTrack.swift; sourceTree = "<group>"; };
-		3E334A301EFC04BD00DF1B07 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
-		3E8960A11F20B68C004BF2D2 /* PlayerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
 		3E8960A41F20FB17004BF2D2 /* PlaylistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistController.swift; sourceTree = "<group>"; };
 		3E8960A61F20FD1E004BF2D2 /* SnapshotHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHandler.swift; sourceTree = "<group>"; };
 		3EA623231F1B9C660072652B /* EventTrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTrackTableViewCell.swift; sourceTree = "<group>"; };
@@ -285,7 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				2CBC29AA1EEFDF9C007A907F /* DeezerSession.swift */,
-				3E8960A11F20B68C004BF2D2 /* PlayerDelegate.swift */,
+				2C4A24131F22384000235C9F /* PlayerDelegate.swift */,
 			);
 			name = Deezer;
 			sourceTree = "<group>";
@@ -342,6 +342,7 @@
 			children = (
 				3E2D8BA81F1FA23200A8DA94 /* MusicController.swift */,
 				3E8960A41F20FB17004BF2D2 /* PlaylistController.swift */,
+				2C4A24111F2218AA00235C9F /* EventController.swift */,
 				3E8960A61F20FD1E004BF2D2 /* SnapshotHandler.swift */,
 			);
 			name = Controllers;
@@ -521,8 +522,9 @@
 				2C1C21041EE9822F00B36A8B /* AppDelegate.swift in Sources */,
 				123AAD001EFD443300D9F98D /* Event.swift in Sources */,
 				2CA169351F03EAD50070F941 /* SettingsTableViewController.swift in Sources */,
+				2C4A24121F2218AA00235C9F /* EventController.swift in Sources */,
+				2C4A24141F22384000235C9F /* PlayerDelegate.swift in Sources */,
 				2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */,
-				3E8960A21F20B68C004BF2D2 /* PlayerDelegate.swift in Sources */,
 				3E24C28D1F02F77E00E30432 /* MusicBarViewController.swift in Sources */,
 				3E8960A71F20FD1E004BF2D2 /* SnapshotHandler.swift in Sources */,
 				3EA623241F1B9C660072652B /* EventTrackTableViewCell.swift in Sources */,

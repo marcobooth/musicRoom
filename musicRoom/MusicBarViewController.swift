@@ -13,7 +13,6 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     @IBOutlet private weak var nowPlayingText: UILabel!
     
     public var embeddedViewController: UIViewController?
-    public var deviceId: String?
     
     private let NOTHING_PLAYING_TEXT = "Nothing playing... yet!"
     
@@ -21,18 +20,11 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.nowPlayingText.text = self.NOTHING_PLAYING_TEXT
         DeezerSession.sharedInstance.setUp(playerDelegate: self)
-        
-        // you should never actually be able to see this text, but just in case...
-        self.nowPlayingText.text = "Getting instance ID..."
-        InstanceID.instanceID().getID(handler: { (instanceId, error) in
-            self.nowPlayingText.text = self.NOTHING_PLAYING_TEXT
-            self.deviceId = instanceId
-        })
     }
     
-    // MARK: DZRPlayerDelegate
+    // MARK: PlayerDelegate
     
     func didStartPlaying(track: Track?) {
         DispatchQueue.main.async {
