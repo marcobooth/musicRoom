@@ -90,6 +90,9 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
                     return track
                 }
             }
+        } else {
+            print("You forgot to set self.tracks in your controller.")
+            print("You need to do this in order for the getTrackFor function in MusicController to work.")
         }
         
         return nil
