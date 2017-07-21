@@ -150,13 +150,19 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
         
         let eventsPath = "events/" + (publicOrPrivateSwitch.isOn ? "public" : "private")
         let eventRef = Database.database().reference(withPath: eventsPath)
-        let userRef = Database.database().reference(withPath: "users/" + userId)
-        
         let newEventRef = eventRef.childByAutoId()
-        newEventRef.setValue(newEvent.toDict())
         
-        if !publicOrPrivateSwitch.isOn {
-            userRef.child("events/" + newEventRef.key).setValue(eventName)
+        if self.publicOrPrivateSwitch.isOn {
+            newEventRef.setValue(newEvent.toDict())
+        } else {
+            let newPrivateEventRef : [String:Any] = ["users/\(userId)/events/\(newEventRef.key)": eventName, "events/private/\(newEventRef.key)": newEvent.toDict()]
+            let ref = Database.database().reference()
+            ref.updateChildValues(newPrivateEventRef, withCompletionBlock: { (error, ref) -> Void in
+                if error != nil {
+                    print("Error updating data: \(error.debugDescription)")
+                    self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
+                }
+            })
         }
 
         self.performSegue(withIdentifier: "unwindToEvents", sender: self)

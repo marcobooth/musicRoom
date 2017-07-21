@@ -11,7 +11,7 @@ import UIKit
 class EventTracklistViewController: UIViewController {
     var eventUid: String?
     var eventName: String?
-    var publicOrPrivate: String?
+    var publicEvent: Bool?
     var firebasePath: String?
     
     var eventRef: DatabaseReference?
@@ -21,12 +21,14 @@ class EventTracklistViewController: UIViewController {
     var event: Event?
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addFriendsButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let eventUid = self.eventUid, let publicOrPrivate = self.publicOrPrivate {
+        if let eventUid = self.eventUid, self.publicEvent != nil  {
+            let publicOrPrivate = (self.publicEvent == true ? "public" : "private")
             let path = "events/\(publicOrPrivate)/\(eventUid)"
 
             self.firebasePath = path
@@ -34,6 +36,11 @@ class EventTracklistViewController: UIViewController {
         }
         
         self.title = self.eventName
+        
+        // TODO: button should be disabled for those who are not the owner
+        if self.publicEvent == true {
+            self.addFriendsButton.setTitle("Music Control", for: .normal)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +71,10 @@ class EventTracklistViewController: UIViewController {
         }
     }
     
+    @IBAction func addFriends(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "addAFriend", sender: nil)
+    }
+
     // MARK: helpers
     
     func upVote(sender: UIButton) {
@@ -144,10 +155,11 @@ class EventTracklistViewController: UIViewController {
     // MARK: segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? SearchTableViewController, let path = self.firebasePath {
+        if let destination = segue.destination as? SongSearchViewController, let path = self.firebasePath {
             destination.firebasePath = path
             destination.from = "event"
-        } else if let destination = segue.destination as? InviteFriendsTableViewController, let path = self.firebasePath {
+        } else if let destination = segue.destination as? InviteFriendsViewController, let path = self.firebasePath {
+            destination.publicEvent = self.publicEvent
             destination.firebasePath = path
             destination.from = "event"
             destination.name = event?.name

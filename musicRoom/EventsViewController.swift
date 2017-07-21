@@ -10,12 +10,12 @@ import UIKit
 import Firebase
 import CoreLocation
 
-class EventsTableViewController: UITableViewController {
+class EventsViewController: UIViewController {
 
     var privateEvents: [(uid: String, name: String)]?
     var allPublicEvents: [Event]?
     var publicEvents: [(uid: String, name: String)]?
-    var selectedEvent: (uid: String, name: String, publicOrPrivate: String)?
+    var selectedEvent: (uid: String, name: String, publicEvent: Bool)?
 
     var userRef: DatabaseReference?
     var publicEventsRef: DatabaseReference?
@@ -26,6 +26,7 @@ class EventsTableViewController: UITableViewController {
     let locationManager = CLLocationManager()
     var lastKnownLocation: CLLocation?
     
+    @IBOutlet weak var tableView: UITableView!
     // MARK: lifecycle
     
     override func viewDidLoad() {
@@ -95,69 +96,13 @@ class EventsTableViewController: UITableViewController {
         if segue.identifier == "eventTracklistSegue", let destination = segue.destination as? EventTracklistViewController {
             destination.eventUid = self.selectedEvent?.uid
             destination.eventName = self.selectedEvent?.name
-            destination.publicOrPrivate = self.selectedEvent?.publicOrPrivate
-        }
-    }
-    
-    // MARK: tableView
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Private events"
-        } else if section == 1 {
-            return "Public events"
-        }
-        
-        return nil
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let playlists = eventsForSection(section: section), playlists.count > 0 {
-            return playlists.count
-        }
-        
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath)
-
-        if let playlists = eventsForSection(section: indexPath.section), playlists.count > 0 {
-            cell.textLabel?.text = playlists[indexPath.row].name
-        } else {
-            if indexPath.section == 0 {
-                cell.textLabel?.text = "No private events yet..."
-            } else if indexPath.section == 1 {
-                if lastKnownLocation == nil {
-                    cell.textLabel?.text = "Waiting for location..."
-                } else {
-                    cell.textLabel?.text = "No public events yet..."
-                }
-            }
-            
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let events = eventsForSection(section: indexPath.section), events.count > 0 {
-            let metadata = events[indexPath.row]
-            let publicOrPrivate = indexPath.section == 0 ? "private" : "public"
-            self.selectedEvent = (uid: metadata.uid, name: metadata.name, publicOrPrivate: publicOrPrivate)
-
-            self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
+            destination.publicEvent = self.selectedEvent?.publicEvent
         }
     }
     
     // MARK: helpers
     
-    private func eventsForSection(section: Int) -> [(uid: String, name: String)]? {
+    func eventsForSection(section: Int) -> [(uid: String, name: String)]? {
         if section == 0 {
             return self.privateEvents
         } else if section == 1 {
@@ -186,12 +131,67 @@ class EventsTableViewController: UITableViewController {
             return (uid: "", name: "Name failed to load")
         }
         
-        // TODO: reload only public section without crashing
         self.tableView.reloadData()
     }
 }
 
-extension EventsTableViewController: CLLocationManagerDelegate {
+extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Private events"
+        } else if section == 1 {
+            return "Public events"
+        }
+        
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let events = eventsForSection(section: section), events.count > 0 {
+            return events.count
+        }
+        
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath)
+        
+        if let playlists = eventsForSection(section: indexPath.section), playlists.count > 0 {
+            cell.textLabel?.text = playlists[indexPath.row].name
+        } else {
+            if indexPath.section == 0 {
+                cell.textLabel?.text = "No private events yet..."
+            } else if indexPath.section == 1 {
+                if lastKnownLocation == nil {
+                    cell.textLabel?.text = "Waiting for location..."
+                } else {
+                    cell.textLabel?.text = "No public events yet..."
+                }
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let events = eventsForSection(section: indexPath.section), events.count > 0 {
+            let metadata = events[indexPath.row]
+            let publicOrPrivate = indexPath.section == 0 ? false : true
+            self.selectedEvent = (uid: metadata.uid, name: metadata.name, publicEvent: publicOrPrivate)
+            
+            self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
+        }
+    }
+}
+
+extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // unclear what the best practice is for getting the last known location (first? last? average? hum)
         self.lastKnownLocation = locations.first
