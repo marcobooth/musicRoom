@@ -47,7 +47,6 @@ class EventTracklistViewController: UIViewController {
             self.tracks = event.sortedTracks()
             self.tableView.reloadData()
             
-            // TODO: set start button to disabled if it's not their event
             if event.createdBy == Auth.auth().currentUser?.uid {
 //                if event.playingOnDeviceId == 
                 // TODO

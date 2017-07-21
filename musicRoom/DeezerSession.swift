@@ -17,9 +17,11 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     var currentUser: DZRUser?
     var playerDelegate: PlayerDelegate?
     
-    private var controller: MusicController?
+    var controller: MusicController?
     
     func setUp(playerDelegate: PlayerDelegate) {
+        print("Setting up deezer")
+
         self.playerDelegate = playerDelegate
         
         self.deezerConnect = DeezerConnect(appId: "238082", andDelegate: DeezerSession.sharedInstance)
@@ -53,15 +55,12 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     public func setMusic(toPlaylist path: String, startingAt startIndex: Int?) {
         print("setMusic:", path, "at", startIndex as Any)
         
-        self.controller?.destroy()
-        self.controller = PlaylistController(playlist: path, startIndex: startIndex) { newController in
-            print("playing")
-            self.deezerPlayer?.play(newController)
-        }
+        self.controller = PlaylistController(playlist: path, startIndex: startIndex, takeOverFrom: self.controller)
     }
     
     public func setMusic(toEvent path: String) {
         print("setMusic:", path)
+        print("haven't done events yet")
         
 //        self.controller?.destroy()
 //        self.controller = MusicController(event: path) { newController in
@@ -84,6 +83,7 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         // (playlists are going to be less than 100 songs for the foreseeable future ;] )
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())
         
+        print("did start playing:", track)
         playerDelegate?.didStartPlaying(track: track)
     }
 }

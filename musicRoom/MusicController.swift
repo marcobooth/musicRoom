@@ -10,11 +10,12 @@ import Foundation
 
 class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
     private var playablePath: String
-    private var playableRef: DatabaseReference? = nil
-    private var playableHandle: UInt? = nil
+    private var playableRef: DatabaseReference?
+    private var playableHandle: UInt?
     
     var tracks: [Track]?
     
+    // TODO: incredibly unclear what the identifier function does, so I'm not sure if I'm doing it right
     private let allLetters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     private var randID: String
     
@@ -22,7 +23,10 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
 
     // MARK: lifecycle
     
-    init(path: String, whenReady: @escaping (MusicController) -> ()) {
+    /*
+    ** path is the firebase path; takeOverFrom is the controller to destroy when this one becomes ready
+    */
+    init(path: String, takeOverFrom: MusicController?) {
         self.playablePath = path
         
         // from: https://stackoverflow.com/a/26845710
@@ -51,10 +55,23 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
         
         playableRef = Database.database().reference(withPath: path)
 
+        var firstSnapshot = true
         playableHandle = playableRef?.observe(.value, with: { snapshot in
             self.snapshotHandler?.snapshotChanged(snapshot: snapshot)
 
-            whenReady(self)
+            if firstSnapshot {
+                firstSnapshot = false
+                
+                // make sure this controller is still the current one (to prevent a race condition)
+                if self == DeezerSession.sharedInstance.controller {
+                    DeezerSession.sharedInstance.deezerPlayer?.play(self)
+                } else {
+                    print("Another controller has been put into place before this one could be started:", self.playablePath)
+                }
+                
+                // XXX: still need to clean up regardless even if the new controller isn't necessarily ready
+                takeOverFrom?.destroy()
+            }
         })
     }
 
@@ -78,7 +95,6 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
         return nil
     }
     
-    // TODO: incredibly unclear what this identifier function does, so I'm not sure if I'm doing it right
     func identifier() -> String {
         return self.randID
     }

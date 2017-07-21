@@ -12,8 +12,6 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
 
     @IBOutlet private weak var nowPlayingText: UILabel!
     
-    private var controller: MusicController?
-    
     public var embeddedViewController: UIViewController?
     public var deviceId: String?
     
@@ -34,18 +32,15 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
         })
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        controller?.destroy()
-    }
-    
     // MARK: DZRPlayerDelegate
     
     func didStartPlaying(track: Track?) {
+        print("did start playing in the music bar view controller", track)
+        
         if let track = track {
             self.nowPlayingText.text = "\(track.name) by \(track.creator)"
         } else {
+            print("setting now playing text to the default text")
             self.nowPlayingText.text = NOTHING_PLAYING_TEXT
         }
     }
@@ -56,19 +51,5 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
         if segue.identifier == "musicBarEmbed" {
             self.embeddedViewController = segue.destination
         }
-    }
-}
-
-extension UIViewController {
-    func getMusicBarVC() -> MusicBarViewController? {
-        if let parent = self.parent {
-            if let musicBarVC = parent as? MusicBarViewController {
-                return musicBarVC
-            }
-            
-            return parent.getMusicBarVC()
-        }
-        
-        return nil
     }
 }

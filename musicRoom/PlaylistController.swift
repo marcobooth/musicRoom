@@ -12,10 +12,10 @@ class PlaylistController: MusicController, SnapshotHandler {
     var playlist: Playlist?
     var currentIndex: Int
     
-    init(playlist path: String, startIndex: Int?, whenReady: @escaping (MusicController) -> ()) {
+    init(playlist path: String, startIndex: Int?, takeOverFrom: MusicController?) {
         self.currentIndex = startIndex ?? 0
         
-        super.init(path: path, whenReady: whenReady)
+        super.init(path: path, takeOverFrom: takeOverFrom)
         self.snapshotHandler = self
     }
     
@@ -23,13 +23,18 @@ class PlaylistController: MusicController, SnapshotHandler {
         print("snapshot changed")
         self.playlist = Playlist(snapshot: snapshot)
         
+        self.tracks = playlist?.sortedTracks()
+        
         // TODO: update currentIndex if the song moves or is deleted
     }
     
     
     override func current(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
-        if let track = playlist?.sortedTracks()[self.currentIndex], let callback = callback {
-            print("current track:", track.trackKey as Any, track.name as Any)
+        print("current state:", DeezerSession.sharedInstance.deezerPlayer?.state)
+        
+        if let sortedTracks = self.tracks, currentIndex < sortedTracks.count, let callback = callback {
+            let track = sortedTracks[currentIndex]
+//            print("current track:", track.trackKey as Any, track.name as Any)
             
             DZRTrack.object(withIdentifier: track.deezerId, requestManager: DZRRequestManager.default(), callback: {(
                 _ trackObject: Any?, _ error: Error?) -> Void in
