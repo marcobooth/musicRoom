@@ -11,8 +11,9 @@ import Foundation
 class PlaylistController: MusicController, SnapshotHandler {
     var playlist: Playlist?
     
-    var currentTrack: DZRTrack?
     var currentIndex: Int
+    var currentTrack: Track?
+    var currentDZRTrack: DZRTrack?
     
     init(playlist path: String, startIndex: Int?, takeOverFrom: MusicController?) {
         self.currentIndex = startIndex ?? 0
@@ -35,7 +36,7 @@ class PlaylistController: MusicController, SnapshotHandler {
             return
         }
         
-        if let track = self.currentTrack {
+        if let track = self.currentDZRTrack {
             callback(track, nil)
         } else {
             return next(with: requestManager, callback: callback)
@@ -48,7 +49,7 @@ class PlaylistController: MusicController, SnapshotHandler {
         }
         
         // this is how we know if Deezer has called current or next before -- thanks Deezer!
-        if self.currentTrack != nil {
+        if self.currentDZRTrack != nil {
             currentIndex += 1
         }
         
@@ -59,12 +60,13 @@ class PlaylistController: MusicController, SnapshotHandler {
                 ( _ trackObject: Any?, _ error: Error?) -> Void in
                 
                 if let trackObject = trackObject as? DZRTrack {
-                    self.currentTrack = trackObject
-                } else {
                     self.currentTrack = nil
+                    self.currentDZRTrack = trackObject
+                } else {
+                    self.currentDZRTrack = nil
                 }
                 
-                callback(self.currentTrack, error)
+                callback(self.currentDZRTrack, error)
             }
         } else {
             print("Clearing music")

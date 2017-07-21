@@ -77,6 +77,7 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
 
     func destroy() {
         if let ref = playableRef, let handle = playableHandle {
+            print("removing observer in the destroy function")
             ref.removeObserver(withHandle: handle)
         }
     }
