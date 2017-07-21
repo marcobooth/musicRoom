@@ -57,6 +57,8 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
                 self.submitUsername.isHidden = true
                 self.manageFriends.isHidden = false
             } else {
+                self.username.isUserInteractionEnabled = true
+                self.submitUsername.isHidden = false
                 self.manageFriends.isHidden = true
             }
         })

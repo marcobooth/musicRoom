@@ -10,7 +10,6 @@
 		123AAD001EFD443300D9F98D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123AACFF1EFD443200D9F98D /* Event.swift */; };
 		12A29F6D1F039EB60078E2D1 /* InviteFriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */; };
 		12A29F711F03B68F0078E2D1 /* AddFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */; };
-		12A29F721F03B68F0078E2D1 /* AddFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */; };
 		12A29F761F03E7CB0078E2D1 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A29F751F03E7CB0078E2D1 /* Track.swift */; };
 		12AD26DA1EFD1091004913F8 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD26D91EFD1091004913F8 /* EventsViewController.swift */; };
 		12B5DAA51F0235F700FC8149 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 12B5DAA41F0235F700FC8149 /* GoogleService-Info.plist */; };
@@ -61,7 +60,6 @@
 		123AACFF1EFD443200D9F98D /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFriendsTableViewController.swift; sourceTree = "<group>"; };
 		12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsTableViewCell.swift; sourceTree = "<group>"; };
-		12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendsTableViewCell.xib; sourceTree = "<group>"; };
 		12A29F751F03E7CB0078E2D1 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		12AD26D91EFD1091004913F8 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		12B5DAA41F0235F700FC8149 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 			children = (
 				12A29F6C1F039EB60078E2D1 /* InviteFriendsTableViewController.swift */,
 				12A29F6F1F03B68F0078E2D1 /* AddFriendsTableViewCell.swift */,
-				12A29F701F03B68F0078E2D1 /* AddFriendsTableViewCell.xib */,
 			);
 			name = InviteFriends;
 			sourceTree = "<group>";
@@ -438,7 +435,6 @@
 				3E24C28B1F029BFE00E30432 /* TrackTableViewCell.xib in Resources */,
 				12B5DAA51F0235F700FC8149 /* GoogleService-Info.plist in Resources */,
 				3EA623261F1B9C6E0072652B /* EventTrackTableViewCell.xib in Resources */,
-				12A29F721F03B68F0078E2D1 /* AddFriendsTableViewCell.xib in Resources */,
 				2CBC29D01EEFE2D5007A907F /* DZRResources.bundle in Resources */,
 				2C1C210E1EE9822F00B36A8B /* LaunchScreen.storyboard in Resources */,
 				2C1C210B1EE9822F00B36A8B /* Assets.xcassets in Resources */,

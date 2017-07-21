@@ -9,7 +9,7 @@
 import Foundation
 
 struct User {
-    
+
     let playlists: [String: String]?
     let events: [String: String]?
     let friends: [String: String]?
@@ -30,4 +30,5 @@ struct User {
             self.init(dict: [:])
         }
     }
+
 }
