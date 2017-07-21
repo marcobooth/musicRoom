@@ -40,9 +40,11 @@ class InviteFriendsViewController: UIViewController {
         let userRef = Database.database().reference(withPath: "users/" + uid)
         
         userRef.observeSingleEvent(of: .value, with: { snapshot in
-            self.friends = User(snapshot: snapshot).friends
-            
-            self.updateFriends()
+            if let friends = User(snapshot: snapshot).friends {
+                self.friends = friends
+                
+                self.updateFriends()
+            }
         })
         
         self.eventOrPlaylistHandle = self.eventOrPlaylistRef?.child("userIds").observe(.value, with: { snapshot in

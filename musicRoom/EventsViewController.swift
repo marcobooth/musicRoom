@@ -123,7 +123,12 @@ class EventsViewController: UIViewController {
         }
         
         self.publicEvents = closeEnough?.map { event in
-            return (uid: event.uid, name: event.name)
+            if let uid = event.uid, let name = event.name {
+                return (uid: uid, name: name)
+            }
+            
+            // kinda hacky, but if this is ever run there's a problemo
+            return (uid: "", name: "Name failed to load")
         }
         
         self.tableView.reloadData()
