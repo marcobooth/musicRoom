@@ -35,13 +35,12 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     // MARK: DZRPlayerDelegate
     
     func didStartPlaying(track: Track?) {
-        print("did start playing in the music bar view controller", track)
-        
-        if let track = track {
-            self.nowPlayingText.text = "\(track.name) by \(track.creator)"
-        } else {
-            print("setting now playing text to the default text")
-            self.nowPlayingText.text = NOTHING_PLAYING_TEXT
+        DispatchQueue.main.async {
+            if let track = track {
+                self.nowPlayingText.text = "\(track.name) by \(track.creator)"
+            } else {
+                self.nowPlayingText.text = self.NOTHING_PLAYING_TEXT
+            }
         }
     }
     

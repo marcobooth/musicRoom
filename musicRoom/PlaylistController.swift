@@ -16,6 +16,7 @@ class PlaylistController: MusicController, SnapshotHandler {
         self.currentIndex = startIndex ?? 0
         
         // XXX: rather hacky but it's unclear how to tell whether Deezer will call next() before calling current()
+        // (currentIndex is incremented by 1 in the next function)
         // Already checked if we could use DZRPlayer.state for this.
         if DeezerSession.sharedInstance.playedOnce {
             self.currentIndex -= 1
@@ -26,7 +27,6 @@ class PlaylistController: MusicController, SnapshotHandler {
     }
     
     func snapshotChanged(snapshot: DataSnapshot) {
-        print("snapshot changed")
         self.playlist = Playlist(snapshot: snapshot)
         
         self.tracks = playlist?.sortedTracks()
@@ -38,7 +38,6 @@ class PlaylistController: MusicController, SnapshotHandler {
     override func current(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
         if let sortedTracks = self.tracks, currentIndex < sortedTracks.count, let callback = callback {
             let track = sortedTracks[currentIndex]
-//            print("current track:", track.trackKey as Any, track.name as Any)
             
             DZRTrack.object(withIdentifier: track.deezerId, requestManager: DZRRequestManager.default(), callback: {(
                 _ trackObject: Any?, _ error: Error?) -> Void in
@@ -56,8 +55,6 @@ class PlaylistController: MusicController, SnapshotHandler {
     }
     
     override func next(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
-        print("asking for next track")
-        
         currentIndex += 1
         
         return current(with: requestManager, callback: callback)

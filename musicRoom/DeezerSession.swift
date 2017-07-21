@@ -87,7 +87,6 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         // (playlists are going to be less than 100 songs for the foreseeable future ;] )
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())
         
-        print("did start playing:", track)
         playerDelegate?.didStartPlaying(track: track)
     }
 }
