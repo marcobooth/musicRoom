@@ -18,7 +18,6 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     @IBOutlet weak var startingTimeDatePicker: UIDatePicker!
     @IBOutlet weak var endingTimeDatePicker: UIDatePicker!
     
-    // TODO: radius circle on map
     @IBOutlet weak var specifyLocationSwitch: UISwitch!
     @IBOutlet weak var radiusTextField: UILabel!
     @IBOutlet weak var radiusSlider: UISlider!
@@ -106,6 +105,10 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
         }
     }
     
+    @IBAction func centerCurrentLcation(_ sender: UIButton) {
+        self.locationMapView.centerCoordinate = self.locationMapView.userLocation.coordinate
+    }
+    
     @IBAction func radiusSliderChanged(_ sender: UISlider) {
         setRadius()
     }
@@ -188,8 +191,17 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             } else {
                 self.radiusTextField.text = "\(parsedInt) meters"
             }
+            setCircle()
         } else {
             self.radiusTextField.text = "Error"
+        }
+
+    }
+    
+    private func setCircle() {
+        self.locationMapView.removeOverlays(self.locationMapView.overlays)
+        if let radius = radiusMeters {
+            self.locationMapView.add(MKCircle(center: self.locationMapView.centerCoordinate, radius: CLLocationDistance(radius)))
         }
     }
     
@@ -197,6 +209,7 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         // Check if it was the user that is moving the map: https://stackoverflow.com/a/30924768
+
         if let gestureRecognizers = self.locationMapView.subviews[0].gestureRecognizers {
             for recognizer in gestureRecognizers {
                 if (recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.ended ) {
@@ -206,6 +219,10 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             }
         }
     }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        setCircle()
+    }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if specifyLocationSwitch.isOn, self.locationFollowsUser, let location = locations.last {
@@ -214,5 +231,16 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             
             self.locationMapView.setRegion(region, animated: true)
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let overlay = overlay as? MKCircle {
+            let circleRenderer = MKCircleRenderer(circle: overlay)
+            circleRenderer.fillColor = UIColor.black.withAlphaComponent(0.5)
+            circleRenderer.strokeColor = UIColor.blue
+            circleRenderer.lineWidth = 1
+            return circleRenderer
+        }
+        return MKOverlayRenderer()
     }
 }

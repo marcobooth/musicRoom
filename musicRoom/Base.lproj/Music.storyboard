@@ -735,14 +735,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="243" id="2Yf-xC-DS4">
-                                        <rect key="frame" x="0.0" y="727.5" width="375" height="243"/>
+                                        <rect key="frame" x="0.0" y="728" width="375" height="243"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Yf-xC-DS4" id="kOe-3Y-EOY">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="242.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="243"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ciA-ci-I2z">
-                                                    <rect key="frame" x="0.0" y="0.5" width="375" height="242.5"/>
+                                                    <rect key="frame" x="0.0" y="-0.5" width="375" height="243.5"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="naA-ex-Weh" id="vwn-WU-Jvr"/>
                                                     </connections>
@@ -758,7 +758,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anywhere" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lp-ib-iEq">
-                                                    <rect key="frame" x="118.5" y="102.5" width="137" height="37"/>
+                                                    <rect key="frame" x="119" y="103" width="137" height="37"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
                                                     </accessibility>
@@ -766,14 +766,28 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HGt-AC-sto">
+                                                    <rect key="frame" x="337" y="208" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="k4t-Hj-Brd"/>
+                                                        <constraint firstAttribute="height" constant="30" id="ouI-lI-Tus"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <state key="normal" image="currentLocation"/>
+                                                    <connections>
+                                                        <action selector="centerCurrentLcation:" destination="naA-ex-Weh" eventType="touchUpInside" id="bbv-Li-jFh"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="ciA-ci-I2z" firstAttribute="height" secondItem="kOe-3Y-EOY" secondAttribute="height" id="1dA-0y-Plo"/>
                                                 <constraint firstItem="1lp-ib-iEq" firstAttribute="centerY" secondItem="kOe-3Y-EOY" secondAttribute="centerY" id="7Pq-gZ-1I4"/>
+                                                <constraint firstItem="HGt-AC-sto" firstAttribute="trailing" secondItem="kOe-3Y-EOY" secondAttribute="trailingMargin" id="8UT-Oe-3rq"/>
                                                 <constraint firstItem="xjR-e7-9Uz" firstAttribute="centerX" secondItem="kOe-3Y-EOY" secondAttribute="centerX" id="Sec-q0-vA1"/>
                                                 <constraint firstItem="ciA-ci-I2z" firstAttribute="width" secondItem="kOe-3Y-EOY" secondAttribute="width" id="aXf-US-U8f"/>
                                                 <constraint firstItem="ciA-ci-I2z" firstAttribute="centerX" secondItem="kOe-3Y-EOY" secondAttribute="centerX" id="afU-gV-TCd"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="xjR-e7-9Uz" secondAttribute="bottom" constant="113.5" id="hsV-m3-AD3"/>
+                                                <constraint firstItem="HGt-AC-sto" firstAttribute="bottom" secondItem="ciA-ci-I2z" secondAttribute="bottom" constant="-5" id="utR-Qw-qU8"/>
                                                 <constraint firstItem="1lp-ib-iEq" firstAttribute="centerX" secondItem="kOe-3Y-EOY" secondAttribute="centerX" id="v7D-DY-eGT"/>
                                                 <constraint firstItem="ciA-ci-I2z" firstAttribute="centerY" secondItem="kOe-3Y-EOY" secondAttribute="centerY" id="x4h-yy-ZzJ"/>
                                             </constraints>
@@ -814,7 +828,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQE-Vd-p2Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4zH-yg-jig" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3822" y="1092"/>
+            <point key="canvasLocation" x="3821.5999999999999" y="1091.1544227886059"/>
         </scene>
         <!--Add Friends-->
         <scene sceneID="EJq-jr-tfx">
@@ -1348,6 +1362,7 @@
     <resources>
         <image name="accept" width="30" height="30"/>
         <image name="cancel" width="30" height="30"/>
+        <image name="currentLocation" width="50" height="50"/>
         <image name="events" width="30" height="30"/>
         <image name="locationMarker" width="50" height="50"/>
         <image name="playlist" width="30" height="30"/>
