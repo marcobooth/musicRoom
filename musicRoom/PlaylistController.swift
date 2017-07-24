@@ -39,7 +39,7 @@ class PlaylistController: MusicController, SnapshotHandler {
         if let track = self.currentDZRTrack {
             callback(track, nil)
         } else {
-            return next(with: requestManager, callback: callback)
+            next(with: requestManager, callback: callback)
         }
     }
     
