@@ -16,7 +16,7 @@ extension UIViewController {
     }
     
     func showLocationAlert() {
-        let alertController = UIAlertController (title: "Location are disable", message: "Do you want to go to the settings?", preferredStyle: .alert)
+        let alertController = UIAlertController (title: "Location is disabled for the app", message: "Do you want to go to settings to enable it?", preferredStyle: .alert)
         
         let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
             guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
@@ -29,6 +29,7 @@ extension UIViewController {
                 })
             }
         }
+        
         alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         alertController.addAction(settingsAction)
         
