@@ -40,7 +40,7 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     func deezerDidLogin() {
         print("Logged into Deezer")
-
+        
         DZRUser.object(withIdentifier: "me", requestManager:DZRRequestManager.default(), callback: {(_ objs: Any?, _ error: Error?) -> Void in
             if let user = objs as? DZRUser {
                 self.currentUser = user

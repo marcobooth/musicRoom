@@ -415,7 +415,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Events" id="HFL-NE-9QK">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="ejk-bc-3jy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ejk-bc-3jy">
                             <connections>
                                 <segue destination="naA-ex-Weh" kind="show" id="ynN-Rr-Q0t"/>
                             </connections>

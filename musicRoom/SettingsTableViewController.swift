@@ -91,8 +91,10 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
 
     
     @IBAction func loginToDeezer(_ sender: UIButton) {
-        // ASK Teo: call function after return from this async call. Potentially add a spinner
-        DeezerSession.sharedInstance.deezerConnect?.authorize([DeezerConnectPermissionBasicAccess, DeezerConnectPermissionManageLibrary])
+        DeezerSession.sharedInstance.deezerConnect?.authorize([
+            DeezerConnectPermissionBasicAccess,
+            DeezerConnectPermissionManageLibrary
+        ])
     }
     
     public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
@@ -154,6 +156,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             GIDSignIn.sharedInstance().signOut()
             FBSDKLoginManager().logOut()
             try Auth.auth().signOut()
+            DeezerSession.sharedInstance.deezerConnect?.logout()
             self.performSegue(withIdentifier: "signOut", sender: self)
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)

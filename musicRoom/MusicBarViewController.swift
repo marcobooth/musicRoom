@@ -49,7 +49,6 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     }
     
     func changeStatePlayPauseButton(newState : String?) {
-        print("newState", newState)
         if newState == "play" {
             self.playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             self.playPauseButton.tag = 1
