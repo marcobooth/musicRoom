@@ -73,7 +73,7 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     public func clearMusic() {
         self.controller?.destroy()
         self.controller = nil
-        
+        self.deezerPlayer?.stop()
         playerDelegate?.didStartPlaying(track: nil)
     }
     

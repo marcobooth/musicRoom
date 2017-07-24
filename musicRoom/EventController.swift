@@ -11,7 +11,8 @@ import Foundation
 class EventController: MusicController, SnapshotHandler {
     
     var event: Event?
-    var currentTrack: DZRTrack?
+    var currentTrack: Track?
+    var currentDZRTrack: DZRTrack?
     var path : String?
     
     init(event path: String, takeOverFrom: MusicController?) {
@@ -32,7 +33,7 @@ class EventController: MusicController, SnapshotHandler {
             return
         }
 
-        if let track = self.currentTrack {
+        if let track = self.currentDZRTrack {
             callback(track, nil)
         } else {
             return next(with: requestManager, callback: callback)
@@ -53,17 +54,36 @@ class EventController: MusicController, SnapshotHandler {
             DZRTrack.object(withIdentifier: track.deezerId, requestManager: DZRRequestManager.default()) {
                 ( _ trackObject: Any?, _ error: Error?) -> Void in
                 if let trackObject = trackObject as? DZRTrack {
-                    self.currentTrack = trackObject
+                    self.currentTrack = track
+                    self.currentDZRTrack = trackObject
                 } else {
                     self.currentTrack = nil
+                    self.currentDZRTrack = nil
                 }
                 
-                callback(self.currentTrack, error)
+                callback(self.currentDZRTrack, error)
             }
         } else {
-            //TODO: make sure event has stopeed when tracks run out
             print("Clearing music")
             DeezerSession.sharedInstance.clearMusic()
+        }
+    }
+    
+    override func getTrackFor(dzrId: String) -> Track? {
+        if dzrId == self.currentTrack?.deezerId {
+            return self.currentTrack
+        }
+        
+        print("this should never happen, but in case it does...")
+        return super.getTrackFor(dzrId: dzrId)
+    }
+    
+    override func destroy() {
+        super.destroy()
+        
+        if let path = self.path {
+            let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
+            eventDeviceRef.removeValue()
         }
     }
     

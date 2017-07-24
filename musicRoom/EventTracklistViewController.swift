@@ -55,9 +55,10 @@ class EventTracklistViewController: UIViewController {
             self.tableView.reloadData()
             
             if event.createdBy == Auth.auth().currentUser?.uid {
-                if event.playingOnDeviceId != nil && event.playingOnDeviceId != "" {
-                    // probably should turn this into another button
-                    self.startButton.isEnabled = false
+                if event.playingOnDeviceId != nil {
+                    self.startButton.setTitle("Stop", for: .normal)
+                } else {
+                    self.startButton.setTitle("Start", for: .normal)
                 }
             } else {
                 self.startButton.isEnabled = false
@@ -174,15 +175,26 @@ class EventTracklistViewController: UIViewController {
     
     // MARK: events
     @IBAction func startEvent(_ sender: UIButton) {
-        //TODO: stop from doing anything if deviceId is already set, but then are we putting in a stop button?
-        if let path = self.firebasePath, let deviceId = DeezerSession.sharedInstance.deviceId {
-            let eventRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
-            eventRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
-                if error == nil {
-                    DeezerSession.sharedInstance.setMusic(toEvent: path)
-                }
-            })
+        guard let path = self.firebasePath else {
+            return
         }
+        let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
+        if self.startButton.titleLabel?.text == "Start" {
+            print("starting")
+            if let deviceId = DeezerSession.sharedInstance.deviceId {
+                eventDeviceRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
+                    if error == nil {
+                        DeezerSession.sharedInstance.setMusic(toEvent: path)
+                    }
+                })
+            }
+        } else {
+            print("stopping")
+            //TODO: check destorying clears currently playing music
+            DeezerSession.sharedInstance.clearMusic()
+            eventDeviceRef.removeValue()
+        }
+
     }
 }
 
