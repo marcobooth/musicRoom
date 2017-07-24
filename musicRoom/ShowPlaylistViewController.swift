@@ -21,6 +21,7 @@ class ShowPlaylistViewController: UIViewController {
     var firebasePlaylistPath: String?
 
     @IBOutlet weak var addFriendsButton: UIButton!
+    @IBOutlet weak var infoLabel: UILabel!
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -42,13 +43,24 @@ class ShowPlaylistViewController: UIViewController {
         super.viewWillAppear(animated)
 
         self.tracks = []
+        self.tableView.isHidden = true
 
         self.playlistHandle = playlistRef?.observe(.value, with: { snapshot in
             let playlist = Playlist(snapshot: snapshot)
             self.playlist = playlist
+            
             self.tracks = playlist.sortedTracks()
+            if self.tracks.count == 0 {
+                self.tableView.isHidden = true
+                self.infoLabel.isHidden = false
+                self.infoLabel.text = "You haven't added any songs yet!"
+            } else {
+                self.tableView.isHidden = false
+                self.infoLabel.isHidden = true
+            }
             
             self.tableView.reloadData()
+            
             if self.playlist?.userIds == nil || self.playlist?.createdBy != Auth.auth().currentUser?.uid {
                 self.addFriendsButton.isEnabled = false
             }
@@ -102,10 +114,12 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if let path = firebasePlaylistPath {
             DeezerSession.sharedInstance.setMusic(toPlaylist: path, startingAt: indexPath.row)
         }
+        
+        return false
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

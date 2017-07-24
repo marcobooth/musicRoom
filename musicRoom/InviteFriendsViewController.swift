@@ -122,9 +122,9 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
             return nil
         }
         
-        if section == 0 && self.friends.count != 0 {
+        if section == 0 {
             return "Collaborators"
-        } else if section == 1 && self.uninvitedFriends.count != 0 {
+        } else if section == 1 {
             return "Uninvited"
         }
         return nil
@@ -135,8 +135,13 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
             if self.invitedFriends.count == 0 {
                 return 1
             }
+            
             return self.invitedFriends.count
         } else {
+            if self.uninvitedFriends.count == 0 {
+                return 1
+            }
+            
             return self.uninvitedFriends.count
         }
     }
@@ -148,28 +153,45 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         if indexPath.section == 0 {
-            if self.invitedFriends.count != 0 {
-                friendCell.name.text = self.invitedFriends[indexPath.row].name
-                friendCell.name.textColor = UIColor.black
-                friendCell.addFriend.isHidden = true
-            } else {
+            if self.invitedFriends.count == 0 {
                 if self.publicEvent == true {
                     friendCell.name.text = "No friends have delegation control"
                 } else {
-                    friendCell.name.text = "No friends added yet"
+                    friendCell.name.text = "No friends added yet - add some below!"
                 }
+                
                 friendCell.name.textColor = UIColor.gray
-                friendCell.addFriend.isHidden = true
+            } else {
+                friendCell.name.text = self.invitedFriends[indexPath.row].name
+                friendCell.name.textColor = UIColor.black
             }
             
+            friendCell.addFriend.isHidden = true
         } else {
-            friendCell.name.text = self.uninvitedFriends[indexPath.row].name
-            friendCell.name.textColor = UIColor.black
-            friendCell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
-            friendCell.addFriend.tag = indexPath.row
+            if self.uninvitedFriends.count == 0 {
+                if self.friends.count == 0 {
+                    friendCell.name.text = "You have no friends... yet!"
+                } else {
+                    friendCell.name.text = "No more friends to show"
+                }
+                
+                friendCell.name.textColor = UIColor.gray
+
+                friendCell.addFriend.isHidden = true
+            } else {
+                friendCell.name.text = self.uninvitedFriends[indexPath.row].name
+                friendCell.name.textColor = UIColor.black
+                friendCell.addFriend.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
+                friendCell.addFriend.tag = indexPath.row
+                friendCell.addFriend.isHidden = false
+            }
         }
         
         return friendCell
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
 }
 

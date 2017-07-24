@@ -70,7 +70,7 @@ class PlaylistController: MusicController, SnapshotHandler {
             }
         } else {
             print("Clearing music")
-            
+
             DeezerSession.sharedInstance.clearMusic()
         }
     }

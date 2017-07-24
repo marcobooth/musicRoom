@@ -17,12 +17,13 @@ class EventTracklistViewController: UIViewController {
     var eventRef: DatabaseReference?
     var eventHandle: UInt?
     
-    var tracks = [EventTrack]()
+    var tracks: [EventTrack]?
     var event: Event?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addFriendsButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var infoLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,12 +47,23 @@ class EventTracklistViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.tableView.isHidden = true
+        
         self.eventHandle = self.eventRef?.observe(.value, with: { snapshot in
             let event = Event(snapshot: snapshot)
             
             self.event = event
             
             self.tracks = event.sortedTracks()
+            if self.tracks?.count == 0 {
+                self.tableView.isHidden = true
+                self.infoLabel.isHidden = false
+                self.infoLabel.text = "You haven't added any tracks yet!"
+            } else {
+                self.tableView.isHidden = false
+                self.infoLabel.isHidden = true
+            }
+            
             self.tableView.reloadData()
             
             if event.createdBy == Auth.auth().currentUser?.uid {
@@ -81,8 +93,9 @@ class EventTracklistViewController: UIViewController {
     // MARK: helpers
     
     func upVote(sender: UIButton) {
-        let track = tracks[sender.tag]
-        guard let currentUser = Auth.auth().currentUser?.uid, let ref = self.eventRef?.child("tracks/" + track.trackKey) else {
+        guard let track = tracks?[sender.tag],
+                let currentUser = Auth.auth().currentUser?.uid,
+                let ref = self.eventRef?.child("tracks/" + track.trackKey) else {
             return
         }
         
@@ -119,8 +132,9 @@ class EventTracklistViewController: UIViewController {
     }
     
     func downVote(sender: UIButton) {
-        let track = tracks[sender.tag]
-        guard let currentUser = Auth.auth().currentUser?.uid, let ref = self.eventRef?.child("tracks/" + track.trackKey) else {
+        guard let track = tracks?[sender.tag],
+                let currentUser = Auth.auth().currentUser?.uid,
+                let ref = self.eventRef?.child("tracks/" + track.trackKey) else {
             return
         }
         
@@ -200,7 +214,11 @@ class EventTracklistViewController: UIViewController {
 
 extension EventTracklistViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tracks.count
+        guard let tracks = self.tracks else {
+            return 0
+        }
+        
+        return tracks.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -209,30 +227,29 @@ extension EventTracklistViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("EventTrackTableViewCell", owner: self, options: nil)?.first as! EventTrackTableViewCell
-
-        cell.title.text = tracks[indexPath.row].name
-        cell.artist.text = tracks[indexPath.row].creator
-        cell.nbVote.text = String(describing: tracks[indexPath.row].vote)
         
-        if let currentUser = Auth.auth().currentUser?.uid, self.event?.userIds == nil || self.event?.userIds?[currentUser] != nil {
+        if let tracks = self.tracks, tracks.count > 0, let currentUser = Auth.auth().currentUser?.uid {
+            cell.title.text = tracks[indexPath.row].name
+            cell.artist.text = tracks[indexPath.row].creator
+            cell.nbVote.text = String(describing: tracks[indexPath.row].vote)
+            
             if tracks[indexPath.row].voters?[currentUser] == true {
                 cell.upVote.setTitle("✅", for: .normal)
                 cell.downVote.setTitle("👎", for: .normal)
-            } else if tracks[indexPath.row].voters?[currentUser] == nil {
-                cell.upVote.setTitle("👍", for: .normal)
-                cell.downVote.setTitle("👎", for: .normal)
-            } else {
+            } else if tracks[indexPath.row].voters?[currentUser] == false {
                 cell.upVote.setTitle("👍", for: .normal)
                 cell.downVote.setTitle("❌", for: .normal)
+            } else {
+                cell.upVote.setTitle("👍", for: .normal)
+                cell.downVote.setTitle("👎", for: .normal)
             }
+            
             cell.upVote.tag = indexPath.row
-            cell.upVote.addTarget(self, action: #selector(upVote), for: .touchUpInside)
             cell.downVote.tag = indexPath.row
+            cell.upVote.addTarget(self, action: #selector(upVote), for: .touchUpInside)
             cell.downVote.addTarget(self, action: #selector(downVote), for: .touchUpInside)
-        } else {
-            cell.upVote.isHidden = true
-            cell.downVote.isHidden = true
         }
+        
         return cell
     }
     

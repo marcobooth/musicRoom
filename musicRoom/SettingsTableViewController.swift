@@ -64,9 +64,13 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
         })
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // Remove listener with handle
+    /*
+    ** viewWillDisappear instead of viewDidDisappear because otherwise there's a
+    ** scary permission_denied Firebase error b/c we might have logged out
+    */
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         if let usernameHandle = self.usernameHandle {
             self.usernameRef?.removeObserver(withHandle: usernameHandle)
         }
@@ -91,8 +95,10 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
 
     
     @IBAction func loginToDeezer(_ sender: UIButton) {
-        // ASK Teo: call function after return from this async call. Potentially add a spinner
-        DeezerSession.sharedInstance.deezerConnect?.authorize([DeezerConnectPermissionBasicAccess, DeezerConnectPermissionManageLibrary])
+        DeezerSession.sharedInstance.deezerConnect?.authorize([
+            DeezerConnectPermissionBasicAccess,
+            DeezerConnectPermissionManageLibrary
+        ])
     }
     
     public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
@@ -154,6 +160,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             GIDSignIn.sharedInstance().signOut()
             FBSDKLoginManager().logOut()
             try Auth.auth().signOut()
+            DeezerSession.sharedInstance.deezerConnect?.logout()
             self.performSegue(withIdentifier: "signOut", sender: self)
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)

@@ -40,7 +40,7 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     func deezerDidLogin() {
         print("Logged into Deezer")
-
+        
         DZRUser.object(withIdentifier: "me", requestManager:DZRRequestManager.default(), callback: {(_ objs: Any?, _ error: Error?) -> Void in
             if let user = objs as? DZRUser {
                 self.currentUser = user
@@ -73,7 +73,10 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     public func clearMusic() {
         self.controller?.destroy()
         self.controller = nil
-        self.deezerPlayer?.stop()
+        // Why doesn't this work? I do not know
+//        self.deezerPlayer?.stop()
+        self.deezerPlayer?.pause()
+        playerDelegate?.changeStatePlayPauseButton(newState: nil)
         playerDelegate?.didStartPlaying(track: nil)
     }
     
@@ -85,5 +88,6 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())
         
         playerDelegate?.didStartPlaying(track: track)
+        playerDelegate?.changeStatePlayPauseButton(newState: "play")
     }
 }

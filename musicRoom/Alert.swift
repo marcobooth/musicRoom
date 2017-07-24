@@ -14,7 +14,6 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "Ok, noted", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-    
     func showLocationAlert() {
         let alertController = UIAlertController (title: "Location is disabled for the app", message: "Do you want to go to settings to enable it?", preferredStyle: .alert)
         
