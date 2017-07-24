@@ -43,7 +43,7 @@ struct Event {
             self.tracks = trackDicts.map { element in EventTrack(dict: element.value, trackKey: element.key) }
         }
         
-        self.playingOnDeviceId = dict["playingOnDeviceid"] as? String
+        self.playingOnDeviceId = dict["playingOnDeviceId"] as? String
         if let currentTrack = dict["currentTrack"] as? [String: AnyObject] {
             self.currentTrack = Track(dict: currentTrack)
         }

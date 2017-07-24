@@ -21,6 +21,8 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     var playedOnce = false
     
+    public var deviceId: String?
+    
     func setUp(playerDelegate: PlayerDelegate) {
         print("Setting up deezer")
 
@@ -30,6 +32,10 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         DZRRequestManager.default().dzrConnect = self.deezerConnect
         self.deezerPlayer = DZRPlayer(connection: self.deezerConnect)
         self.deezerPlayer?.delegate = self
+        
+        InstanceID.instanceID().getID(handler: { (instanceId, error) in
+            self.deviceId = instanceId
+        })
     }
     
     // MARK: login, logout
@@ -62,27 +68,22 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     public func setMusic(toEvent path: String) {
         print("setMusic:", path)
-        print("haven't done events yet")
         
-//        self.controller?.destroy()
-//        self.controller = MusicController(event: path) { newController in
-//            print("playing")
-//            self.deezerPlayer?.play(newController)
-//        }
+        self.controller = EventController(event: path, takeOverFrom: self.controller)
     }
     
     public func clearMusic() {
         self.controller?.destroy()
         self.controller = nil
-        
+        self.deezerPlayer?.stop()
         playerDelegate?.didStartPlaying(track: nil)
     }
     
     // MARK: DZRPlayerDelegate
     
     func player(_ player: DZRPlayer, didStartPlaying: DZRTrack) {
-        self.playedOnce = true
         
+        self.playedOnce = true
         // we could do an API call here to get the name, but I'm going to look through the entire list instead because it's probably faster at this point
         // (playlists are going to be less than 100 songs for the foreseeable future ;] )
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())
