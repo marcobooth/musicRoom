@@ -10,4 +10,5 @@ import Foundation
 
 protocol PlayerDelegate {
     func didStartPlaying(track: Track?)
+    func changeStatePlayPauseButton(newState : String?)
 }

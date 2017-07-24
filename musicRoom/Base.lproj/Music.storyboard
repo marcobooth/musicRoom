@@ -1272,8 +1272,16 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W5b-JY-zSn">
+                                        <rect key="frame" x="337" y="3" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <action selector="playPause:" destination="hqU-bd-7Xc" eventType="touchUpInside" id="xKS-Y8-Ee3"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="bmY-0d-ktv" secondAttribute="trailing" constant="8" id="Bpx-AG-2Oq"/>
                                     <constraint firstAttribute="bottom" secondItem="bmY-0d-ktv" secondAttribute="bottom" constant="8" id="FMb-B8-R3R"/>
@@ -1296,6 +1304,7 @@
                     </view>
                     <connections>
                         <outlet property="nowPlayingText" destination="bmY-0d-ktv" id="O5i-G6-yu8"/>
+                        <outlet property="playPauseButton" destination="W5b-JY-zSn" id="PPx-dI-P8z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VAU-Ot-RQ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
