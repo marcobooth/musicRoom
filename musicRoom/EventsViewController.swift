@@ -41,7 +41,14 @@ class EventsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if CLLocationManager.locationServicesEnabled() {
-            self.locationManager.requestWhenInUseAuthorization()
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined:
+                self.locationManager.requestWhenInUseAuthorization()
+            case .denied:
+                self.showLocationAlert()
+            default: break
+            }
+            
             self.locationManager.delegate = self
             self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             self.locationManager.startUpdatingLocation()
