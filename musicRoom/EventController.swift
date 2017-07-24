@@ -27,7 +27,6 @@ class EventController: MusicController, SnapshotHandler {
         self.tracks = event?.sortedTracks()
     }
     
-    
     override func current(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
         guard let callback = callback else {
             print("this is not a good sign")
@@ -52,8 +51,8 @@ class EventController: MusicController, SnapshotHandler {
             // Race condition but it's ok because only one person can play an event at once
             eventRef.removeValue()
             
-            DZRTrack.object(withIdentifier: track.deezerId, requestManager: DZRRequestManager.default(), callback: {(
-                _ trackObject: Any?, _ error: Error?) -> Void in
+            DZRTrack.object(withIdentifier: track.deezerId, requestManager: DZRRequestManager.default()) {
+                ( _ trackObject: Any?, _ error: Error?) -> Void in
                 if let trackObject = trackObject as? DZRTrack {
                     self.currentTrack = track
                     self.currentDZRTrack = trackObject
@@ -63,7 +62,7 @@ class EventController: MusicController, SnapshotHandler {
                 }
                 
                 callback(self.currentDZRTrack, error)
-            })
+            }
         } else {
             print("Clearing music")
             DeezerSession.sharedInstance.clearMusic()

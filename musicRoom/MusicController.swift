@@ -82,10 +82,6 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
     }
     
     func getTrackFor(dzrId: String) -> Track? {
-        // TODO: change for events?
-        print("tracks", self.tracks)
-        print("dzrId", dzrId)
-        
         if let tracks = self.tracks {
             for track in tracks {
                 if track.deezerId == dzrId {

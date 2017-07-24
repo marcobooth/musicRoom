@@ -19,8 +19,6 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     
     var controller: MusicController?
     
-    var playedOnce = false
-    
     public var deviceId: String?
     
     func setUp(playerDelegate: PlayerDelegate) {
@@ -82,8 +80,6 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     // MARK: DZRPlayerDelegate
     
     func player(_ player: DZRPlayer, didStartPlaying: DZRTrack) {
-        
-        self.playedOnce = true
         // we could do an API call here to get the name, but I'm going to look through the entire list instead because it's probably faster at this point
         // (playlists are going to be less than 100 songs for the foreseeable future ;] )
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())

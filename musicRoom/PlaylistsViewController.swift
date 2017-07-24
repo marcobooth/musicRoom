@@ -117,23 +117,15 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        var playlists: [(uid: String, name: String)]?
-        
-        if indexPath.section == 0 {
-            playlists = self.privatePlaylists
-        } else if indexPath.section == 1 {
-            playlists = self.publicPlaylists
-        }
-        
-        if let playlists = playlists {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let playlists = playlistsForSection(section: indexPath.section), playlists.count > 0 {
             let playlist = playlists[indexPath.row]
             let publicOrPrivate = indexPath.section == 0 ? "private" : "public"
 
             self.selectedPlaylist = (playlist.uid, playlist.name, publicOrPrivate)
+            
+            self.performSegue(withIdentifier: "showPlaylist", sender: self)
         }
-        
-        self.performSegue(withIdentifier: "showPlaylist", sender: self)
     }
     
     private func playlistsForSection(section: Int) -> [(uid: String, name: String)]? {
