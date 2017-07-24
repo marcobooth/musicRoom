@@ -42,8 +42,8 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
         // have to do this so that it compiles
         super.init()
         
-        // TODO: set both user's playing event, the event's device as this one: make sure they have the rights and all
-        
+        //TODO: on disconnect remove deviceId
+
         //        var amOnline = new Firebase('https://<demo>.firebaseio.com/.info/connected');
         //        var userRef = new Firebase('https://<demo>.firebaseio.com/presence/' + userid);
         //        amOnline.on('value', function(snapshot) {
