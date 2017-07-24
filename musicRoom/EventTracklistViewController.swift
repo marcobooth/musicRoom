@@ -180,7 +180,6 @@ class EventTracklistViewController: UIViewController {
         }
         let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
         if self.startButton.titleLabel?.text == "Start" {
-            print("starting")
             if let deviceId = DeezerSession.sharedInstance.deviceId {
                 eventDeviceRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
                     if error == nil {
@@ -189,8 +188,6 @@ class EventTracklistViewController: UIViewController {
                 })
             }
         } else {
-            print("stopping")
-            //TODO: check destorying clears currently playing music
             DeezerSession.sharedInstance.clearMusic()
             eventDeviceRef.removeValue()
         }
