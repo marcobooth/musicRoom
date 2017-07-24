@@ -53,7 +53,7 @@ class EventTracklistViewController: UIViewController {
             
             self.tracks = event.sortedTracks()
             self.tableView.reloadData()
-            
+
             if event.createdBy == Auth.auth().currentUser?.uid {
                 if event.playingOnDeviceId != nil {
                     self.startButton.setTitle("Stop", for: .normal)
@@ -61,6 +61,19 @@ class EventTracklistViewController: UIViewController {
                     self.startButton.setTitle("Start", for: .normal)
                 }
             } else {
+                if let currentUser = Auth.auth().currentUser?.uid, event.playingOnDeviceId != nil, event.userIds?[currentUser] == true {
+                    if event.isCurrentlyPlaying == true {
+                        self.startButton.setTitle("Pause", for: .normal)
+                        self.startButton.isEnabled = true
+                    } else if event.isCurrentlyPlaying == false {
+                        self.startButton.setTitle("Play", for: .normal)
+                        self.startButton.isEnabled = true
+                    } else {
+                        self.startButton.setTitle("Play", for: .normal)
+                        self.startButton.isEnabled = false
+                    }
+                }
+                
                 self.startButton.isEnabled = false
             }
         })
@@ -178,7 +191,10 @@ class EventTracklistViewController: UIViewController {
         guard let path = self.firebasePath else {
             return
         }
+        
         let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
+        let eventCurrentlyPlayingRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
+        // TODO: is title check good enough?
         if self.startButton.titleLabel?.text == "Start" {
             if let deviceId = DeezerSession.sharedInstance.deviceId {
                 eventDeviceRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
@@ -187,9 +203,13 @@ class EventTracklistViewController: UIViewController {
                     }
                 })
             }
-        } else {
+        } else if self.startButton.titleLabel?.text == "Stop" {
             DeezerSession.sharedInstance.clearMusic()
             eventDeviceRef.removeValue()
+        } else if self.startButton.titleLabel?.text == "Play" {
+            eventCurrentlyPlayingRef.setValue(true)
+        } else {
+            eventCurrentlyPlayingRef.setValue(false)
         }
 
     }
