@@ -24,6 +24,7 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     @IBOutlet weak var locationMapView: MKMapView!
     @IBOutlet weak var locationMarkerImage: UIImageView!
     @IBOutlet weak var anywhereMapLabel: UILabel!
+    @IBOutlet weak var followUserButton: UIButton!
     var locationFollowsUser = true
     
     let locationManager = CLLocationManager()
@@ -105,8 +106,10 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
         }
     }
     
-    @IBAction func centerCurrentLcation(_ sender: UIButton) {
+    @IBAction func refollowUser(_ sender: UIButton) {
         self.locationMapView.centerCoordinate = self.locationMapView.userLocation.coordinate
+        self.locationFollowsUser = true
+        self.followUserButton.isHidden = true
     }
     
     @IBAction func radiusSliderChanged(_ sender: UISlider) {
@@ -214,6 +217,8 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             for recognizer in gestureRecognizers {
                 if (recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.ended ) {
                     self.locationFollowsUser = false
+                    self.followUserButton.isHidden = false
+                    
                     return
                 }
             }

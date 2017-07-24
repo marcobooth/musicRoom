@@ -735,14 +735,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="243" id="2Yf-xC-DS4">
-                                        <rect key="frame" x="0.0" y="728" width="375" height="243"/>
+                                        <rect key="frame" x="0.0" y="727.5" width="375" height="243"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Yf-xC-DS4" id="kOe-3Y-EOY">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="243"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="242.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ciA-ci-I2z">
-                                                    <rect key="frame" x="0.0" y="-0.5" width="375" height="243.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="242.5"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="naA-ex-Weh" id="vwn-WU-Jvr"/>
                                                     </connections>
@@ -766,8 +766,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HGt-AC-sto">
-                                                    <rect key="frame" x="337" y="208" width="30" height="30"/>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HGt-AC-sto">
+                                                    <rect key="frame" x="337" y="207.5" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="k4t-Hj-Brd"/>
                                                         <constraint firstAttribute="height" constant="30" id="ouI-lI-Tus"/>
@@ -775,7 +775,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <state key="normal" image="currentLocation"/>
                                                     <connections>
-                                                        <action selector="centerCurrentLcation:" destination="naA-ex-Weh" eventType="touchUpInside" id="bbv-Li-jFh"/>
+                                                        <action selector="refollowUser:" destination="naA-ex-Weh" eventType="touchUpInside" id="mOD-1b-YpD"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -813,6 +813,7 @@
                     <connections>
                         <outlet property="anywhereMapLabel" destination="1lp-ib-iEq" id="l2v-OS-gzJ"/>
                         <outlet property="endingTimeDatePicker" destination="mMy-fH-dO0" id="yjr-5f-15s"/>
+                        <outlet property="followUserButton" destination="HGt-AC-sto" id="hcW-3T-P8I"/>
                         <outlet property="locationMapView" destination="ciA-ci-I2z" id="6n8-0V-ZsI"/>
                         <outlet property="locationMarkerImage" destination="xjR-e7-9Uz" id="maQ-25-LB0"/>
                         <outlet property="nameTextField" destination="tTs-mc-5zN" id="R1E-Nr-peC"/>
