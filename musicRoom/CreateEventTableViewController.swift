@@ -56,7 +56,8 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             self.locationManager.delegate = self
             self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             self.locationManager.startUpdatingLocation()
-            locationMapView.showsUserLocation = true
+            self.locationMapView.showsUserLocation = true
+            self.followUserButton.isHidden = true
         }
     }
     
@@ -217,8 +218,9 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             for recognizer in gestureRecognizers {
                 if (recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.ended ) {
                     self.locationFollowsUser = false
-                    self.followUserButton.isHidden = false
-                    
+                    if self.locationManager.location != nil {
+                        self.followUserButton.isHidden = false
+                    }
                     return
                 }
             }
