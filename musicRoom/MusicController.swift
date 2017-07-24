@@ -15,10 +15,6 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
     
     var tracks: [Track]?
     
-    // TODO: incredibly unclear what the identifier function does, so I'm not sure if I'm doing it right
-    private let allLetters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    private var randID: String
-    
     var snapshotHandler: SnapshotHandler?
 
     // MARK: lifecycle
@@ -28,17 +24,7 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
     */
     init(path: String, takeOverFrom: MusicController?) {
         self.playablePath = path
-        
-        // from: https://stackoverflow.com/a/26845710
-        self.randID = ""
-        
-        let lettersLength = UInt32(allLetters.length)
-        for _ in 0 ..< 16 {
-            let rand = arc4random_uniform(lettersLength)
-            var nextChar = allLetters.character(at: Int(rand))
-            self.randID += NSString(characters: &nextChar, length: 1) as String
-        }
-        
+
         // have to do this so that it compiles
         super.init()
         
@@ -96,8 +82,9 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
         return nil
     }
     
+    // We don't know what this function does, but it's required by DZRPlayable and needs to return a string
     func identifier() -> String {
-        return self.randID
+        return "I am a string"
     }
     
     /*!

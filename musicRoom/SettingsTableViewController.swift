@@ -64,9 +64,13 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
         })
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // Remove listener with handle
+    /*
+    ** viewWillDisappear instead of viewDidDisappear because otherwise there's a
+    ** scary permission_denied Firebase error b/c we might have logged out
+    */
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         if let usernameHandle = self.usernameHandle {
             self.usernameRef?.removeObserver(withHandle: usernameHandle)
         }
