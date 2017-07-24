@@ -102,10 +102,12 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if let path = firebasePlaylistPath {
             DeezerSession.sharedInstance.setMusic(toPlaylist: path, startingAt: indexPath.row)
         }
+        
+        return false
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

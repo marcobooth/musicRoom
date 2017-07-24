@@ -73,7 +73,10 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
     public func clearMusic() {
         self.controller?.destroy()
         self.controller = nil
-        self.deezerPlayer?.stop()
+        // Why doesn't this work? I do not know
+//        self.deezerPlayer?.stop()
+        self.deezerPlayer?.pause()
+        playerDelegate?.changeStatePlayPauseButton(newState: nil)
         playerDelegate?.didStartPlaying(track: nil)
     }
     
@@ -85,5 +88,6 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())
         
         playerDelegate?.didStartPlaying(track: track)
+        playerDelegate?.changeStatePlayPauseButton(newState: "play")
     }
 }

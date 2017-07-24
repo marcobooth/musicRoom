@@ -79,6 +79,17 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
         if let ref = playableRef, let handle = playableHandle {
             ref.removeObserver(withHandle: handle)
         }
+        DeezerSession.sharedInstance.playerDelegate?.changeStatePlayPauseButton(newState: nil)
+    }
+    
+    func play() {
+        DeezerSession.sharedInstance.deezerPlayer?.play()
+        DeezerSession.sharedInstance.playerDelegate?.changeStatePlayPauseButton(newState: "play")
+    }
+    
+    func pause() {
+        DeezerSession.sharedInstance.deezerPlayer?.pause()
+        DeezerSession.sharedInstance.playerDelegate?.changeStatePlayPauseButton(newState: "pause")
     }
     
     func getTrackFor(dzrId: String) -> Track? {
