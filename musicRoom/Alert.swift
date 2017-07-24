@@ -14,24 +14,4 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "Ok, noted", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-    
-    func showLocationAlert() {
-        let alertController = UIAlertController (title: "Location are disable", message: "Do you want to go to the settings?", preferredStyle: .alert)
-        
-        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
-            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
-                return
-            }
-            
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    print("Settings opened: \(success)")
-                })
-            }
-        }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-        alertController.addAction(settingsAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
 }
