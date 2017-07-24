@@ -104,14 +104,22 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let playlists = playlists, playlists.count > 0 {
             cell.textLabel?.text = playlists[indexPath.row].1
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.default
+            cell.textLabel?.textColor = UIColor.black
         } else {
-            if indexPath.section == 0 {
-                cell.textLabel?.text = "No private playlists yet..."
-            } else if indexPath.section == 1 {
-                cell.textLabel?.text = "No public playlists yet..."
+            if playlists == nil {
+                cell.textLabel?.text = "Loading..."
+            } else {
+                if indexPath.section == 0 {
+                    cell.textLabel?.text = "No private playlists yet..."
+                } else if indexPath.section == 1 {
+                    cell.textLabel?.text = "No public playlists yet..."
+                }
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.textLabel?.textColor = UIColor.gray
         }
         
         return cell

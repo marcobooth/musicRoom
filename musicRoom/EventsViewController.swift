@@ -51,6 +51,11 @@ class EventsViewController: UIViewController {
             let user = User(snapshot: snapshot)
             
             self.privateEvents = user.events?.map { element in (uid: element.key, name: element.value) }
+            if self.privateEvents == nil {
+                self.privateEvents = []
+            }
+            
+            self.tableView.reloadData()
         })
         
         self.publicEventsHandle = self.publicEventsRef?.observe(.value, with: { snapshot in
@@ -161,20 +166,30 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath)
         
-        if let playlists = eventsForSection(section: indexPath.section), playlists.count > 0 {
-            cell.textLabel?.text = playlists[indexPath.row].name
+        let events = eventsForSection(section: indexPath.section)
+        
+        if let events = events, events.count > 0 {
+            cell.textLabel?.text = events[indexPath.row].name
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.default
+            cell.textLabel?.textColor = UIColor.black
         } else {
-            if indexPath.section == 0 {
-                cell.textLabel?.text = "No private events yet..."
-            } else if indexPath.section == 1 {
-                if lastKnownLocation == nil {
-                    cell.textLabel?.text = "Waiting for location..."
-                } else {
-                    cell.textLabel?.text = "No public events yet..."
+            if events == nil {
+                cell.textLabel?.text = "Loading..."
+            } else {
+                if indexPath.section == 0 {
+                    cell.textLabel?.text = "No private events yet..."
+                } else if indexPath.section == 1 {
+                    if lastKnownLocation == nil {
+                        cell.textLabel?.text = "Waiting for location..."
+                    } else {
+                        cell.textLabel?.text = "No public events yet..."
+                    }
                 }
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.textLabel?.textColor = UIColor.gray
         }
         
         return cell
