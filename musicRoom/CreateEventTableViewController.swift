@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var publicOrPrivateSwitch: UISwitch!
@@ -40,6 +40,7 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        nameTextField.delegate = self
         startingTimeDatePicker.minimumDate = Date()
         
         var components = DateComponents()
@@ -70,6 +71,11 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     
     // MARK: actions
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true;
+    }
+    
     @IBAction func specifyTimeChanged(_ sender: UISwitch) {
         if sender.isOn {
             startingTimeDatePicker.isEnabled = true
@@ -93,6 +99,7 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
             self.anywhereMapLabel.isHidden = true
             self.locationMapView.showsUserLocation = true
         } else {
+            self.locationMapView.removeOverlays(self.locationMapView.overlays)
             self.radiusTextField.text = "Infinite"
             self.radiusSlider.isEnabled = false
             

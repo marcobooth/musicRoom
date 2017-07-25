@@ -72,7 +72,6 @@ class EventsViewController: UIViewController {
                 if let snap = snap as? DataSnapshot {
                     let event = Event(snapshot: snap)
                     
-                    // TODO: check location
                     events.append(event)
                 }
             }
@@ -130,11 +129,20 @@ class EventsViewController: UIViewController {
             return
         }
         
-        let closeEnough = self.allPublicEvents?.filter { event in
-            return event.closeEnough(to: lastKnownLocation)
+        let goodToShow = self.allPublicEvents?.filter { event in
+            if let userId = Auth.auth().currentUser?.uid {
+                if userId == event.createdBy {
+                    return true
+                }
+            }
+            if event.closeEnough(to: lastKnownLocation) && event.timeRange() {
+                return true
+            } else {
+                return false
+            }
         }
         
-        self.publicEvents = closeEnough?.map { event in
+        self.publicEvents = goodToShow?.map { event in
             if let uid = event.uid, let name = event.name {
                 return (uid: uid, name: name)
             }
