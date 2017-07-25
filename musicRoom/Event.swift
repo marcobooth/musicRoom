@@ -98,4 +98,14 @@ struct Event {
         
         return true
     }
+    
+    func timeRange() -> Bool {
+        if let startDate = self.startDate, let endDate = self.endDate {
+            let now = UInt(Date().timeIntervalSince1970)
+            if startDate < now && now < endDate {
+                return true
+            }
+        }
+        return false
+    }
 }

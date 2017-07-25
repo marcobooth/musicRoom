@@ -72,7 +72,6 @@ class EventsViewController: UIViewController {
                 if let snap = snap as? DataSnapshot {
                     let event = Event(snapshot: snap)
                     
-                    // TODO: check location
                     events.append(event)
                 }
             }
@@ -130,11 +129,17 @@ class EventsViewController: UIViewController {
             return
         }
         
-        let closeEnough = self.allPublicEvents?.filter { event in
-            return event.closeEnough(to: lastKnownLocation)
+        // TODO: should refresh this list every minute or so in case an event becomes available
+        let goodToShow = self.allPublicEvents?.filter { event in
+            if Auth.auth().currentUser?.uid == event.createdBy {
+                return true
+            }
+            
+            // TODO: should filter from Firebase so we don't load ALL public events
+            return event.closeEnough(to: lastKnownLocation) && event.timeRange()
         }
         
-        self.publicEvents = closeEnough?.map { event in
+        self.publicEvents = goodToShow?.map { event in
             if let uid = event.uid, let name = event.name {
                 return (uid: uid, name: name)
             }
