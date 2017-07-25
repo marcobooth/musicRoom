@@ -77,13 +77,13 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
     }
     
     @IBAction func submitUsername(_ sender: UIButton) {
-        guard let uid = Auth.auth().currentUser?.uid, self.username.text != nil else {
+        guard let uid = Auth.auth().currentUser?.uid, let username = self.username.text else {
             return
         }
         
         let ref = Database.database().reference()
-        let updatedUserData = ["users/\(uid)/username": self.username.text!, "usernames/\(self.username.text!)": uid] as [String : Any]
-                
+        let updatedUserData = ["users/\(uid)/username": username, "usernames/\(username)": uid] as [String : Any]
+
         ref.updateChildValues(updatedUserData, withCompletionBlock: { (error, ref) -> Void in
             if error != nil {
                 print("Error updating data: \(error.debugDescription)")

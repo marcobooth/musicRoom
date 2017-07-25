@@ -73,7 +73,20 @@ class EventTracklistViewController: UIViewController {
                     self.startButton.setTitle("Start", for: .normal)
                 }
             } else {
-                self.startButton.isEnabled = false
+                if let currentUser = Auth.auth().currentUser?.uid, event.playingOnDeviceId != nil, event.userIds?[currentUser] == true {
+                    if event.isCurrentlyPlaying == true {
+                        self.startButton.setTitle("Pause", for: .normal)
+                        self.startButton.isEnabled = true
+                    } else if event.isCurrentlyPlaying == false {
+                        self.startButton.setTitle("Play", for: .normal)
+                        self.startButton.isEnabled = true
+                    } else {
+                        self.startButton.setTitle("Play", for: .normal)
+                        self.startButton.isEnabled = false
+                    }
+                } else {
+                    self.startButton.isEnabled = false
+                }
             }
         })
     }
@@ -189,12 +202,15 @@ class EventTracklistViewController: UIViewController {
     
     // MARK: events
     @IBAction func startEvent(_ sender: UIButton) {
-        guard let path = self.firebasePath else {
+        guard let path = self.firebasePath, let buttonText = self.startButton.titleLabel?.text else {
             return
         }
+        
         let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
-        if self.startButton.titleLabel?.text == "Start" {
-            print("starting")
+        let eventCurrentlyPlayingRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
+
+        switch buttonText {
+        case "Start":
             if let deviceId = DeezerSession.sharedInstance.deviceId {
                 eventDeviceRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
                     if error == nil {
@@ -202,13 +218,16 @@ class EventTracklistViewController: UIViewController {
                     }
                 })
             }
-        } else {
-            print("stopping")
-            //TODO: check destorying clears currently playing music
+        case "Stop":
             DeezerSession.sharedInstance.clearMusic()
             eventDeviceRef.removeValue()
+        case "Play":
+            eventCurrentlyPlayingRef.setValue(true)
+        case "Pause":
+            eventCurrentlyPlayingRef.setValue(false)
+        default:
+            print("Someone named this button weirdly...")
         }
-
     }
 }
 

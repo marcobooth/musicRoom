@@ -17,6 +17,8 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     
     private let NOTHING_PLAYING_TEXT = "Nothing playing... yet!"
     
+    private var isPlaying: Bool?
+    
     // MARK: lifecycle
     
     override func viewDidLoad() {
@@ -27,11 +29,11 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         if DeezerSession.sharedInstance.deezerPlayer?.isPlaying() == true {
-            self.changeStatePlayPauseButton(newState: "play")
+            self.changePlayPauseButtonState(to: true)
         } else if DeezerSession.sharedInstance.deezerPlayer?.isReady() == true {
-            self.changeStatePlayPauseButton(newState: "pause")
+            self.changePlayPauseButtonState(to: false)
         } else {
-            self.changeStatePlayPauseButton(newState: nil)
+            self.changePlayPauseButtonState(to: nil)
         }
         
     }
@@ -48,29 +50,31 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
         }
     }
     
-    func changeStatePlayPauseButton(newState : String?) {
-        if newState == "play" {
-            self.playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
-            self.playPauseButton.tag = 1
-            self.playPauseButton.isEnabled = true
-        } else if newState == "pause" {
-            self.playPauseButton.setImage(UIImage(named: "play"), for: .normal)
-            self.playPauseButton.tag = 0
-            self.playPauseButton.isEnabled = true
-        } else {
-            self.playPauseButton.setImage(UIImage(named: "play"), for: .normal)
-            self.playPauseButton.isEnabled = false
+    func changePlayPauseButtonState(to newState: Bool?) {
+        self.isPlaying = newState
+        
+        DispatchQueue.main.async {
+            if newState == true {
+                self.playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
+                self.playPauseButton.isEnabled = true
+            } else if newState == false {
+                self.playPauseButton.setImage(UIImage(named: "play"), for: .normal)
+                self.playPauseButton.isEnabled = true
+            } else {
+                self.playPauseButton.setImage(UIImage(named: "play"), for: .normal)
+                self.playPauseButton.isEnabled = false
+            }
         }
     }
     
     // MARK: action
     
     @IBAction func playPause(_ sender: UIButton) {
-        if self.playPauseButton.tag == 0 {
-            print("play action")
+        if self.isPlaying == false {
+            print("play button")
             DeezerSession.sharedInstance.controller?.play()
         } else {
-            print("pause action")
+            print("pause button")
             DeezerSession.sharedInstance.controller?.pause()
         }
     }
