@@ -93,6 +93,7 @@ class EventController: MusicController, SnapshotHandler {
             let eventRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
             eventRef.setValue(true)
         }
+        
         super.play()
     }
     
@@ -101,6 +102,7 @@ class EventController: MusicController, SnapshotHandler {
             let eventRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
             eventRef.setValue(false)
         }
+        
         super.pause()
     }
     

@@ -188,14 +188,15 @@ class EventTracklistViewController: UIViewController {
     
     // MARK: events
     @IBAction func startEvent(_ sender: UIButton) {
-        guard let path = self.firebasePath else {
+        guard let path = self.firebasePath, let buttonText = self.startButton.titleLabel?.text else {
             return
         }
         
         let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
         let eventCurrentlyPlayingRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
-        // TODO: is title check good enough?
-        if self.startButton.titleLabel?.text == "Start" {
+
+        switch buttonText {
+        case "Start":
             if let deviceId = DeezerSession.sharedInstance.deviceId {
                 eventDeviceRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
                     if error == nil {
@@ -203,15 +204,16 @@ class EventTracklistViewController: UIViewController {
                     }
                 })
             }
-        } else if self.startButton.titleLabel?.text == "Stop" {
+        case "Stop":
             DeezerSession.sharedInstance.clearMusic()
             eventDeviceRef.removeValue()
-        } else if self.startButton.titleLabel?.text == "Play" {
+        case "Play":
             eventCurrentlyPlayingRef.setValue(true)
-        } else {
+        case "Pause":
             eventCurrentlyPlayingRef.setValue(false)
+        default:
+            print("Someone named this button weirdly...")
         }
-
     }
 }
 

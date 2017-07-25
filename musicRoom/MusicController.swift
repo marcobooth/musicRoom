@@ -20,6 +20,7 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
     private var randID: String
     
     var snapshotHandler: SnapshotHandler?
+    private var firstTimePlaying = true
 
     // MARK: lifecycle
     
@@ -64,7 +65,7 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
                 
                 // make sure this controller is still the current one (to prevent a race condition)
                 if self == DeezerSession.sharedInstance.controller {
-                    DeezerSession.sharedInstance.deezerPlayer?.play(self)
+                    self.play()
                 } else {
                     print("Another controller has been put into place before this one could be started:", self.playablePath)
                 }
@@ -79,17 +80,25 @@ class MusicController: NSObject, DZRPlayable, DZRPlayableIterator {
         if let ref = playableRef, let handle = playableHandle {
             ref.removeObserver(withHandle: handle)
         }
-        DeezerSession.sharedInstance.playerDelegate?.changeStatePlayPauseButton(newState: nil)
+//        DeezerSession.sharedInstance.playerDelegate?.changePlayPauseButtonState(to: nil)
     }
     
     func play() {
-        DeezerSession.sharedInstance.deezerPlayer?.play()
-        DeezerSession.sharedInstance.playerDelegate?.changeStatePlayPauseButton(newState: "play")
+        // don't actually know if passing self again will mess anything up, but best be safe
+        if self.firstTimePlaying {
+            self.firstTimePlaying = false
+            
+            DeezerSession.sharedInstance.deezerPlayer?.play(self)
+        } else {
+            DeezerSession.sharedInstance.deezerPlayer?.play()
+        }
+        
+        DeezerSession.sharedInstance.playerDelegate?.changePlayPauseButtonState(to: true)
     }
     
     func pause() {
         DeezerSession.sharedInstance.deezerPlayer?.pause()
-        DeezerSession.sharedInstance.playerDelegate?.changeStatePlayPauseButton(newState: "pause")
+        DeezerSession.sharedInstance.playerDelegate?.changePlayPauseButtonState(to: false)
     }
     
     func getTrackFor(dzrId: String) -> Track? {
