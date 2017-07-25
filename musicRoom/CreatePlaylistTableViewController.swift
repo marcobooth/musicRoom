@@ -8,9 +8,21 @@
 
 import UIKit
 
-class CreatePlaylistTableViewController: UITableViewController {
+class CreatePlaylistTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var publicOption: UISwitch!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        name.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true;
+    }
     
     @IBAction func createPlaylist(_ sender: UIButton) {
         

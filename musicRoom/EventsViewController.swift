@@ -41,7 +41,14 @@ class EventsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if CLLocationManager.locationServicesEnabled() {
-            self.locationManager.requestWhenInUseAuthorization()
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined:
+                self.locationManager.requestWhenInUseAuthorization()
+            case .denied:
+                self.showLocationAlert()
+            default: break
+            }
+            
             self.locationManager.delegate = self
             self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             self.locationManager.startUpdatingLocation()
@@ -51,6 +58,11 @@ class EventsViewController: UIViewController {
             let user = User(snapshot: snapshot)
             
             self.privateEvents = user.events?.map { element in (uid: element.key, name: element.value) }
+            if self.privateEvents == nil {
+                self.privateEvents = []
+            }
+            
+            self.tableView.reloadData()
         })
         
         self.publicEventsHandle = self.publicEventsRef?.observe(.value, with: { snapshot in
@@ -60,7 +72,6 @@ class EventsViewController: UIViewController {
                 if let snap = snap as? DataSnapshot {
                     let event = Event(snapshot: snap)
                     
-                    // TODO: check location
                     events.append(event)
                 }
             }
@@ -118,11 +129,17 @@ class EventsViewController: UIViewController {
             return
         }
         
-        let closeEnough = self.allPublicEvents?.filter { event in
-            return event.closeEnough(to: lastKnownLocation)
+        // TODO: should refresh this list every minute or so in case an event becomes available
+        let goodToShow = self.allPublicEvents?.filter { event in
+            if Auth.auth().currentUser?.uid == event.createdBy {
+                return true
+            }
+            
+            // TODO: should filter from Firebase so we don't load ALL public events
+            return event.closeEnough(to: lastKnownLocation) && event.timeRange()
         }
         
-        self.publicEvents = closeEnough?.map { event in
+        self.publicEvents = goodToShow?.map { event in
             if let uid = event.uid, let name = event.name {
                 return (uid: uid, name: name)
             }
@@ -161,20 +178,30 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath)
         
-        if let playlists = eventsForSection(section: indexPath.section), playlists.count > 0 {
-            cell.textLabel?.text = playlists[indexPath.row].name
+        let events = eventsForSection(section: indexPath.section)
+        
+        if let events = events, events.count > 0 {
+            cell.textLabel?.text = events[indexPath.row].name
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.default
+            cell.textLabel?.textColor = UIColor.black
         } else {
-            if indexPath.section == 0 {
-                cell.textLabel?.text = "No private events yet..."
-            } else if indexPath.section == 1 {
-                if lastKnownLocation == nil {
-                    cell.textLabel?.text = "Waiting for location..."
-                } else {
-                    cell.textLabel?.text = "No public events yet..."
+            if events == nil {
+                cell.textLabel?.text = "Loading..."
+            } else {
+                if indexPath.section == 0 {
+                    cell.textLabel?.text = "No private events yet..."
+                } else if indexPath.section == 1 {
+                    if lastKnownLocation == nil {
+                        cell.textLabel?.text = "Waiting for location..."
+                    } else {
+                        cell.textLabel?.text = "No public events yet..."
+                    }
                 }
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.textLabel?.textColor = UIColor.gray
         }
         
         return cell
