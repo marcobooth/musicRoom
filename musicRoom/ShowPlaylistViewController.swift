@@ -128,7 +128,11 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete, let ref = playlistRef {
-            ref.child("/tracks/\(self.tracks[indexPath.row].trackKey)").removeValue()
+            if self.tracks[indexPath.row].creator == "Beyoncé" {
+                self.showBasicAlert(title: "You can't delete this song", message: "Beyoncé's songs can't be deleted")
+            } else {
+                ref.child("/tracks/\(self.tracks[indexPath.row].trackKey)").removeValue()
+            }
         }
     }
 }
