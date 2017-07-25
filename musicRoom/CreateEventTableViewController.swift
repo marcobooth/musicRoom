@@ -73,7 +73,8 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        return true;
+        
+        return true
     }
     
     @IBAction func specifyTimeChanged(_ sender: UISwitch) {

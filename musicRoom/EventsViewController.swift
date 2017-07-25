@@ -129,17 +129,14 @@ class EventsViewController: UIViewController {
             return
         }
         
+        // TODO: should refresh this list every minute or so in case an event becomes available
         let goodToShow = self.allPublicEvents?.filter { event in
-            if let userId = Auth.auth().currentUser?.uid {
-                if userId == event.createdBy {
-                    return true
-                }
-            }
-            if event.closeEnough(to: lastKnownLocation) && event.timeRange() {
+            if Auth.auth().currentUser?.uid == event.createdBy {
                 return true
-            } else {
-                return false
             }
+            
+            // TODO: should filter from Firebase so we don't load ALL public events
+            return event.closeEnough(to: lastKnownLocation) && event.timeRange()
         }
         
         self.publicEvents = goodToShow?.map { event in
