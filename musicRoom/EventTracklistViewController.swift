@@ -53,7 +53,7 @@ class EventTracklistViewController: UIViewController {
             
             self.tracks = event.sortedTracks()
             self.tableView.reloadData()
-
+            
             if event.createdBy == Auth.auth().currentUser?.uid {
                 if event.playingOnDeviceId != nil {
                     self.startButton.setTitle("Stop", for: .normal)
@@ -72,9 +72,9 @@ class EventTracklistViewController: UIViewController {
                         self.startButton.setTitle("Play", for: .normal)
                         self.startButton.isEnabled = false
                     }
+                } else {
+                    self.startButton.isEnabled = false
                 }
-                
-                self.startButton.isEnabled = false
             }
         })
     }

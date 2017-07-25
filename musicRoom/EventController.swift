@@ -25,6 +25,16 @@ class EventController: MusicController, SnapshotHandler {
         self.event = Event(snapshot: snapshot)
         
         self.tracks = event?.sortedTracks()
+        
+        // Music Control Delegation - allows others (with permission) to play/pause your event
+        if let isCurrentlyPlaying = event?.isCurrentlyPlaying {
+            if DeezerSession.sharedInstance.deezerPlayer?.isPlaying() == true && isCurrentlyPlaying == false {
+                self.pause()
+            } else if DeezerSession.sharedInstance.deezerPlayer?.isPlaying() == false && isCurrentlyPlaying == true {
+                self.play()
+            }
+            
+        }
     }
     
     override func current(with requestManager: DZRRequestManager, callback: DZRTrackFetchingCallback?) {
@@ -78,12 +88,30 @@ class EventController: MusicController, SnapshotHandler {
         return super.getTrackFor(dzrId: dzrId)
     }
     
+    override func play() {
+        if let path = self.path {
+            let eventRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
+            eventRef.setValue(true)
+        }
+        super.play()
+    }
+    
+    override func pause() {
+        if let path = self.path {
+            let eventRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
+            eventRef.setValue(false)
+        }
+        super.pause()
+    }
+    
     override func destroy() {
         super.destroy()
         
         if let path = self.path {
             let eventDeviceRef = Database.database().reference(withPath: path + "/playingOnDeviceId")
             eventDeviceRef.removeValue()
+            let eventPlayingRef = Database.database().reference(withPath: path + "/isCurrentlyPlaying")
+            eventPlayingRef.removeValue()
         }
     }
     

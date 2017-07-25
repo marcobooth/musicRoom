@@ -88,6 +88,8 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
         let track = controller?.getTrackFor(dzrId: didStartPlaying.identifier())
         
         playerDelegate?.didStartPlaying(track: track)
-        playerDelegate?.changeStatePlayPauseButton(newState: "play")
+        // Slightly doubles up
+        self.controller?.play()
+//        playerDelegate?.changeStatePlayPauseButton(newState: "play")
     }
 }
