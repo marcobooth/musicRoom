@@ -22,6 +22,20 @@ class ShowPlaylistViewController: UIViewController {
 
     @IBOutlet weak var addFriendsButton: UIButton!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
+    @IBAction func editButton(_ sender: UIBarButtonItem) {
+        if editButton.title == "Edit" {
+            tableView.setEditing(true, animated: true)
+            addButton.isEnabled = false
+            editButton.title = "Done"
+        } else {
+            tableView.setEditing(false, animated: true)
+            addButton.isEnabled = true
+            editButton.title = "Edit"
+        }
+    }
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -133,6 +147,25 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
             } else {
                 ref.child("/tracks/\(self.tracks[indexPath.row].trackKey)").removeValue()
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
+        var orderNumber: Double
+
+        if toIndexPath.row == tracks.count - 1 {
+            orderNumber = round(tracks[toIndexPath.row].orderNumber + 1)
+        } else if toIndexPath.row == 0 {
+            orderNumber = round(tracks[toIndexPath.row].orderNumber - 1)
+        } else {
+            orderNumber = (tracks[toIndexPath.row - 1].orderNumber + tracks[toIndexPath.row].orderNumber) / 2
+        }
+        if let ref = playlistRef {
+            ref.child("tracks/\(tracks[fromIndexPath.row].trackKey)/orderNumber").setValue(orderNumber)
         }
     }
 }
