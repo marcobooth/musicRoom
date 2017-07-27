@@ -59,15 +59,18 @@ class EventTracklistViewController: UIViewController {
                 self.tableView.isHidden = true
                 self.infoLabel.isHidden = false
                 self.infoLabel.text = "You haven't added any tracks yet!"
+                self.startButton.isEnabled = false
             } else {
                 self.tableView.isHidden = false
                 self.infoLabel.isHidden = true
+                self.startButton.isEnabled = true
             }
             
             self.tableView.reloadData()
             
             if event.createdBy == Auth.auth().currentUser?.uid {
                 if event.playingOnDeviceId != nil {
+                    self.startButton.isEnabled = true
                     self.startButton.setTitle("Stop", for: .normal)
                 } else {
                     self.startButton.setTitle("Start", for: .normal)
@@ -236,7 +239,6 @@ extension EventTracklistViewController: UITableViewDataSource, UITableViewDelega
         guard let tracks = self.tracks else {
             return 0
         }
-        
         return tracks.count
     }
     
