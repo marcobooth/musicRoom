@@ -74,10 +74,6 @@ class ShowPlaylistViewController: UIViewController {
             }
             
             self.tableView.reloadData()
-            
-            if self.playlist?.userIds == nil || self.playlist?.createdBy != Auth.auth().currentUser?.uid {
-                self.addFriendsButton.isEnabled = false
-            }
         })
     }
     
