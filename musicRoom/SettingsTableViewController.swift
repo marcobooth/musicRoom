@@ -97,7 +97,8 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
     @IBAction func loginToDeezer(_ sender: UIButton) {
         DeezerSession.sharedInstance.deezerConnect?.authorize([
             DeezerConnectPermissionBasicAccess,
-            DeezerConnectPermissionManageLibrary
+            DeezerConnectPermissionManageLibrary,
+            DeezerConnectPermissionOfflineAccess
         ])
     }
     

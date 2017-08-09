@@ -217,6 +217,8 @@ class EventTracklistViewController: UIViewController {
             if let deviceId = DeezerSession.sharedInstance.deviceId {
                 eventDeviceRef.setValue(deviceId, withCompletionBlock: { (error, reference) in
                     if error == nil {
+                        eventDeviceRef.onDisconnectRemoveValue()
+                        eventCurrentlyPlayingRef.onDisconnectRemoveValue()
                         DeezerSession.sharedInstance.setMusic(toEvent: path)
                     }
                 })
@@ -224,6 +226,9 @@ class EventTracklistViewController: UIViewController {
         case "Stop":
             DeezerSession.sharedInstance.clearMusic()
             eventDeviceRef.removeValue()
+
+            eventDeviceRef.cancelDisconnectOperations()
+            eventCurrentlyPlayingRef.cancelDisconnectOperations()
         case "Play":
             eventCurrentlyPlayingRef.setValue(true)
         case "Pause":
