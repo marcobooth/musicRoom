@@ -46,6 +46,10 @@ class DeezerSession : NSObject, DeezerSessionDelegate, DZRPlayerDelegate {
                 self.currentUser = user
             }
         })
+        
+        if let topVC = UIApplication.topViewController(), let settingsVC = topVC as? SettingsTableViewController {
+            settingsVC.updateAccountsView()
+        }
     }
 
     func deezerDidLogout() {
