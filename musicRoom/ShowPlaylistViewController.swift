@@ -109,12 +109,6 @@ class ShowPlaylistViewController: UIViewController {
             }
         }
     }
-    
-    @IBAction func shuffleMusic(_ sender: UIButton) {
-        if let path = firebasePlaylistPath {
-            DeezerSession.sharedInstance.setMusic(toPlaylist: path, startingAt: nil)
-        }
-    }
 }
 
 extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate {
