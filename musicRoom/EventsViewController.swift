@@ -216,6 +216,56 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
             self.performSegue(withIdentifier: "eventTracklistSegue", sender: self)
         }
     }
+    
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        locationManager.startUpdatingLocation()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            if indexPath.section == 0, let privateEvents = self.privateEvents {
+                let privateRef = Database.database().reference(withPath: "events/private")
+                privateRef.child(privateEvents[indexPath.row].uid).observeSingleEvent(of: .value, with: { snapshot in
+                    
+                    let playlist = Playlist(snapshot: snapshot)
+                    if playlist.createdBy != Auth.auth().currentUser?.uid {
+                        tableView.setEditing(false, animated: true)
+                        
+                        self.showBasicAlert(title: "You can't delete this event", message: "This event is not yours.")
+                    } else {
+                        var removeModifications: [AnyHashable: Any] = [
+                            "events/private/\(privateEvents[indexPath.row].uid)": NSNull()
+                        ]
+                        
+                        if let userIds = playlist.userIds {
+                            for user in userIds {
+                                removeModifications["users/\(user.key)/events/\(privateEvents[indexPath.row].uid)"] = NSNull()
+                            }
+                        }
+                        
+                        Database.database().reference().updateChildValues(removeModifications)
+                    }
+                })
+            } else if indexPath.section == 1, let publicEvents = self.publicEvents, let publicRef = self.publicEventsRef {
+                publicRef.child(publicEvents[indexPath.row].uid).observeSingleEvent(of: .value, with: { snapshot in
+                    
+                    let playlist = Playlist(snapshot: snapshot)
+                    if playlist.createdBy != Auth.auth().currentUser?.uid {
+                        tableView.setEditing(false, animated: true)
+                        
+                        self.showBasicAlert(title: "You can't delete this event", message: "This event is not yours.")
+                    } else {
+                        publicRef.child(publicEvents[indexPath.row].uid).removeValue()
+                    }
+                })
+            }
+        }
+        
+    }
 }
 
 extension EventsViewController: CLLocationManagerDelegate {

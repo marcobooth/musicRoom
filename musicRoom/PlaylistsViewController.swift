@@ -50,7 +50,9 @@ class PlaylistsViewController: UIViewController {
             
             for snap in snapshot.children {
                 let playlist = Playlist(snapshot: snap as! DataSnapshot)
-                playlists.append((uid: "public/" + (playlist.ref?.key)!, name: playlist.name))
+                if let ref = playlist.ref {
+                    playlists.append((uid: ref.key, name: playlist.name))
+                }
             }
             
             self.publicPlaylists = playlists
@@ -144,6 +146,48 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         return nil
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            if indexPath.section == 0, let privatePlaylists = self.privatePlaylists {
+                let privateRef = Database.database().reference(withPath: "playlists/private")
+                privateRef.child(privatePlaylists[indexPath.row].uid).observeSingleEvent(of: .value, with: { snapshot in
+                    
+                    let playlist = Playlist(snapshot: snapshot)
+                    if playlist.createdBy != Auth.auth().currentUser?.uid {
+                        tableView.setEditing(false, animated: true)
+                        
+                        self.showBasicAlert(title: "You can't delete this playlist", message: "This playlist is not yours.")
+                    } else {
+                        var userPlaylists: [AnyHashable: Any] = [
+                            "playlists/private/\(privatePlaylists[indexPath.row].uid)": NSNull()
+                        ]
+                        
+                        if let userIds = playlist.userIds {
+                            for user in userIds {
+                                userPlaylists["users/\(user.key)/playlists/\(privatePlaylists[indexPath.row].uid)"] = NSNull()
+                            }
+                        }
+                        
+                        Database.database().reference().updateChildValues(userPlaylists)
+                    }
+                })
+            } else if indexPath.section == 1, let publicPlaylists = self.publicPlaylists, let publicRef = self.publicPlaylistRef {
+                publicRef.child(publicPlaylists[indexPath.row].uid).observeSingleEvent(of: .value, with: { snapshot in
+
+                    let playlist = Playlist(snapshot: snapshot)
+                    if playlist.createdBy != Auth.auth().currentUser?.uid {
+                        tableView.setEditing(false, animated: true)
+                        
+                        self.showBasicAlert(title: "You can't delete this playlist", message: "This playlist is not yours.")
+                    } else {
+                       publicRef.child(publicPlaylists[indexPath.row].uid).removeValue()
+                    }
+                })
+                
+            }
+        }
     }
 }
 
