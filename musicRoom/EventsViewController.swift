@@ -217,6 +217,14 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if let events = eventsForSection(section: indexPath.section) {
+            return events.count > 0
+        }
+        
+        return false
+    }
+    
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
         locationManager.stopUpdatingLocation()
     }
