@@ -13,13 +13,18 @@ class InviteFriendsViewController: UIViewController {
     var firebasePath: String?
     var eventOrPlaylistRef: DatabaseReference?
     var eventOrPlaylistHandle: UInt?
+    
     var publicEvent: Bool?
     var from: String?
     var name: String?
-    var friends = [String:String]()
-    var invited = [String:Bool]()
-    var invitedFriends = [(id: String, name: String)]()
+    var friends = [String: String]()
+    var invited = [String: Bool]()
+    var invitedUsers = [(id: String, name: String)]()
     var uninvitedFriends = [(id: String, name: String)]()
+    
+    var requestedUsernames = [String: Bool]()
+    var usernames = [String: String]()
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -54,22 +59,50 @@ class InviteFriendsViewController: UIViewController {
                 self.invited = [:]
             }
             
+            for userEntry in self.invited {
+                if self.requestedUsernames[userEntry.key] == nil {
+                    let ref = Database.database().reference(withPath: "users/\(userEntry.key)/username")
+                    
+                    ref.observeSingleEvent(of: .value, with: { snapshot in
+                        if let username = snapshot.value as? String {
+                            self.usernames[userEntry.key] = username
+                            
+                            // probably could be faster than refreshing the entire list every time, but it'll work
+                            self.updateFriends()
+                        }
+                    })
+                }
+            }
+            
             self.updateFriends()
         })
     }
     
     func updateFriends() {
-        var invitedFriends = [(id: String, name: String)]()
+        var invitedUsers = [(id: String, name: String)]()
+        for userId in invited.keys {
+            if userId == Auth.auth().currentUser?.uid {
+                continue
+            }
+            
+            var username = "Loading..."
+            if let name = self.friends[userId] {
+                username = name
+            } else if let name = self.usernames[userId] {
+                username = name
+            }
+            
+            invitedUsers.append((id: userId, name: username))
+        }
+        
         var uninvitedFriends = [(id: String, name: String)]()
         
         for friend in self.friends {
-            if invited[friend.key] != nil {
-                invitedFriends.append((id: friend.key, name: friend.value))
-            } else {
+            if invited[friend.key] == nil {
                 uninvitedFriends.append((id: friend.key, name: friend.value))
             }
         }
-        self.invitedFriends = invitedFriends
+        self.invitedUsers = invitedUsers
         self.uninvitedFriends = uninvitedFriends
         
         self.tableView.reloadData()
@@ -132,11 +165,11 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            if self.invitedFriends.count == 0 {
+            if self.invitedUsers.count == 0 {
                 return 1
             }
             
-            return self.invitedFriends.count
+            return self.invitedUsers.count
         } else {
             if self.uninvitedFriends.count == 0 {
                 return 1
@@ -153,7 +186,7 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         if indexPath.section == 0 {
-            if self.invitedFriends.count == 0 {
+            if self.invitedUsers.count == 0 {
                 if self.publicEvent == true {
                     friendCell.name.text = "No friends have delegation control"
                 } else {
@@ -162,7 +195,7 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
                 
                 friendCell.name.textColor = UIColor.gray
             } else {
-                friendCell.name.text = self.invitedFriends[indexPath.row].name
+                friendCell.name.text = self.invitedUsers[indexPath.row].name
                 friendCell.name.textColor = UIColor.black
             }
             
