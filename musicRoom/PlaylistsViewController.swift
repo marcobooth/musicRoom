@@ -151,6 +151,14 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
         return nil
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if let playlists = playlistsForSection(section: indexPath.section) {
+            return playlists.count > 0
+        }
+        
+        return false
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
             if indexPath.section == 0, let privatePlaylists = self.privatePlaylists {
