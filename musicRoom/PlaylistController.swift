@@ -12,7 +12,6 @@ class PlaylistController: MusicController, SnapshotHandler {
     var playlist: Playlist?
     
     var currentIndex: Int
-    var currentTrack: Track?
     var currentDZRTrack: DZRTrack?
     
     init(playlist path: String, startIndex: Int?, takeOverFrom: MusicController?) {
@@ -60,7 +59,6 @@ class PlaylistController: MusicController, SnapshotHandler {
                 ( _ trackObject: Any?, _ error: Error?) -> Void in
                 
                 if let trackObject = trackObject as? DZRTrack {
-                    self.currentTrack = nil
                     self.currentDZRTrack = trackObject
                 } else {
                     self.currentDZRTrack = nil

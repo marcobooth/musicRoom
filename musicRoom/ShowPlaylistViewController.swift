@@ -74,10 +74,6 @@ class ShowPlaylistViewController: UIViewController {
             }
             
             self.tableView.reloadData()
-            
-            if self.playlist?.userIds == nil || self.playlist?.createdBy != Auth.auth().currentUser?.uid {
-                self.addFriendsButton.isEnabled = false
-            }
         })
     }
     
@@ -107,12 +103,6 @@ class ShowPlaylistViewController: UIViewController {
                 destination.from = "playlist"
                 destination.name = playlistName
             }
-        }
-    }
-    
-    @IBAction func shuffleMusic(_ sender: UIButton) {
-        if let path = firebasePlaylistPath {
-            DeezerSession.sharedInstance.setMusic(toPlaylist: path, startingAt: nil)
         }
     }
 }
