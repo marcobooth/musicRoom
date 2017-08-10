@@ -88,7 +88,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             if error != nil {
                 print("Error updating data: \(error.debugDescription)")
             } else {
-                print("error is nil")
+                Analytics.logEvent("created_username", parameters: Log.defaultInfo())
             }
         })
     }
@@ -128,6 +128,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
                 print("Error", error.debugDescription)
                 self.showBasicAlert(title: "Account not linked", message: "This credential is already associated with a different user account")
             } else {
+                Analytics.logEvent("added_social_account", parameters: Log.defaultInfo())
                 self.updateAccountsView()
             }
         })
@@ -166,6 +167,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             try Auth.auth().signOut()
             DeezerSession.sharedInstance.clearMusic()
             DeezerSession.sharedInstance.deezerConnect?.logout()
+            Analytics.logEvent("logging_out", parameters: Log.defaultInfo())
             self.performSegue(withIdentifier: "signOut", sender: self)
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)

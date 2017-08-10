@@ -41,12 +41,30 @@ class CreatePlaylistTableViewController: UITableViewController, UITextFieldDeleg
         let newPlaylistRef = playlistRef.childByAutoId()
         
         if self.publicOption.isOn {
-            newPlaylistRef.setValue(playlist.toPublicObject())
+            newPlaylistRef.setValue(playlist.toPublicObject()) { error, _ in
+                guard error == nil else { return }
+                
+                Log.event("created_playlist", parameters: [
+                    "playlist_id": newPlaylistRef.key,
+                    "playlist_name": playlist.name,
+                    "public_or_private": "public",
+                ])
+            }
         } else {
-            let newPrivatePlaylistRef : [String:Any] = ["users/\(uid)/playlists/\(newPlaylistRef.key)" : text, "playlists/private/\(newPlaylistRef.key)" : playlist.toPrivateObject()]
+            let newPrivatePlaylistRef : [String:Any] = [
+                "users/\(uid)/playlists/\(newPlaylistRef.key)": text,
+                "playlists/private/\(newPlaylistRef.key)": playlist.toPrivateObject()
+            ]
+            
             let ref = Database.database().reference()
             ref.updateChildValues(newPrivatePlaylistRef, withCompletionBlock: { (error, ref) -> Void in
-                if error != nil {
+                if error == nil {
+                    Log.event("created_playlist", parameters: [
+                        "playlist_id": newPlaylistRef.key,
+                        "playlist_name": playlist.name,
+                        "public_or_private": "private",
+                    ])
+                } else {
                     print("Error updating data: \(error.debugDescription)")
                     self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
                 }

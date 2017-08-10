@@ -236,8 +236,10 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
             if indexPath.section == 0, let privateEvents = self.privateEvents {
+                let eventId = privateEvents[indexPath.row].uid
                 let privateRef = Database.database().reference(withPath: "events/private")
-                privateRef.child(privateEvents[indexPath.row].uid).observeSingleEvent(of: .value, with: { snapshot in
+                
+                privateRef.child(eventId).observeSingleEvent(of: .value, with: { snapshot in
                     
                     let playlist = Playlist(snapshot: snapshot)
                     if playlist.createdBy != Auth.auth().currentUser?.uid {
@@ -245,21 +247,28 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                         
                         self.showBasicAlert(title: "You can't delete this event", message: "This event is not yours.")
                     } else {
+                        
+                        
                         var removeModifications: [AnyHashable: Any] = [
-                            "events/private/\(privateEvents[indexPath.row].uid)": NSNull()
+                            "events/private/\(eventId)": NSNull()
                         ]
                         
                         if let userIds = playlist.userIds {
                             for user in userIds {
-                                removeModifications["users/\(user.key)/events/\(privateEvents[indexPath.row].uid)"] = NSNull()
+                                removeModifications["users/\(user.key)/events/\(eventId)"] = NSNull()
                             }
                         }
                         
-                        Database.database().reference().updateChildValues(removeModifications)
+                        Database.database().reference().updateChildValues(removeModifications) { error, _ in
+                            guard error == nil else { return }
+                            
+                            Analytics.logEvent("deleted_event", parameters: Log.defaultInfo())
+                        }
                     }
                 })
             } else if indexPath.section == 1, let publicEvents = self.publicEvents, let publicRef = self.publicEventsRef {
                 publicRef.child(publicEvents[indexPath.row].uid).observeSingleEvent(of: .value, with: { snapshot in
+                    let eventId = publicEvents[indexPath.row].uid
                     
                     let playlist = Playlist(snapshot: snapshot)
                     if playlist.createdBy != Auth.auth().currentUser?.uid {
@@ -267,7 +276,11 @@ extension EventsViewController: UITableViewDataSource, UITableViewDelegate {
                         
                         self.showBasicAlert(title: "You can't delete this event", message: "This event is not yours.")
                     } else {
-                        publicRef.child(publicEvents[indexPath.row].uid).removeValue()
+                        publicRef.child(eventId).removeValue() { error, _ in
+                            guard error == nil else { return }
+                            
+                            Analytics.logEvent("deleted_event", parameters: Log.defaultInfo())
+                        }
                     }
                 })
             }
