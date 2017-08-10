@@ -38,9 +38,11 @@ class EventTracklistViewController: UIViewController {
         
         self.title = self.eventName
         
-        // TODO: button should be disabled for those who are not the owner
         if self.publicEvent == true {
             self.addFriendsButton.setTitle("Music Control", for: .normal)
+            
+            // XXX: in case they press it before the event has loaded and we turn it off -- there's no rules protecting it ;)
+            self.addFriendsButton.isEnabled = false
         }
     }
     
@@ -68,7 +70,9 @@ class EventTracklistViewController: UIViewController {
             
             self.tableView.reloadData()
             
-            if event.createdBy == Auth.auth().currentUser?.uid {
+            guard let userId = Auth.auth().currentUser?.uid else { return }
+            
+            if event.createdBy == userId {
                 if event.playingOnDeviceId != nil {
                     self.startButton.isEnabled = true
                     
@@ -85,7 +89,7 @@ class EventTracklistViewController: UIViewController {
                     self.startButton.setTitle("Start", for: .normal)
                 }
             } else {
-                if let currentUser = Auth.auth().currentUser?.uid, event.playingOnDeviceId != nil, event.userIds?[currentUser] == true {
+                if event.playingOnDeviceId != nil, event.userIds?[userId] == true {
                     if event.isCurrentlyPlaying == true {
                         self.startButton.setTitle("Pause", for: .normal)
                         self.startButton.isEnabled = true
@@ -99,6 +103,15 @@ class EventTracklistViewController: UIViewController {
                 } else {
                     self.startButton.isEnabled = false
                 }
+            }
+            
+            print(event.userIds)
+            if let userIds = event.userIds, let createdBy = event.createdBy, userIds[userId] == true, createdBy == userId {
+                print("enabling the thing")
+                self.addFriendsButton.isEnabled = true
+            } else {
+                print("not enabling the thing")
+                self.addFriendsButton.isEnabled = false
             }
         })
     }
