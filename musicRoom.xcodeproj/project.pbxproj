@@ -20,6 +20,7 @@
 		2C3212601F0A956100F54015 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C32125F1F0A956100F54015 /* SafariServices.framework */; };
 		2C3B1F2C1EEE6E4300651996 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F2B1EEE6E4300651996 /* Playlist.swift */; };
 		2C3B1F321EEE9A8A00651996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B1F311EEE9A8A00651996 /* User.swift */; };
+		2C4822EB1F3C85770000FCA4 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4822EA1F3C85770000FCA4 /* Log.swift */; };
 		2C4954711F20EFA100670EAA /* SongSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4954701F20EFA100670EAA /* SongSearchViewController.swift */; };
 		2C4A24121F2218AA00235C9F /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A24111F2218AA00235C9F /* EventController.swift */; };
 		2C4A24141F22384000235C9F /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A24131F22384000235C9F /* PlayerDelegate.swift */; };
@@ -75,6 +76,7 @@
 		2C3B1F2B1EEE6E4300651996 /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		2C3B1F2D1EEE6F9E00651996 /* musicRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "musicRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		2C3B1F311EEE9A8A00651996 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2C4822EA1F3C85770000FCA4 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		2C4954701F20EFA100670EAA /* SongSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongSearchViewController.swift; sourceTree = "<group>"; };
 		2C4A24111F2218AA00235C9F /* EventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
 		2C4A24131F22384000235C9F /* PlayerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDelegate.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				2CA169311F0396D90070F941 /* Friends */,
 				12A29F6E1F03B6300078E2D1 /* InviteFriends */,
 				2C1C210C1EE9822F00B36A8B /* LaunchScreen.storyboard */,
+				2C4822EA1F3C85770000FCA4 /* Log.swift */,
 				2C1C21071EE9822F00B36A8B /* Main.storyboard */,
 				2C3B1F301EEE6FE400651996 /* Models */,
 				2C9C54501EED743B001F77E3 /* Music.storyboard */,
@@ -502,6 +505,7 @@
 			files = (
 				2C9C544F1EED68BD001F77E3 /* PlaylistsViewController.swift in Sources */,
 				2CBC29AB1EEFDF9C007A907F /* DeezerSession.swift in Sources */,
+				2C4822EB1F3C85770000FCA4 /* Log.swift in Sources */,
 				2C9C54481EED636D001F77E3 /* LoginViewController.swift in Sources */,
 				2C8061F71F027C9100171E65 /* FriendsViewController.swift in Sources */,
 				2CD631D21EEEE6A000BBD8E5 /* ShowPlaylistViewController.swift in Sources */,
