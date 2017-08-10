@@ -171,7 +171,11 @@ extension SongSearchViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
             
-            newSongRef.setValue(trackDict)
+            newSongRef.setValue(trackDict) { error, _ in
+                guard error == nil else { return }
+                
+                Analytics.logEvent("song_added", parameters: Log.defaultInfo())
+            }
             
             if self.from == "playlist" {
                 self.performSegue(withIdentifier: "unwindToPlaylist", sender: self)

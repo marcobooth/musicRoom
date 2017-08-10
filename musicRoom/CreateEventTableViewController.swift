@@ -167,7 +167,11 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
         let newEventRef = eventRef.childByAutoId()
         
         if self.publicOrPrivateSwitch.isOn {
-            newEventRef.setValue(newEvent.toDict())
+            newEventRef.setValue(newEvent.toDict()) { error, _ in
+                guard error == nil else { return }
+                
+                Analytics.logEvent("created_event", parameters: Log.defaultInfo())
+            }
         } else {
             let newPrivateEventRef : [String:Any] = ["users/\(userId)/events/\(newEventRef.key)": eventName, "events/private/\(newEventRef.key)": newEvent.toDict()]
             let ref = Database.database().reference()
@@ -176,6 +180,7 @@ class CreateEventTableViewController: UITableViewController, MKMapViewDelegate, 
                     print("Error updating data: \(error.debugDescription)")
                     self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
                 }
+                Analytics.logEvent("created_event", parameters: Log.defaultInfo())
             })
         }
 
