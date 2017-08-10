@@ -12,8 +12,9 @@ class Log {
     static var platform = "iOS"
     static var version : String?
     static var device : String?
+    static var defaultInfoCached: [String: String]?
     
-    static func defaultInfo() -> Dictionary<String, String> {
+    static func defaultInfo() -> [String: String] {
         if self.device == nil {
             var sysInfo = utsname()
             uname(&sysInfo)
@@ -30,9 +31,31 @@ class Log {
             self.version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
         }
         
-        return ["platform": self.platform, "version": self.version ?? "unknown", "device": self.device ?? "unknown"]
+        return [
+            "user_id": Auth.auth().currentUser?.uid ?? "unknown",
+            "platform": self.platform,
+            "version": self.version ?? "unknown",
+            "device": self.device ?? "unknown"
+        ]
     }
 
+    static func event(_ name: String, parameters toAdd: [String: String]) {
+        if self.defaultInfoCached == nil {
+            self.defaultInfoCached = defaultInfo()
+        }
+        
+        if var parameters = defaultInfoCached {
+            for (key, value) in toAdd {
+                parameters[key] = value
+            }
+            
+            Analytics.logEvent(name, parameters: parameters)
+        }
+    }
+    
+    static func event(_ name: String) {
+        self.event(name, parameters: [:])
+    }
 
     static func platformType(platform : String) -> String {
         if platform.isEqual("iPhone1,1")  {
@@ -205,5 +228,4 @@ class Log {
         }
         return platform
     }
-
 }

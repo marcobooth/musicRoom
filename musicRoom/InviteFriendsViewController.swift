@@ -124,14 +124,21 @@ class InviteFriendsViewController: UIViewController {
                 return
             }
             
+            let addingUserId = self.uninvitedFriends[button.tag].id
             let addFriend: [String: Any] = [
-                "users/\(self.uninvitedFriends[button.tag].id)/\(from)s/\(eventOrPlaylistRef.key)": name,
-                "\(from)s/private/\(eventOrPlaylistRef.key)/userIds/\(self.uninvitedFriends[button.tag].id)": true,
+                "users/\(addingUserId)/\(from)s/\(eventOrPlaylistRef.key)": name,
+                "\(from)s/private/\(eventOrPlaylistRef.key)/userIds/\(addingUserId)": true,
                 ]
             
             let ref = Database.database().reference()
             ref.updateChildValues(addFriend, withCompletionBlock: { (error, ref) -> Void in
-                if error != nil {
+                if error == nil {
+                    Log.event("added_friend_to_playable", parameters: [
+                        "playable_type": from,
+                        "playable_id": eventOrPlaylistRef.key,
+                        "added_user": addingUserId,
+                    ])
+                } else {
                     print("Error updating data: \(error.debugDescription)")
                     self.showBasicAlert(title: "Error", message: "This probably means that Firebase denied access")
                 }

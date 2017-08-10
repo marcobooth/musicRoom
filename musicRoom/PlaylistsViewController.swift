@@ -207,9 +207,8 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
                         publicRef.child(playlistId).removeValue() { error, _ in
                             guard error == nil else { return }
                             
-                            Analytics.logEvent("deleted_playlist", parameters: [
-                                "user_id": Auth.auth().currentUser?.uid as Any,
-                                "playlist_id": playlistId as Any,
+                            Log.event("deleted_playlist", parameters: [
+                                "playlist_id": playlistId,
                             ])
                         }
                     }

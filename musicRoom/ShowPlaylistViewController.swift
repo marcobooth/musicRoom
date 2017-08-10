@@ -135,7 +135,14 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
             if self.tracks[indexPath.row].creator == "Beyoncé" {
                 self.showBasicAlert(title: "You can't delete this song", message: "Beyoncé's songs can't be deleted")
             } else {
-                ref.child("/tracks/\(self.tracks[indexPath.row].trackKey)").removeValue()
+                let trackId = self.tracks[indexPath.row].trackKey
+                
+                ref.child("/tracks/\(trackId)").removeValue() { error, _ in
+                    Log.event("deleted_track", parameters: [
+                        "playlist_id": self.playlistId ?? "undefined",
+                        "track_id": trackId,
+                    ])
+                }
             }
         }
     }
@@ -155,7 +162,11 @@ extension ShowPlaylistViewController: UITableViewDataSource, UITableViewDelegate
             orderNumber = (tracks[toIndexPath.row - 1].orderNumber + tracks[toIndexPath.row].orderNumber) / 2
         }
         if let ref = playlistRef {
-            ref.child("tracks/\(tracks[fromIndexPath.row].trackKey)/orderNumber").setValue(orderNumber)
+            let trackId = tracks[fromIndexPath.row].trackKey
+            
+            ref.child("tracks/\(trackId)/orderNumber").setValue(orderNumber) { error, _ in
+                Log.event("set_track_order_number")
+            }
         }
     }
 }

@@ -85,9 +85,7 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
         if segue.identifier == "musicBarEmbed" {
             self.embeddedViewController = segue.destination
             
-            Analytics.logEvent("logged_in", parameters: [
-                "user_id": Auth.auth().currentUser?.uid as Any,
-            ])
+            Log.event("logged_in")
         }
     }
 }
