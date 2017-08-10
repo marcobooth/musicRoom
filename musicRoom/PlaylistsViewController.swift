@@ -171,17 +171,26 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
                         
                         self.showBasicAlert(title: "You can't delete this playlist", message: "This playlist is not yours.")
                     } else {
+                        let playlistId = privatePlaylists[indexPath.row].uid
+                        
                         var userPlaylists: [AnyHashable: Any] = [
-                            "playlists/private/\(privatePlaylists[indexPath.row].uid)": NSNull()
+                            "playlists/private/\(playlistId)": NSNull()
                         ]
                         
                         if let userIds = playlist.userIds {
                             for user in userIds {
-                                userPlaylists["users/\(user.key)/playlists/\(privatePlaylists[indexPath.row].uid)"] = NSNull()
+                                userPlaylists["users/\(user.key)/playlists/\(playlistId)"] = NSNull()
                             }
                         }
                         
-                        Database.database().reference().updateChildValues(userPlaylists)
+                        Database.database().reference().updateChildValues(userPlaylists) { error, _ in
+                            guard error == nil else { return }
+                            
+                            Analytics.logEvent("deleted_playlist", parameters: [
+                                "user_id": Auth.auth().currentUser?.uid as Any,
+                                "playlist_id": playlistId as Any,
+                            ])
+                        }
                     }
                 })
             } else if indexPath.section == 1, let publicPlaylists = self.publicPlaylists, let publicRef = self.publicPlaylistRef {
@@ -193,7 +202,16 @@ extension PlaylistsViewController: UITableViewDataSource, UITableViewDelegate {
                         
                         self.showBasicAlert(title: "You can't delete this playlist", message: "This playlist is not yours.")
                     } else {
-                       publicRef.child(publicPlaylists[indexPath.row].uid).removeValue()
+                        let playlistId = publicPlaylists[indexPath.row].uid
+                        
+                        publicRef.child(playlistId).removeValue() { error, _ in
+                            guard error == nil else { return }
+                            
+                            Analytics.logEvent("deleted_playlist", parameters: [
+                                "user_id": Auth.auth().currentUser?.uid as Any,
+                                "playlist_id": playlistId as Any,
+                            ])
+                        }
                     }
                 })
                 

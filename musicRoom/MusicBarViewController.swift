@@ -84,6 +84,10 @@ class MusicBarViewController: UIViewController, PlayerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "musicBarEmbed" {
             self.embeddedViewController = segue.destination
+            
+            Analytics.logEvent("logged_in", parameters: [
+                "user_id": Auth.auth().currentUser?.uid as Any,
+            ])
         }
     }
 }
