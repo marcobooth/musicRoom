@@ -51,6 +51,10 @@ class ShowPlaylistViewController: UIViewController {
                 self.playlistRef = Database.database().reference(withPath: path)
             }
         }
+        
+        if publicOrPrivate == "public" {
+            addFriendsButton.isEnabled = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
