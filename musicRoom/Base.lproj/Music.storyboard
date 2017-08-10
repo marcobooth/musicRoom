@@ -257,6 +257,9 @@
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0R5-83-QhB">
                                                     <rect key="frame" x="8" y="10" width="22" height="22"/>
+                                                    <connections>
+                                                        <action selector="explainUsernames:" destination="79v-9w-h1p" eventType="touchUpInside" id="Q5F-81-89t"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Qa-VA-UJc">
                                                     <rect key="frame" x="318" y="6" width="49" height="30"/>
@@ -356,7 +359,7 @@
             <objects>
                 <navigationController title="Events" id="jwx-b5-o9t" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Events" image="events" id="Xus-P6-kep"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="MmN-PM-0U2">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MmN-PM-0U2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1363,7 +1366,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zl1-0u-8Rg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Playlists" image="playlist" id="emG-Uo-E9f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gep-T1-PUo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gep-T1-PUo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1382,7 +1385,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ioj-8Z-sC7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="settings" id="Ifw-LE-RKp"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Yqr-3E-85Z">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Yqr-3E-85Z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

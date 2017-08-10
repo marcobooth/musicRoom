@@ -93,6 +93,9 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
         })
     }
 
+    @IBAction func explainUsernames(_ sender: UIButton) {
+        self.showBasicAlert(title: "Usernames", message: "Create a username to share playlists and events with friends")
+    }
     
     @IBAction func loginToDeezer(_ sender: UIButton) {
         DeezerSession.sharedInstance.deezerConnect?.authorize([
@@ -161,6 +164,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             GIDSignIn.sharedInstance().signOut()
             FBSDKLoginManager().logOut()
             try Auth.auth().signOut()
+            DeezerSession.sharedInstance.clearMusic()
             DeezerSession.sharedInstance.deezerConnect?.logout()
             self.performSegue(withIdentifier: "signOut", sender: self)
         } catch let signOutError as NSError {
