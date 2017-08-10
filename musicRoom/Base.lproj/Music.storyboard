@@ -133,26 +133,26 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSf-Kh-bf4">
-                                                    <rect key="frame" x="259" y="7" width="108" height="30"/>
+                                                    <rect key="frame" x="259" y="10" width="108" height="30"/>
                                                     <state key="normal" title="Login to Deezer"/>
                                                     <connections>
                                                         <action selector="loginToDeezer:" destination="79v-9w-h1p" eventType="touchUpInside" id="7d8-1y-Ef2"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account added" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Yy-Uu-lV9">
-                                                    <rect key="frame" x="250" y="11" width="117" height="21"/>
+                                                    <rect key="frame" x="250" y="14" width="117" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="DSf-Kh-bf4" firstAttribute="top" secondItem="wjT-TJ-AM3" secondAttribute="topMargin" constant="2" id="5I9-QY-fNM"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="6Yy-Uu-lV9" secondAttribute="trailing" id="9pQ-4s-Pja"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="DSf-Kh-bf4" secondAttribute="trailing" id="Obo-L3-ML4"/>
                                                 <constraint firstItem="Z6p-oH-ZIa" firstAttribute="centerY" secondItem="wjT-TJ-AM3" secondAttribute="centerY" id="VsS-nB-vxv"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="DSf-Kh-bf4" secondAttribute="trailing" id="htZ-Ca-d8X"/>
+                                                <constraint firstItem="6Yy-Uu-lV9" firstAttribute="top" secondItem="wjT-TJ-AM3" secondAttribute="topMargin" constant="6" id="fdG-JV-zep"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="Z6p-oH-ZIa" secondAttribute="leading" id="kw7-Aw-P3E"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="6Yy-Uu-lV9" secondAttribute="trailing" id="ozm-BI-1QB"/>
-                                                <constraint firstItem="6Yy-Uu-lV9" firstAttribute="top" secondItem="wjT-TJ-AM3" secondAttribute="topMargin" constant="3" id="sf1-F6-FVS"/>
-                                                <constraint firstItem="DSf-Kh-bf4" firstAttribute="top" secondItem="wjT-TJ-AM3" secondAttribute="topMargin" constant="-1" id="tOv-Bh-d2c"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
