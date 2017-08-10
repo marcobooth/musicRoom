@@ -171,6 +171,7 @@ class FriendsViewController: UIViewController {
         ] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: addFriend)
+        Analytics.logEvent("added_a_friend", parameters: Log.defaultInfo())
     }
     
     func acceptInvitation(button : UIButton) {
@@ -188,6 +189,7 @@ class FriendsViewController: UIViewController {
         ] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: acceptInvitation)
+        Analytics.logEvent("accepted_invitation", parameters: Log.defaultInfo())
     }
     
     func rejectInvitation(button : UIButton) {
@@ -199,6 +201,7 @@ class FriendsViewController: UIViewController {
         let rejectInvitation = ["\(self.invitations[button.tag].id)/pendingInvitations/\(uid)": NSNull(), "\(uid)/friendInvitations/\(self.invitations[button.tag].id)": NSNull()] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: rejectInvitation)
+        Analytics.logEvent("rejected_a_invitation", parameters: Log.defaultInfo())
     }
     
     func deleteFriend(row : Int) {
@@ -213,6 +216,7 @@ class FriendsViewController: UIViewController {
         ] as [String : Any]
         
         self.updateMultipleUserValues(updatedValues: deleteFriend)
+        Analytics.logEvent("deleted_a_friend", parameters: Log.defaultInfo())
     }
     
     func updateMultipleUserValues(updatedValues : [String: Any]) {

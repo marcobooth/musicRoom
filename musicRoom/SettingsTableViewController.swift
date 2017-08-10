@@ -167,6 +167,7 @@ class SettingsTableViewController: UITableViewController, GIDSignInUIDelegate, F
             try Auth.auth().signOut()
             DeezerSession.sharedInstance.clearMusic()
             DeezerSession.sharedInstance.deezerConnect?.logout()
+            Analytics.logEvent("logging_out", parameters: Log.defaultInfo())
             self.performSegue(withIdentifier: "signOut", sender: self)
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
