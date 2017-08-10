@@ -85,7 +85,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButt
     }
     
     @IBAction func loginAction(_ sender: UIButton) {
-        Auth.auth().signIn(withEmail: login.text!, password: password.text!) { user, error in
+        guard let login = login.text, let password = password.text else {
+            print("one of these optionals is nil - trying to log someone in")
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: login, password: password) { user, error in
             if error == nil && user?.isEmailVerified == true {
                 print("Logged into Firebase...")
                 self.performSegue(withIdentifier: "music", sender: self)
