@@ -71,7 +71,16 @@ class EventTracklistViewController: UIViewController {
             if event.createdBy == Auth.auth().currentUser?.uid {
                 if event.playingOnDeviceId != nil {
                     self.startButton.isEnabled = true
-                    self.startButton.setTitle("Stop", for: .normal)
+                    
+                    if event.playingOnDeviceId == DeezerSession.sharedInstance.deviceId {
+                        self.startButton.setTitle("Stop", for: .normal)
+                    } else {
+                        if event.isCurrentlyPlaying == true {
+                            self.startButton.setTitle("Pause", for: .normal)
+                        } else {
+                            self.startButton.setTitle("Play", for: .normal)
+                        }
+                    }
                 } else {
                     self.startButton.setTitle("Start", for: .normal)
                 }
