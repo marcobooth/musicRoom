@@ -32,12 +32,12 @@
 				<string>com.googleusercontent.apps.351359987804-9b1lgdl2i88rsohc6f4qak2smtrsuuvs</string>
 			</array>
 		</dict>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>twitterkit-421hX4vFWiOBef7FRc14NyTq6</string>
-            </array>
-        </dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>twitterkit-421hX4vFWiOBef7FRc14NyTq6</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -51,8 +51,8 @@
 		<string>fb-messenger-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
-        <string>twitter</string>
-        <string>twitterauth</string>
+		<string>twitter</string>
+		<string>twitterauth</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -65,6 +65,10 @@
 	<string>MusicRoom needs your location to display events around you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>MusicRoom needs your location to display events around you.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
