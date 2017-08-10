@@ -72,9 +72,11 @@ class ShowPlaylistViewController: UIViewController {
                 self.tableView.isHidden = true
                 self.infoLabel.isHidden = false
                 self.infoLabel.text = "You haven't added any songs yet!"
+                self.editButton.isEnabled = false
             } else {
                 self.tableView.isHidden = false
                 self.infoLabel.isHidden = true
+                self.editButton.isEnabled = true
             }
             
             self.tableView.reloadData()
