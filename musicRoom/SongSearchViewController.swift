@@ -69,7 +69,9 @@ class SongSearchViewController: UIViewController {
 
 extension SongSearchViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+        if let searchText = searchController.searchBar.text {
+            filterContentForSearchText(searchText: searchText)
+        }
     }
     
     func filterContentForSearchText(searchText: String) {

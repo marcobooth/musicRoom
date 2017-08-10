@@ -24,7 +24,10 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.userRef = Database.database().reference(withPath: "users/" + (Auth.auth().currentUser?.uid)!)
+        if let userId = Auth.auth().currentUser?.uid {
+            self.userRef = Database.database().reference(withPath: "users/" + userId)
+        }
+        
         self.publicPlaylistRef = Database.database().reference(withPath: "playlists/public")
     }
     
