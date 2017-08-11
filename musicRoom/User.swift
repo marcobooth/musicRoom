@@ -14,9 +14,6 @@ struct User {
     let events: [String: String]?
     let friends: [String: String]?
     
-    // TODO: do we need this?
-    // let ref: DatabaseReference?
-    
     init(dict: [String: AnyObject]) {
         self.playlists = dict["playlists"] as? [String: String]
         self.events = dict["events"] as? [String: String]
