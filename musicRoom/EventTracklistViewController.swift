@@ -105,12 +105,9 @@ class EventTracklistViewController: UIViewController {
                 }
             }
             
-            print(event.userIds)
-            if let userIds = event.userIds, let createdBy = event.createdBy, userIds[userId] == true, createdBy == userId {
-                print("enabling the thing")
+            if event.createdBy == userId || event.userIds?[userId] == true {
                 self.addFriendsButton.isEnabled = true
             } else {
-                print("not enabling the thing")
                 self.addFriendsButton.isEnabled = false
             }
         })
@@ -218,6 +215,7 @@ class EventTracklistViewController: UIViewController {
             destination.firebasePath = path
             destination.from = "event"
             destination.name = event?.name
+            destination.createdBy = event?.createdBy
         }
     }
     

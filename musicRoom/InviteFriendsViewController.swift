@@ -21,6 +21,7 @@ class InviteFriendsViewController: UIViewController {
     var invited = [String: Bool]()
     var invitedUsers = [(id: String, name: String)]()
     var uninvitedFriends = [(id: String, name: String)]()
+    var createdBy: String?
     
     var requestedUsernames = [String: Bool]()
     var usernames = [String: String]()
@@ -98,7 +99,7 @@ class InviteFriendsViewController: UIViewController {
         var uninvitedFriends = [(id: String, name: String)]()
         
         for friend in self.friends {
-            if invited[friend.key] == nil {
+            if invited[friend.key] == nil, friend.key != self.createdBy {
                 uninvitedFriends.append((id: friend.key, name: friend.value))
             }
         }
@@ -154,9 +155,9 @@ extension InviteFriendsViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if self.publicEvent == true {
-            if section == 0 && self.friends.count != 0 {
+            if section == 0 {
                 return "Delegated Control"
-            } else if section == 1 && self.uninvitedFriends.count != 0 {
+            } else if section == 1 {
                 return "Invite to Control"
             }
             return nil
