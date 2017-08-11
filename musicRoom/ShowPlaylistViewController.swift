@@ -69,6 +69,11 @@ class ShowPlaylistViewController: UIViewController {
             
             self.tracks = playlist.sortedTracks()
             if self.tracks.count == 0 {
+                // in case they delete all the songs while in editing mode
+                self.tableView.setEditing(false, animated: true)
+                self.addButton.isEnabled = true
+                self.editButton.title = "Edit"
+                
                 self.tableView.isHidden = true
                 self.infoLabel.isHidden = false
                 self.infoLabel.text = "You haven't added any songs yet!"
