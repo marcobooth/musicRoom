@@ -1,0 +1,209 @@
+{
+  "rules": {
+    /*
+     * A user event has all the information about a single user.
+     * 
+     * Read and write is limited to the specific user, though friends
+     * and friendInvitations have special rules. (See below)
+     */
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        // don't allow writing to friends or friendInvitations as those fields have special rules
+        ".write": "$uid === auth.uid && !newData.hasChild('friends') && !newData.hasChild('friendInvitations')",
+          
+        "username": {
+          ".read": "auth != null",
+					".write": "
+              !root.child('usernames').child(newData.val()).exists() ||
+              root.child('usernames').child(newData.val()).val() === $uid"
+        },
+        
+        /*
+         * "playlists": The list of playlists this user is a part of. [uid of playlist: name of playlist]
+         * "events": The list of events this user is a part of. [uid of event: name of event]
+         * 
+         * Read access: the user
+         * Write access: the user and their friends; allow deleting if the user is the owner of the playlist
+         * Validate that: 
+         * - the user editing is in the playlist/event's userId list
+         * - the name is correct
+         */
+        "playlists": {
+          ".read": "$uid === auth.uid",
+            
+          "$playlistId": {
+            ".write": "(($uid === auth.uid
+            									|| data.parent().parent().child('friends').hasChild(auth.uid))
+            							&& (!root.child('playlists').hasChild($playlistId)
+                           		|| root.child('playlists').child($playlistId).child('userIds').hasChild($uid)))
+            						|| (!newData.exists() && root.child('playlists').child('private').child($playlistId).child('createdBy').val() === auth.uid)"
+          }
+        },
+
+        "events": {
+          ".read": "$uid === auth.uid",
+					"$eventId": {
+            ".write": "($uid === auth.uid || data.parent().parent().child('friends').hasChild(auth.uid)) 
+            						&& (!root.child('events').hasChild($eventId)
+                           || root.child('events').child($eventId).child('userIds').hasChild($uid))"
+          }
+        },
+
+        "friends": {
+          "$friendUid": {
+            /*
+             * Possible values: false or the friend's username
+             * 
+             * User can:
+             * - delete any friend
+             * - add any friend if friend invitation exists
+             * Friend can:
+             * - add themselves as a friend if pending invitation exists (also checks username is correct)
+             * - delete their own value
+             */
+            ".write": "(auth.uid === $uid && (
+            								!newData.exists()
+            								|| (newData.val() === root.child('users/' + $friendUid + '/username').val()
+                                && data.parent().parent().child('friendInvitations').hasChild($friendUid))
+                        ))
+                        || (auth.uid === $friendUid && (
+                         	 	(newData.val() === root.child('users/' + $friendUid + '/username').val()
+                            	&& data.parent().parent().child('pendingInvitations/' + $friendUid).exists())
+                          	|| !newData.exists()
+                       	))"
+          }
+        },
+        "friendInvitations": {
+          "$friendUid": {
+            /*
+             * Possible values: the username of the friend
+             * 
+             * User can:
+             * - delete any invitation
+             * Friend can:
+             * - add their own value (true is the only valid value)
+             */
+            ".write": "(auth.uid === $uid && !newData.exists())
+            						|| (auth.uid != $uid 
+                            && auth.uid === $friendUid
+                            && newData.val() === root.child('users/' + $friendUid + '/username').val())"
+          }
+        },
+        "pendingInvitations": {
+          "$friendUid": {
+            /*
+             * Possible values: the username of the friend
+             * 
+             * User can:
+             * - add a pending invitation
+             * Friend can:
+             * - delete if friend invitation exists
+             * 
+             * TODO: Also ensure the other person hasn't already added them, and
+             * the invitation is waiting in their friendInvitations
+             */
+            ".write": "(auth.uid === $uid && newData.exists() && !data.parent().child($friendUid).exists())
+            						|| (auth.uid != $uid 
+                            && auth.uid === $friendUid
+                            && !newData.exists()
+                            && root.child('users/' + $friendUid + '/friendInvitations/' + $uid).exists())"
+          }
+        }
+      }
+    },
+    
+    /*
+     * A track in a playlist or event looks like this:
+     * {
+     * 	 creator: "Adele"
+     *   deezerId: "8110298"
+     *   duration: 228
+     *   name: "Rolling In The Deep"
+     *   orderNumber: 5.5 // only for playlists
+     *   vote: 1 // only for events
+		 *   voters: { a list of users who have voted - true for up, false for down } // only for events
+     * }
+     * 
+     * The duration is in seconds. The tracks are ordered by
+     * orderNumber. When a user moves a track in between two other
+     * tracks, the order number of that track becomes the average
+     * of the two neighboring tracks. vote is the sum of voters, where
+     * true is 1 and false is -1.
+     */
+
+    /*
+     * A playlist is an ordered list of tracks that can be shared with a
+     * group of users if private. (Public playlists are visible to everyone.)
+     * 
+     * An example playlist:
+     * {
+     *   createdBy: "CREATOR_ID"
+     *   name: "This is the name"
+     *   tracks: { a dictionary of track objects }
+     *   userIds: { a dictionary of user IDs with the values of true }
+     * }
+     * 
+     * Read and write permissions are all users in the userIds list.
+     */
+    "playlists": {
+      "public": {
+        ".write": "auth != null",
+        ".read" : "auth != null"
+      },
+      "private": {
+        "$playlist": {
+        	".read": "auth != null && (!data.exists() || data.child('userIds').hasChild(auth.uid))",
+          ".write": "auth != null && (!data.exists() || data.child('userIds').hasChild(auth.uid))",
+      	}
+      }
+    },
+    
+    /*
+     * An event is a list of tracks where the next track is chosen based
+ 		 * on the votes made by users. Private playlists are only visible to those
+     * who have been invited (Public playlists are visible to everyone.)
+     * 
+     * An example event:
+     * {
+     *   createdBy: "CREATOR_ID"
+     *   endDate: 1502445540
+     *   startDate: 1502441996
+     *   latitude: 48.89629457534809
+     *   longitude: 2.318345288112254
+     *   name: "The name of the event"
+     *   radius: 100
+     * }
+     * 
+     * startDate and endDate are in Epoch time. radius is in meters.
+     */
+    "events": {
+      "public": {
+        ".read": "auth != null",
+        ".write" : "auth != null"
+      },
+      "private": {
+        "$event": {
+        	".read": "auth != null && (!data.exists() || data.child('userIds').hasChild(auth.uid))",
+          ".write": "auth != null && (!data.exists() || data.child('userIds').hasChild(auth.uid))",
+      	}
+      }
+    },
+      
+    /*
+     * Usernames are a unique string, chosen by the user, used to 
+     * share playlists, events and to managed music delegation control privileges.
+     * The usernames/ path is used to find the user IDs for a user given their usernae.
+     * 
+     * Read permission: Only to users who are logged in
+     * Write permission: Only to write new data, must be the user's own username
+     */
+    "usernames": {
+      ".read": "auth != null",
+      
+      "$username": {
+        ".write": "auth.uid === newData.val() && !data.parent().hasChild($username)"
+      }
+    },
+  }
+}
