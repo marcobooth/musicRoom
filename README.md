@@ -38,4 +38,4 @@ Now you can plug in your phone or fire up a simulator to try it out! The music d
 
 ## About this repo
 
-This repo has now been made public so the secret keys have been change and removed. Please contact us directly if you'd like to test out the application directly
+This repo has now been made public so the secret keys have been change and removed. Please contact us if you'd like to test out the application.
